@@ -1134,6 +1134,7 @@ MonoBehaviour:
   slidingSpeed: 30
   slidingTime: 0
   slidingMaxTime: 0.3
+  box: {fileID: 6200000, guid: 858bd7cbdb2bee247993d28dbd83a9f2, type: 2}
   bottomChk: {fileID: 2112504374}
   b_layerMask:
     serializedVersion: 2

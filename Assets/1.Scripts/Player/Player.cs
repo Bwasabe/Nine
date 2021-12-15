@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private PlayerMove player;
+    private PlayerMovie player;
 
     #region 이벤트
     private void Start() {
@@ -30,6 +30,11 @@ public class Player : MonoBehaviour
             player.MinusJumpCount(1);
             player.ResetVelocity(Vector2.zero);
         }
+    }
+    private void OnCollisionExit2D(Collision2D other) {
+        if(other.gameObject.CompareTag("Box")){
+            player.SetPhysics();
+        }    
     }
     #endregion
 
