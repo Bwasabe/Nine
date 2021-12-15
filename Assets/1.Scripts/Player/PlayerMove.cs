@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private LayerMask b_layerMask;
 
-    private Rigidbody2D myRigidbody2D;
+    private Rigidbody2D rb;
     private BoxCollider2D col = null;
 
     public bool isGround, isJumping, isSlide;
@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        if (!myRigidbody2D) myRigidbody2D = GetComponent<Rigidbody2D>();
+        if (!rb) rb = GetComponent<Rigidbody2D>();
 
         if (!col) col = GetComponent<BoxCollider2D>();
 
@@ -48,7 +48,7 @@ public class PlayerMove : MonoBehaviour
         if (isSlide) return;
         if (isJumping && Input.GetKeyDown(KeyCode.Space))
         {
-            myRigidbody2D.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
         }
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxjumpCount)
         {
@@ -60,7 +60,7 @@ public class PlayerMove : MonoBehaviour
             jumpingTime += Time.deltaTime;
         if (Input.GetKey(KeyCode.Space) && isJumping && jumpingTime < jumpMaxTime)
         {
-            myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, jumpPower - jumpingTime * 4f);
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower - jumpingTime * 4f);
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -95,14 +95,14 @@ public class PlayerMove : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, (isBack) ? 180f : 0f, 0f);
         }
         horizonXM = Mathf.Lerp(horizonXM, hori * speed, Time.deltaTime * Xrate);
-        myRigidbody2D.velocity = new Vector2(horizonXM, myRigidbody2D.velocity.y);
+        rb.velocity = new Vector2(horizonXM, rb.velocity.y);
     }
     private void Sliding()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isSlide)
         {
             isSlide = true;
-            myRigidbody2D.velocity = new Vector2(slidingSpeed * ((isBack) ? -1 : 1), myRigidbody2D.velocity.y);
+            rb.velocity = new Vector2(slidingSpeed * ((isBack) ? -1 : 1), rb.velocity.y);
         }
         if (isSlide)
         {
@@ -116,5 +116,9 @@ public class PlayerMove : MonoBehaviour
     }
     public void MinusJumpCount(int value){
         jumpCount -= value;
+    }
+
+    public void ResetVelocity(Vector2 velocity){
+        rb.velocity = velocity;
     }
 }
