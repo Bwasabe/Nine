@@ -501,7 +501,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -567,7 +567,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876058173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1669759451}
@@ -728,8 +728,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109893756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0194, y: -4.5532, z: 0}
-  m_LocalScale: {x: 18.159767, y: 1.2334859, z: 1}
+  m_LocalPosition: {x: -0.0194, y: -4.1597, z: 0}
+  m_LocalScale: {x: 18.159767, y: 0.44639856, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -881,7 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 2, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
@@ -1012,9 +1012,9 @@ GameObject:
   - component: {fileID: 2048116788}
   - component: {fileID: 2048116787}
   - component: {fileID: 2048116789}
-  - component: {fileID: 2048116790}
   - component: {fileID: 2048116791}
   - component: {fileID: 2048116792}
+  - component: {fileID: 2048116794}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1114,37 +1114,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
---- !u!114 &2048116790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2048116786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a038c914c550ee246948d0edd1d2cd4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 8
-  bottomchkDistance: 1
-  jumpMaxTime: 0.1
-  jumpingTime: 0
-  jumpPower: 12
-  slidingSpeed: 30
-  slidingTime: 0
-  slidingMaxTime: 0.3
-  box: {fileID: 6200000, guid: 858bd7cbdb2bee247993d28dbd83a9f2, type: 2}
-  bottomChk: {fileID: 2112504374}
-  b_layerMask:
-    serializedVersion: 2
-    m_Bits: 65
-  isGround: 0
-  isJumping: 0
-  isSlide: 0
-  isBack: 0
-  jumpCount: 0
-  maxjumpCount: 1
 --- !u!50 &2048116791
 Rigidbody2D:
   serializedVersion: 4
@@ -1178,6 +1147,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4475c26a7fdc764c97bdd39c81465ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2048116794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048116786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 525a971f6b0d68d4e938df1f26405907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerstatus: {fileID: 11400000, guid: 196aa918c2be346418553d7a8ae8e479, type: 2}
+  bottomChk: {fileID: 2112504374}
+  bottomLayer:
+    serializedVersion: 2
+    m_Bits: 320
+  downLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  linearDrag: 3.7
+  gravity: 2
+  jumpSmooth: 20
 --- !u!1 &2112504373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1202,7 +1194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112504373}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.489, y: -1.017, z: 0}
+  m_LocalPosition: {x: -0.5, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2048116788}

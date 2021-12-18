@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private PlayerMove p;
     private PlayerMovie player;
 
     #region 이벤트

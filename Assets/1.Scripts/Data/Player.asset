@@ -15,4 +15,10 @@ MonoBehaviour:
   name: FlyingSquirrel
   hp: 3
   speed: 8
-  damage: 1
+  jumpMaxTime: 0.3
+  jumpPower: 15
+  slidingSpeed: 0
+  slidingMaxTime: 0
+  jumpCount: 0
+  jumpMaxCount: 1
+  gravity: 3

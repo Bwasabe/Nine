@@ -7,5 +7,11 @@ public class Character : ScriptableObject {
     public new string name;
     public int hp;
     public float speed;
-    public int damage;
+    public float jumpMaxTime;
+    public float jumpPower;
+    public float slidingSpeed;
+    public float slidingMaxTime;
+    public int jumpCount;
+    public int jumpMaxCount;
+    public float gravity;
 }
