@@ -1,10 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class PlayerMove : MonoBehaviour
 {
+    ///TODOLIST
+    //로프엑션 구현하기
+    //InputManager 구현하기{
+        //https://github.com/jschiff/unity-extensions/blob/9c59f5d370d26f08b22da7b489af65b6a9976e31/Runtime/TextAnimator/Content/Input.cs#L55
+    //}
+    //캐릭터 공격 구현하기
+    //적 캐릭터 베이스 구현하기
 
     [Flags]
     private enum PlayerState
@@ -19,13 +27,33 @@ public class PlayerMove : MonoBehaviour
 
     public event Action move;
     public event Action jump;
+
+    public Action getMove{
+        get{
+            return Move;
+        }
+    }
+    
+    public Action getJump{
+        get{
+            return Jump;
+        }
+    }
     #endregion
 
 
     #region SerializeField
+
     [SerializeField]
     private Character playerstatus;
 
+
+    [SerializeField]
+    private PhysicsMaterial2D playerMaterial;
+
+
+    [SerializeField]
+    private Text testText;
 
     [SerializeField]
     private Transform bottomChk;
@@ -37,7 +65,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private float linearDrag;
     [SerializeField]
-    private float gravity;
+    private float jumpDrag;
+    [SerializeField]
+    private float moveSmooth;
     [SerializeField]
     private float jumpSmooth;
 
@@ -45,33 +75,40 @@ public class PlayerMove : MonoBehaviour
 
     private PlayerState state;
 
-    private Character currentStatus;
-
 
     private Rigidbody2D rb;
-    private BoxCollider2D col;
+    private Collider2D col;
+
+//TODO : private
+    public float hori;
+    public float bottomDistance;
+    public float speed;
+    public float jumpPower;
+    public float gravity;
 
 
-    private float hori;
-    private float bottomDistance;
-    private float jumpTimer;
+    public int jumpCount;
+    public int jumpMaxCount;
+
 
     private bool isChangeDirection;
     private bool isBack;
 
     #region 이벤트
-    private void Awake()
+    private void OnEnable()
     {
-        move += () => { };
-        jump += () => { };
+        DefaultAction();
+        InitAction();
     }
     private void Start()
     {
         Initialize();
         InitValue();
     }
+    
     private void Update()
     {
+        testText.text = string.Format("{0}", speed);
         move();
         jump();
     }
@@ -85,11 +122,19 @@ public class PlayerMove : MonoBehaviour
     }
     private void InitValue()
     {
-        bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.1f);
-        bottomDistance = col.bounds.size.x;
+        bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.05f);
+        bottomDistance = col.bounds.size.x - 0.1f;
         SetStatus(playerstatus);
-        move += () => Move();
-        jump += () => Jump();
+    }
+    private void InitAction()
+    {
+        move += Move;
+        jump += Jump;
+    }
+    public void DefaultAction()
+    {
+        move = () => { };
+        jump = () => { };
     }
     #endregion
 
@@ -98,16 +143,18 @@ public class PlayerMove : MonoBehaviour
     #region Public
     public void SetStatus(Character character)
     {
-        currentStatus = character;
+        speed = character.speed;
+        jumpPower = character.jumpPower;
+        jumpCount = character.jumpCount;
+        jumpMaxCount = character.jumpMaxCount;
+        gravity = character.gravity;
     }
     #endregion
-
 
     private void Move()
     {
         hori = Input.GetAxisRaw("Horizontal");
         isChangeDirection = (hori > 0f && rb.velocity.x < 0f) || (hori < 0f && rb.velocity.x > 0f);
-
         if (IsGround())
         {
             if (hori == 0 || isChangeDirection)
@@ -119,8 +166,8 @@ public class PlayerMove : MonoBehaviour
                 rb.drag = 0f;
             }
         }
-        Debug.Log(rb);
-        rb.velocity = new Vector2(currentStatus.speed * hori, rb.velocity.y);
+        SetPlayerDirection();
+        rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed * hori, Time.deltaTime * moveSmooth), rb.velocity.y);
     }
     private void SetPlayerDirection()
     {
@@ -139,7 +186,6 @@ public class PlayerMove : MonoBehaviour
     {
         Debug.DrawRay(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right) * bottomDistance, Color.blue);
         return Physics2D.Raycast(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right), bottomDistance, bottomLayer);
-        //Physics2D.GetLayerCollisionMask(LayerMask.NameToLayer("Downable"));
     }
     private bool IsDownBlock()
     {
@@ -150,45 +196,41 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            if (IsGround())
+            if (Input.GetAxisRaw("Vertical") < 0f && IsDownBlock())
             {
-                if (Input.GetAxisRaw("Vertical") < 0f && IsDownBlock())
-                {
-                    if (state.HasFlag(PlayerState.JUMPING_DOWN)) return;
-                    state |= PlayerState.JUMPING_DOWN;
-                    StartCoroutine(JumpingDown());
-                    return;
-                }
-                else
-                {
-                    state |= PlayerState.JUMP;
-                }
+                if (state.HasFlag(PlayerState.JUMPING_DOWN)) return;
+                state |= PlayerState.JUMPING_DOWN;
+                StartCoroutine(JumpingDown());
+                return;
             }
-            if (currentStatus.jumpCount >= currentStatus.jumpMaxCount) return;
-            currentStatus.jumpCount++;
-        }
-        if (state.HasFlag(PlayerState.JUMP))
-        {
-            if (Input.GetButton("Jump") && jumpTimer < currentStatus.jumpMaxTime)
+            else
             {
-                jumpTimer += Time.deltaTime;
-                Debug.Log(rb.velocity.y);
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Lerp(rb.velocity.y , currentStatus.jumpPower , Time.deltaTime * jumpSmooth));
-            }
-            else if (((jumpTimer >= currentStatus.jumpMaxTime) || !Input.GetButton("Jump")))
-            {
-                state &= ~PlayerState.JUMP;
-                jumpTimer = 0f;
+                if (jumpCount >= jumpMaxCount) return;
+                state &= ~PlayerState.JUMPING_DOWN;
+                state |= PlayerState.JUMP;
+                jumpCount++;
+                rb.velocity = new Vector2(rb.velocity.x, 0f);
+                rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+                return;
             }
         }
+
         if (IsGround())
         {
-            currentStatus.jumpCount = 0;
+            if (state.HasFlag(PlayerState.JUMP))
+            {
+                state &= ~PlayerState.JUMP;
+            }
+            else if (rb.velocity.y <= 0.1f)
+            {
+                jumpCount = 0;
+
+            }
         }
         else
         {
-            rb.gravityScale = currentStatus.gravity;
-            rb.drag = linearDrag * 0.5f;
+            rb.gravityScale = gravity;
+            rb.drag = linearDrag * jumpDrag;
         }
 
     }
@@ -202,11 +244,13 @@ public class PlayerMove : MonoBehaviour
         while (IsGround())
         {
             yield return null;
-        }   
+        }
 
         yield return new WaitUntil(() => IsGround());
         col.isTrigger = false;
         state = PlayerState.NONE;
     }
+
+
 }
 
