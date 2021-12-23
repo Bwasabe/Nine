@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
     
     private void Update()
     {
-        testText.text = string.Format("{0}", speed);
+        testText.text = string.Format("{0}", InputManager.keyMaps[Keys.LEFT]);
         move();
         jump();
     }
@@ -153,7 +153,18 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
-        hori = Input.GetAxisRaw("Horizontal");
+        if(Input.GetKey(InputManager.keyMaps[Keys.LEFT]) && Input.GetKey(InputManager.keyMaps[Keys.RIGHT])){
+            hori = 0;
+        }
+        else if(Input.GetKey(InputManager.keyMaps[Keys.LEFT])){
+            hori = -1;
+        }
+        else if(Input.GetKey(InputManager.keyMaps[Keys.RIGHT])){
+            hori = 1;
+        }
+        else{
+            hori = 0;
+        }
         isChangeDirection = (hori > 0f && rb.velocity.x < 0f) || (hori < 0f && rb.velocity.x > 0f);
         if (IsGround())
         {
@@ -194,9 +205,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(InputManager.keyMaps[Keys.JUMP]))
         {
-            if (Input.GetAxisRaw("Vertical") < 0f && IsDownBlock())
+            if (Input.GetKey(InputManager.keyMaps[Keys.DOWN]) && IsDownBlock())
             {
                 if (state.HasFlag(PlayerState.JUMPING_DOWN)) return;
                 state |= PlayerState.JUMPING_DOWN;
