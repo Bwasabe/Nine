@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum Keys
 {
-    NONE,
-    LEFT = 1,
+    LEFT,
     RIGHT,
     JUMP,
     DOWN,
@@ -23,6 +23,8 @@ public class InputManager : MonoSingleton<InputManager>
     [SerializeField]
     private GameObject descPanel;
 
+    [SerializeField]
+    private Text[] keyTexts;
     private Event e;
 
     private int key;
@@ -78,7 +80,9 @@ public class InputManager : MonoSingleton<InputManager>
     private void OnGUI()
     {
         if (!isKeyChanging) return;
+        if(!Input.anyKeyDown)return;
         e = Event.current;
+        if(e.keyCode == KeyCode.None)return;
         if (e.keyCode == KeyCode.Escape)
         {
             descPanel.SetActive(false);
@@ -88,6 +92,7 @@ public class InputManager : MonoSingleton<InputManager>
         {
             keyMaps[(Keys)key] = e.keyCode;
             Debug.Log(keyMaps[(Keys)key]);
+            UpdateText();
         }
         else if (e.isMouse)
         {
@@ -100,8 +105,15 @@ public class InputManager : MonoSingleton<InputManager>
 
             }
             Debug.Log(keyMaps[(Keys)key]);
+            UpdateText();
         }
 
+    }
+
+    private void UpdateText(){
+        for (int i = 0; i < keyTexts.Length; i++){
+            keyTexts[i].text = string.Format("{0}", keyMaps[(Keys)i]);
+        }
     }
 
 }
