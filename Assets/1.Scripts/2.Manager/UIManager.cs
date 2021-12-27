@@ -6,14 +6,29 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject optionPanel;
+    [SerializeField]
+    private GameObject inputManager;
+
+
+    private PlayerController player;
+    private PlayerMove playerMove;
+
+    private void Start() {
+        player = GameManager.Instance.Player;
+        playerMove = GameManager.Instance.PlayerMove;
+    }
     public void OnClickOption(){
-        InputManager.Instance.gameObject.SetActive(true);
+        inputManager.SetActive(true);
         optionPanel.SetActive(true);
+        player.slide -= player.getSlide;
+        playerMove.IsFreeze();
+
     }
 
     public void OnClickExit(){
-        InputManager.Instance.gameObject.SetActive(false);
+        inputManager.SetActive(false);
         optionPanel.SetActive(false);
-
+        player.slide += player.getSlide;
+        playerMove.IsMove();
     }
 }

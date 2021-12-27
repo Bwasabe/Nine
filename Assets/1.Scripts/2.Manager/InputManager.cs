@@ -7,15 +7,25 @@ public enum Keys
 {
     LEFT,
     RIGHT,
-    JUMP,
     DOWN,
+    JUMP,
     SLIDE,
     ATTACK,
+    INTERACT,
+    LENGTH,
 }
+
+public static class KeySetting
+{
+    public static Dictionary<Keys, KeyCode> keyMaps = new Dictionary<Keys, KeyCode>();
+}
+
 public class InputManager : MonoSingleton<InputManager>
 {
 
-    public static Dictionary<Keys, KeyCode> keyMaps = new Dictionary<Keys, KeyCode>();
+    private KeyCode[] defaultKeys = { KeyCode.A, KeyCode.D, KeyCode.S, KeyCode.Space, KeyCode.LeftShift, KeyCode.Mouse0, KeyCode.F };
+    private string[] keyDescription = { "왼쪽", "오른쪽", "아래쪽", "점프", "슬라이딩", "공격", "상호작용" };
+    private List<Text> keyList = new List<Text>();
 
 
     [SerializeField]
@@ -23,99 +33,93 @@ public class InputManager : MonoSingleton<InputManager>
     [SerializeField]
     private GameObject descPanel;
 
+
     [SerializeField]
-    private Text[] keyTexts;
+    private Button keyButton;
+    [SerializeField]
+    private Transform buttonRoot;
+
     private Event e;
+
 
     private int key;
 
-    private bool isKeyChanging = false;
+
 
     private void Start()
     {
-        // Debug.Log(keyMaps.Count);
-        // foreach(KeyValuePair<Keys, KeyCode> item in keyMaps)
-        // {
-        //     Debug.Log(item.Key);
-        // }
-        keyMaps.Add(Keys.ATTACK, KeyCode.Mouse0);
-        keyMaps.Add(Keys.JUMP, KeyCode.Space);
-        keyMaps.Add(Keys.SLIDE, KeyCode.LeftShift);
-        keyMaps.Add(Keys.LEFT, KeyCode.A);
-        keyMaps.Add(Keys.RIGHT, KeyCode.D);
-        keyMaps.Add(Keys.DOWN, KeyCode.S);
+        Init(); 
     }
-
+    private void Init()
+    {
+        Button newKeyButton;
+        for (int i = 0; i < (int)Keys.LENGTH- 1; i++)
+        {
+            Debug.Log("잉");
+            int temp = i;
+            KeySetting.keyMaps.Add((Keys)temp, defaultKeys[temp]);
+            newKeyButton = Instantiate(keyButton, buttonRoot);
+            newKeyButton.onClick.AddListener(() => OnClickChange(temp));
+            newKeyButton.gameObject.SetActive(true);
+            keyList.Add(newKeyButton.transform.GetChild(0).GetComponent<Text>());
+            newKeyButton.transform.GetChild(1).GetComponent<Text>().text = string.Format("{0}", keyDescription[temp]);
+        }
+        UpdateText();
+        gameObject.SetActive(false);
+    }
 
     public void OnClickChange(int num)
     {
         descPanel.SetActive(true);
-        isKeyChanging = true;
         key = num;
     }
 
-    // private void Update()
-    // {
-    //     if (Input.anyKeyDown)
-    //     {
-    //         if (isKeyChanging)
-    //         {
-    //             e = Event.current;
-    //             if(e.keyCode == KeyCode.None)return;
-    //             if(e.isKey){
-    //                 keyMaps[currentKey] = e.keyCode;
-    //             }
-    //             else if(e.isMouse){
-    //                 keyMaps[currentKey] = e.button;
-    //             }
-    //             Debug.Log(keyMaps[Keys.LEFT]);
-    //         }
-    //     }
-
-    //     if (e.isKey)
-    //     {
-    //         Debug.Log("Detected a keyboard event!" + e.keyCode);
-    //     }
-    // }
+    private void Update()
+    {
+        //Debug.Log(KeySetting.keyMaps[Keys.LEFT]);
+    }
     private void OnGUI()
     {
-        if (!isKeyChanging) return;
-        if(!Input.anyKeyDown)return;
+        if (!descPanel.activeSelf) return;
+        if (!Input.anyKeyDown) return;
         e = Event.current;
-        if(e.keyCode == KeyCode.None)return;
         if (e.keyCode == KeyCode.Escape)
         {
             descPanel.SetActive(false);
-            isKeyChanging = false;
         }
         else if (e.isKey)
         {
-            keyMaps[(Keys)key] = e.keyCode;
-            Debug.Log(keyMaps[(Keys)key]);
+            if (e.keyCode == KeyCode.None) return;
+            KeySetting.keyMaps[(Keys)key] = e.keyCode;
+            Debug.Log(KeySetting.keyMaps[(Keys)key]);
+            descPanel.SetActive(false);
             UpdateText();
         }
         else if (e.isMouse)
         {
             switch (e.button)
             {
-                case 0: keyMaps[(Keys)key] = KeyCode.Mouse0; break;
-                case 1: keyMaps[(Keys)key] = KeyCode.Mouse1; break;
-                case 2: keyMaps[(Keys)key] = KeyCode.Mouse1; break;
+                case 0: KeySetting.keyMaps[(Keys)key] = KeyCode.Mouse0; break;
+                case 1: KeySetting.keyMaps[(Keys)key] = KeyCode.Mouse1; break;
+                case 2: KeySetting.keyMaps[(Keys)key] = KeyCode.Mouse2; break;
                 default: break;
 
             }
-            Debug.Log(keyMaps[(Keys)key]);
+            descPanel.SetActive(false);
+            Debug.Log(e.button);
+            Debug.Log(KeySetting.keyMaps[(Keys)key]);
             UpdateText();
         }
 
     }
 
-    private void UpdateText(){
-        for (int i = 0; i < keyTexts.Length; i++){
-            keyTexts[i].text = string.Format("{0}", keyMaps[(Keys)i]);
+    private void UpdateText()
+    {
+        for (int i = 0; i < (int)Keys.LENGTH-1; i++)
+        {
+            keyList[i].text = string.Format("{0}", KeySetting.keyMaps[(Keys)i]);
         }
     }
-
 }
 
 

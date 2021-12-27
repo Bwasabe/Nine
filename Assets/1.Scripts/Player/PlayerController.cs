@@ -6,10 +6,19 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Action
+    
     public event Action attack;
     public event Action slide;
     public event Action colEnter;
     public event Action colExit;
+    public event Action interact;
+
+
+    public Action getSlide{
+        get{
+            return Sliding;
+        }
+    }
     #endregion
 
     [SerializeField]
@@ -64,25 +73,22 @@ public class PlayerController : MonoBehaviour
     }
     private void Sliding()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isSlide)
+        if (Input.GetKeyDown(KeySetting.keyMaps[Keys.SLIDE]) && !isSlide && playerMove.IsGround())
         {
             isSlide = true;
-            Debug.Log(slidingDuration);
             StartCoroutine(Slide());
         }
     }
-
-
-
+ 
 
     private IEnumerator Slide()
     {
-        playerMove.jump -= playerMove.getJump;
-        playerMove.move -= playerMove.getMove;                          // -180
+        playerMove.IsFreeze();
+        rb.velocity = Vector2.zero;
+        Debug.Log(rb.velocity.x);
         rb.velocity = new Vector2(slidingSpeed * ((transform.rotation.y == 0) ? 1 : -1), rb.velocity.y);
         yield return Yields.WaitSeconds(slidingDuration);
-        playerMove.move += playerMove.getMove;
-        playerMove.jump += playerMove.getJump;
+        playerMove.IsMove();
 
         isSlide = false;
     }

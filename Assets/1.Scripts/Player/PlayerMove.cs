@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
     
     private void Update()
     {
-        testText.text = string.Format("{0}", InputManager.keyMaps[Keys.LEFT]);
+        testText.text = string.Format("{0}", (int)rb.velocity.x);
         move();
         jump();
     }
@@ -136,6 +136,14 @@ public class PlayerMove : MonoBehaviour
         move = () => { };
         jump = () => { };
     }
+    public void IsFreeze(){
+        move -= Move;
+        jump -= Jump;
+    }
+    public void IsMove(){
+        move += Move;
+        jump += Jump;
+    }
     #endregion
 
 
@@ -153,13 +161,13 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
-        if(Input.GetKey(InputManager.keyMaps[Keys.LEFT]) && Input.GetKey(InputManager.keyMaps[Keys.RIGHT])){
+        if(Input.GetKey(KeySetting.keyMaps[Keys.LEFT]) && Input.GetKey(KeySetting.keyMaps[Keys.RIGHT])){
             hori = 0;
         }
-        else if(Input.GetKey(InputManager.keyMaps[Keys.LEFT])){
+        else if(Input.GetKey(KeySetting.keyMaps[Keys.LEFT])){
             hori = -1;
         }
-        else if(Input.GetKey(InputManager.keyMaps[Keys.RIGHT])){
+        else if(Input.GetKey(KeySetting.keyMaps[Keys.RIGHT])){
             hori = 1;
         }
         else{
@@ -193,7 +201,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private bool IsGround()
+    public bool IsGround()
     {
         Debug.DrawRay(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right) * bottomDistance, Color.blue);
         return Physics2D.Raycast(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right), bottomDistance, bottomLayer);
@@ -205,9 +213,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(InputManager.keyMaps[Keys.JUMP]))
+        if (Input.GetKeyDown(KeySetting.keyMaps[Keys.JUMP]))
         {
-            if (Input.GetKey(InputManager.keyMaps[Keys.DOWN]) && IsDownBlock())
+            if (Input.GetKey(KeySetting.keyMaps[Keys.DOWN]) && IsDownBlock())
             {
                 if (state.HasFlag(PlayerState.JUMPING_DOWN)) return;
                 state |= PlayerState.JUMPING_DOWN;

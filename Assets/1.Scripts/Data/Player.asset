@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 824fbe73b9037b24c86b939006672f4f, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  name: FlyingSquirrel
+  name: NINE
   hp: 3
   speed: 8
   jumpPower: 21
   slidingSpeed: 15
-  slidingDuration: 0.7
+  slidingDuration: 0.5
   jumpCount: 0
-  jumpMaxCount: 2
+  jumpMaxCount: 1
   gravity: 3.2
