@@ -99,10 +99,10 @@ public class EventManager<Object> : MonoBehaviour
         }
     }
 
-    public static void TriggerEvent(string eventName , Object param){
+    public static void FuncTriggerEvent(string eventName , Object param){
         Func<Object> thisEvent;
         if(eventFuncDictionary.TryGetValue(eventName , out thisEvent)){
-            thisEvent?.Invoke(param);
+            thisEvent.Invoke();
         }
     }
 }
