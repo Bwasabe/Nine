@@ -15,13 +15,9 @@ public enum Keys
     LENGTH,
 }
 
-public static class KeySetting
-{
-    public static Dictionary<Keys, KeyCode> keyMaps = new Dictionary<Keys, KeyCode>();
-}
-
 public class InputManager : MonoSingleton<InputManager>
 {
+    public static Dictionary<Keys, KeyCode> keyMaps = new Dictionary<Keys, KeyCode>();
 
     private KeyCode[] defaultKeys = { KeyCode.A, KeyCode.D, KeyCode.S, KeyCode.Space, KeyCode.LeftShift, KeyCode.Mouse0, KeyCode.F };
     private string[] keyDescription = { "왼쪽", "오른쪽", "아래쪽", "점프", "슬라이딩", "공격", "상호작용" };
@@ -57,7 +53,7 @@ public class InputManager : MonoSingleton<InputManager>
         {
             Debug.Log("잉");
             int temp = i;
-            KeySetting.keyMaps.Add((Keys)temp, defaultKeys[temp]);
+            keyMaps.Add((Keys)temp, defaultKeys[temp]);
             newKeyButton = Instantiate(keyButton, buttonRoot);
             newKeyButton.onClick.AddListener(() => OnClickChange(temp));
             newKeyButton.gameObject.SetActive(true);
@@ -74,10 +70,6 @@ public class InputManager : MonoSingleton<InputManager>
         key = num;
     }
 
-    private void Update()
-    {
-        //Debug.Log(KeySetting.keyMaps[Keys.LEFT]);
-    }
     private void OnGUI()
     {
         if (!descPanel.activeSelf) return;
@@ -90,25 +82,24 @@ public class InputManager : MonoSingleton<InputManager>
         else if (e.isKey)
         {
             if (e.keyCode == KeyCode.None) return;
-            KeySetting.keyMaps[(Keys)key] = e.keyCode;
-            Debug.Log(KeySetting.keyMaps[(Keys)key]);
+            keyMaps[(Keys)key] = e.keyCode;
             descPanel.SetActive(false);
             UpdateText();
+            CheckOverlap();
         }
         else if (e.isMouse)
         {
             switch (e.button)
             {
-                case 0: KeySetting.keyMaps[(Keys)key] = KeyCode.Mouse0; break;
-                case 1: KeySetting.keyMaps[(Keys)key] = KeyCode.Mouse1; break;
-                case 2: KeySetting.keyMaps[(Keys)key] = KeyCode.Mouse2; break;
+                case 0: keyMaps[(Keys)key] = KeyCode.Mouse0; break;
+                case 1: keyMaps[(Keys)key] = KeyCode.Mouse1; break;
+                case 2: keyMaps[(Keys)key] = KeyCode.Mouse2; break;
                 default: break;
 
             }
             descPanel.SetActive(false);
-            Debug.Log(e.button);
-            Debug.Log(KeySetting.keyMaps[(Keys)key]);
             UpdateText();
+            CheckOverlap();
         }
 
     }
@@ -117,7 +108,19 @@ public class InputManager : MonoSingleton<InputManager>
     {
         for (int i = 0; i < (int)Keys.LENGTH-1; i++)
         {
-            keyList[i].text = string.Format("{0}", KeySetting.keyMaps[(Keys)i]);
+            keyList[i].text = string.Format("{0}", keyMaps[(Keys)i]);
+        }
+    }
+
+    private void CheckOverlap(){
+        for (int i = 0; i < keyMaps.Count; i++){
+            if(i == key)continue;
+            if(keyMaps[(Keys)i] == keyMaps[(Keys)key]){
+                Debug.Log(key);
+                Debug.Log(i);
+                buttonRoot.GetChild(key+1).GetComponent<Image>().color = Color.red;
+                buttonRoot.GetChild(i+1).GetComponent<Image>().color = Color.red;
+            }
         }
     }
 }
