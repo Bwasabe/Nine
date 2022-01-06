@@ -159,15 +159,15 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetKey(KeySetting.keyMaps[Keys.LEFT]) && Input.GetKey(KeySetting.keyMaps[Keys.RIGHT]))
+        if (Input.GetKey(InputManager.keyMaps[Keys.LEFT]) && Input.GetKey(InputManager.keyMaps[Keys.RIGHT]))
         {
             hori = 0;
         }
-        else if (Input.GetKey(KeySetting.keyMaps[Keys.LEFT]))
+        else if (Input.GetKey(InputManager.keyMaps[Keys.LEFT]))
         {
             hori = -1;
         }
-        else if (Input.GetKey(KeySetting.keyMaps[Keys.RIGHT]))
+        else if (Input.GetKey(InputManager.keyMaps[Keys.RIGHT]))
         {
             hori = 1;
         }
@@ -217,9 +217,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeySetting.keyMaps[Keys.JUMP]))
+        if (Input.GetKeyDown(InputManager.keyMaps[Keys.JUMP]))
         {
-            if (Input.GetKey(KeySetting.keyMaps[Keys.DOWN]) && IsDownBlock())
+            if (Input.GetKey(InputManager.keyMaps[Keys.DOWN]) && IsDownBlock())
             {
                 if (state.HasFlag(PlayerState.JUMPING_DOWN)) return;
                 state |= PlayerState.JUMPING_DOWN;
@@ -255,6 +255,9 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
+            if(jumpCount == 0){
+                jumpCount = 1;
+            }
             animator.SetBool("IsGround", false);
             rb.gravityScale = gravity;
             rb.drag = linearDrag * jumpDrag;

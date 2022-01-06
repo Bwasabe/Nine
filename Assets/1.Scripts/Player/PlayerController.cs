@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Sliding()
     {
-        if (Input.GetKeyDown(KeySetting.keyMaps[Keys.SLIDE]) && !state.HasFlag(PlayerState.SLIDE) && playerMove.IsGround())
+        if (Input.GetKeyDown(InputManager.keyMaps[Keys.SLIDE]) && !state.HasFlag(PlayerState.SLIDE) && playerMove.IsGround())
         {
             state |= PlayerState.SLIDE;
             StartCoroutine(Slide());
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetKeyDown(KeySetting.keyMaps[Keys.ATTACK]) && !state.HasFlag(PlayerState.ATTACK))
+        if (Input.GetKeyDown(InputManager.keyMaps[Keys.ATTACK]) && !state.HasFlag(PlayerState.ATTACK))
         {
             state |= PlayerState.ATTACK;
             StartCoroutine(Attacking());
