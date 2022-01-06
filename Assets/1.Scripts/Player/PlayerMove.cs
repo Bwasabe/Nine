@@ -6,13 +6,7 @@ using System;
 
 public class PlayerMove : MonoBehaviour
 {
-    ///TODOLIST
-    //로프엑션 구현하기
-    //InputManager 구현하기{
-        //https://github.com/jschiff/unity-extensions/blob/9c59f5d370d26f08b22da7b489af65b6a9976e31/Runtime/TextAnimator/Content/Input.cs#L55
-    //}
-    //캐릭터 공격 구현하기
-    //적 캐릭터 베이스 구현하기
+
 
     [Flags]
     private enum PlayerState
@@ -28,14 +22,18 @@ public class PlayerMove : MonoBehaviour
     public event Action move;
     public event Action jump;
 
-    public Action getMove{
-        get{
+    public Action getMove
+    {
+        get
+        {
             return Move;
         }
     }
-    
-    public Action getJump{
-        get{
+
+    public Action getJump
+    {
+        get
+        {
             return Jump;
         }
     }
@@ -47,9 +45,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Character playerstatus;
 
-
-    [SerializeField]
-    private PhysicsMaterial2D playerMaterial;
 
 
     [SerializeField]
@@ -78,8 +73,9 @@ public class PlayerMove : MonoBehaviour
 
     private Rigidbody2D rb;
     private Collider2D col;
+    private Animator animator;
 
-//TODO : private
+    //TODO : private
     public float hori;
     public float bottomDistance;
     public float speed;
@@ -90,9 +86,8 @@ public class PlayerMove : MonoBehaviour
     public int jumpCount;
     public int jumpMaxCount;
 
-
-    private bool isChangeDirection;
     private bool isBack;
+    private bool isChangeDirection;
 
     #region 이벤트
     private void OnEnable()
@@ -105,10 +100,10 @@ public class PlayerMove : MonoBehaviour
         Initialize();
         InitValue();
     }
-    
+
     private void Update()
     {
-        testText.text = string.Format("{0}", (int)rb.velocity.x);
+        //testText.text = string.Format("{0}", (int)rb.velocity.y);
         move();
         jump();
     }
@@ -119,6 +114,7 @@ public class PlayerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
+        animator = GetComponentInChildren<Animator>();
     }
     private void InitValue()
     {
@@ -136,11 +132,13 @@ public class PlayerMove : MonoBehaviour
         move = () => { };
         jump = () => { };
     }
-    public void IsFreeze(){
+    public void IsFreeze()
+    {
         move -= Move;
         jump -= Jump;
     }
-    public void IsMove(){
+    public void IsMove()
+    {
         move += Move;
         jump += Jump;
     }
@@ -161,21 +159,26 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
-        if(Input.GetKey(KeySetting.keyMaps[Keys.LEFT]) && Input.GetKey(KeySetting.keyMaps[Keys.RIGHT])){
+        if (Input.GetKey(KeySetting.keyMaps[Keys.LEFT]) && Input.GetKey(KeySetting.keyMaps[Keys.RIGHT]))
+        {
             hori = 0;
         }
-        else if(Input.GetKey(KeySetting.keyMaps[Keys.LEFT])){
+        else if (Input.GetKey(KeySetting.keyMaps[Keys.LEFT]))
+        {
             hori = -1;
         }
-        else if(Input.GetKey(KeySetting.keyMaps[Keys.RIGHT])){
+        else if (Input.GetKey(KeySetting.keyMaps[Keys.RIGHT]))
+        {
             hori = 1;
         }
-        else{
+        else
+        {
             hori = 0;
         }
-        isChangeDirection = (hori > 0f && rb.velocity.x < 0f) || (hori < 0f && rb.velocity.x > 0f);
+        animator.SetFloat("VelocityX", Mathf.Abs(rb.velocity.x));
         if (IsGround())
         {
+            isChangeDirection = (hori > 0f && rb.velocity.x < 0f) || (hori < 0f && rb.velocity.x > 0f);
             if (hori == 0 || isChangeDirection)
             {
                 rb.drag = linearDrag;
@@ -185,19 +188,20 @@ public class PlayerMove : MonoBehaviour
                 rb.drag = 0f;
             }
         }
-        SetPlayerDirection();
         rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed * hori, Time.deltaTime * moveSmooth), rb.velocity.y);
+        SetPlayerDirection();
     }
     private void SetPlayerDirection()
     {
         if (hori == 0)
         {
-            // 대충 애니메이션
+            animator.SetBool("IsRunning", false);
         }
         else
         {
+            animator.SetBool("IsRunning", true);
             isBack = hori < 0;
-            transform.rotation = Quaternion.Euler(0f, (isBack) ? 180f : 0f, 0f);
+            transform.rotation = Quaternion.Euler(0f, (hori < 0) ? 180f : 0f, 0f);
         }
     }
 
@@ -225,6 +229,7 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 if (jumpCount >= jumpMaxCount) return;
+                animator.Play("PlayerJump");
                 state &= ~PlayerState.JUMPING_DOWN;
                 state |= PlayerState.JUMP;
                 jumpCount++;
@@ -233,9 +238,11 @@ public class PlayerMove : MonoBehaviour
                 return;
             }
         }
+        animator.SetFloat("VelocityY", rb.velocity.y);
 
         if (IsGround())
         {
+            animator.SetBool("IsGround", true);
             if (state.HasFlag(PlayerState.JUMP))
             {
                 state &= ~PlayerState.JUMP;
@@ -248,6 +255,7 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
+            animator.SetBool("IsGround", false);
             rb.gravityScale = gravity;
             rb.drag = linearDrag * jumpDrag;
         }

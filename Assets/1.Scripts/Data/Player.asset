@@ -19,5 +19,5 @@ MonoBehaviour:
   slidingSpeed: 15
   slidingDuration: 0.5
   jumpCount: 0
-  jumpMaxCount: 1
+  jumpMaxCount: 2
   gravity: 3.2
