@@ -9,6 +9,7 @@ public class Box : MonoBehaviour
             GameManager.Instance.Player.colEnter += () =>
             {
                 Debug.Log("상자");
+                
             };
         }
     }

@@ -109,10 +109,9 @@ public class PlayerController : MonoBehaviour
         playerMove.IsFreeze();
         rb.drag = 0f;
         rb.velocity = new Vector2(slidingSpeed * ((transform.rotation.y == 0) ? 1 : -1), rb.velocity.y);
-        yield return Yields.WaitSeconds(slidingDuration);
+        yield return Yields.WaitForSeconds(slidingDuration);
         rb.drag = 3.7f;
         playerMove.IsMove();
-
         state &= ~PlayerState.SLIDE;
     }
 
@@ -128,7 +127,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.Play("PlayerAttack");
         animator.SetFloat("AttackCount", attackCount);
-        yield return Yields.WaitSeconds(0.4f);
+        yield return Yields.WaitForSeconds(0.4f);
         attackCount = (attackCount == 0) ? 1 : 0;
 
         state &= ~PlayerState.ATTACK;
