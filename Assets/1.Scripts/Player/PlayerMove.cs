@@ -255,6 +255,9 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
+            if(jumpCount == 0){
+                jumpCount = 1;
+            }
             animator.SetBool("IsGround", false);
             rb.gravityScale = gravity;
             rb.drag = linearDrag * jumpDrag;
