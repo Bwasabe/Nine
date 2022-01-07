@@ -10,7 +10,7 @@ public class EnemyStat : EnemyBase , IDamageable
     protected override void Start()
     {
         base.Start();
-        //EventManager.StartListening("dhk", A);
+        
     }
     public virtual void Damage(int damage){
         if(hp < 1){
@@ -20,9 +20,7 @@ public class EnemyStat : EnemyBase , IDamageable
 
         }
     }
-    private int A(){
-        return 1;
-    }
+
     protected virtual void Dead(){
         //TODO: 대충 StopListening
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 {
     private static bool shuttingDown = false;
     private static object locker = new object();
@@ -30,7 +30,9 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
             }
         }
     }
-
+    private void Start() {
+        shuttingDown = false;
+    }
     private void OnDestroy()
     {
         shuttingDown = true;
