@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Sliding()
     {
-        if (Input.GetKeyDown(InputManager.keyMaps[Keys.SLIDE]) && !state.HasFlag(PlayerState.SLIDE) && playerMove.IsGround())
+        if (Input.GetKeyDown(InputManager.keyMaps[Keys.SLIDE]) && !state.HasFlag(PlayerState.SLIDE))
         {
             state |= PlayerState.SLIDE;
             StartCoroutine(Slide());
@@ -108,8 +108,10 @@ public class PlayerController : MonoBehaviour
     {
         playerMove.IsFreeze();
         rb.drag = 0f;
-        rb.velocity = new Vector2(slidingSpeed * ((transform.rotation.y == 0) ? 1 : -1), rb.velocity.y);
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(slidingSpeed * ((transform.rotation.y == 0) ? 1 : -1), 0f);
         yield return Yields.WaitForSeconds(slidingDuration);
+        rb.gravityScale = 3.2f;
         rb.drag = 3.7f;
         playerMove.IsMove();
         state &= ~PlayerState.SLIDE;

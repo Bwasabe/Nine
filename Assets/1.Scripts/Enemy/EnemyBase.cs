@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D) ,typeof(Collider2D) , typeof(SpriteRenderer) )]
-
+[RequireComponent(typeof(Animator))]
 public class EnemyBase : MonoBehaviour
 {
     public enum Facing

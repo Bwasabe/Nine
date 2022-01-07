@@ -6,7 +6,6 @@ using System;
 public class EventManager<Object> : MonoBehaviour
 {
 
-    #region With Parameter(Action)
     private static Dictionary<string, Action> eventDictionary = new Dictionary<string, Action>();
 
     public static void StartListening(string eventName, Action listener)
@@ -45,95 +44,9 @@ public class EventManager<Object> : MonoBehaviour
             thisEvent?.Invoke();
         }
     }
-    #endregion
-
-
-    #region  Without Parameter(Action)
-    private static Dictionary<string, Action<Object>> eventParamDictionary = new Dictionary<string, Action<Object>>();
-
-    public static void StartListening(string eventName, Action<Object> listener)
-    {
-        Action<Object> thisEvent;
-        if (eventParamDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent += listener;
-            eventParamDictionary[eventName] = thisEvent;
-        }
-        else
-        {
-            eventParamDictionary.Add(eventName, listener);
-        }
-    }
-
-    public static void StopListening(string eventName, Action<Object> listener)
-    {
-        Action<Object> thisEvent;
-        if (eventParamDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent -= listener;
-            eventParamDictionary[eventName] = thisEvent;
-        }
-        else
-        {
-            eventParamDictionary.Remove(eventName);
-        }
-    }
-
-    public static void TriggerEvent(string eventName, Object param)
-    {
-        Action<Object> thisEvent;
-        if (eventParamDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent?.Invoke(param);
-        }
-    }
-
-    #endregion
-
-    
-    #region With Parameter(Func)
-    private static Dictionary<string, Func<Object, Object>> eventParamFuncDictionary = new Dictionary<string, Func<Object, Object>>();
-
-    public static void StartListening(string eventName, Func<Object, Object> listener)
-    {
-        Func<Object, Object> thisEvent;
-        if (eventParamFuncDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent += listener;
-            eventParamFuncDictionary[eventName] = thisEvent;
-        }
-        else
-        {
-            eventParamFuncDictionary.Add(eventName, listener);
-        }
-    }
-
-    public static void StopListening(string eventName, Func<Object, Object> listener)
-    {
-        Func<Object, Object> thisEvent;
-        if (eventParamFuncDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent -= listener;
-            eventParamFuncDictionary[eventName] = thisEvent;
-        }
-        else
-        {
-            eventParamFuncDictionary.Remove(eventName);
-        }
-    }
-
-    public static void FuncParamTriggerEvent(string eventName, Object param)
-    {
-        Func<Object, Object> thisEvent;
-        if (eventParamFuncDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent.Invoke(param);
-        }
-    }
-    #endregion
-
-
-    #region Without Parameter(Func)
+    /// <summary>
+    /// EventManager<Type>.FunctionName("KeyName" , Func)
+    /// </summary>
     private static Dictionary<string, Func<Object>> eventFuncDictionary = new Dictionary<string, Func<Object>>();
 
     public static void StartListening(string eventName, Func<Object> listener)
@@ -172,7 +85,5 @@ public class EventManager<Object> : MonoBehaviour
             thisEvent.Invoke();
         }
     }
-    #endregion
-
 
 }
