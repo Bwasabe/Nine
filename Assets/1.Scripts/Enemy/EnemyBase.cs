@@ -6,13 +6,42 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-    protected Collider2D col;
-    protected Rigidbody2D rb;
-    protected SpriteRenderer spriteRenderer;
+    public enum Facing
+    {
+        Left,
+        Right,
+    }
 
-    protected virtual void Start(){
-        col = GetComponent<Collider2D>();
-        rb = GetComponent<Rigidbody2D>();
+    public enum Run{
+        Walk,
+        Run,
+    }
+
+    protected Facing facing;
+    protected SpriteRenderer spriteRenderer;
+    protected Rigidbody2D rb;
+    protected Collider2D col;
+    protected Animator animator;
+
+    protected virtual void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    protected virtual void Update(){
+        ChangeFacing();
+    }
+
+    private void ChangeFacing(){
+        if(rb.velocity.x > 0.1f){
+            facing = Facing.Right;
+        }
+        else if(rb.velocity.x <-0.1f){
+            facing = Facing.Left;
+        }
+        float scaleX = facing == Facing.Right ? 1f : -1f;
+        transform.localScale = new Vector3(transform.localScale.x*scaleX , transform.localScale.y , transform.localScale.z);
     }
 }
