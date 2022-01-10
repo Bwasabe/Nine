@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 
-public class ParamEventManager<Object>
+public class Param1EventManager<Object>
 {
     private static Dictionary<string, Action<Object>> eventParamDictionary = new Dictionary<string, Action<Object>>();
 
@@ -45,42 +43,50 @@ public class ParamEventManager<Object>
     }
 
 
-    private static Dictionary<string, Func<Object, Object>> eventParamFuncDictionary = new Dictionary<string, Func<Object, Object>>();
+    /// <summary>
+    /// EventManager<Type>.FunctionName("KeyName" , Func)
+    /// </summary>
+    private static Dictionary<string, Func<Object>> eventFuncDictionary = new Dictionary<string, Func<Object>>();
 
-    public static void StartListening(string eventName, Func<Object, Object> listener)
+    public static void StartListening(string eventName, Func<Object> listener)
     {
-        Func<Object, Object> thisEvent;
-        if (eventParamFuncDictionary.TryGetValue(eventName, out thisEvent))
+        Func<Object> thisEvent;
+        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent += listener;
-            eventParamFuncDictionary[eventName] = thisEvent;
+            eventFuncDictionary[eventName] = thisEvent;
         }
         else
         {
-            eventParamFuncDictionary.Add(eventName, listener);
+            eventFuncDictionary.Add(eventName, listener);
         }
     }
 
-    public static void StopListening(string eventName, Func<Object, Object> listener)
+    public static void StopListening(string eventName, Func<Object> listener)
     {
-        Func<Object, Object> thisEvent;
-        if (eventParamFuncDictionary.TryGetValue(eventName, out thisEvent))
+        Func<Object> thisEvent;
+        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent -= listener;
-            eventParamFuncDictionary[eventName] = thisEvent;
+            eventFuncDictionary[eventName] = thisEvent;
         }
         else
         {
-            eventParamFuncDictionary.Remove(eventName);
+            eventFuncDictionary.Remove(eventName);
         }
     }
 
-    public static void FuncParamTriggerEvent(string eventName, Object param)
+    public static Object TriggerEvent(string eventName)
     {
-        Func<Object, Object> thisEvent;
-        if (eventParamFuncDictionary.TryGetValue(eventName, out thisEvent))
+        Func<Object> thisEvent;
+        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent.Invoke(param);
+            return thisEvent.Invoke();
+        }
+        else{
+            return default;
         }
     }
+
+
 }

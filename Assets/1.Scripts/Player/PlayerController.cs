@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        testText.text = string.Format("{0}", animatorClipInfos[0].clip.length);
+        //testText.text = string.Format("{0}", animatorClipInfos[0].clip.length);
         slide();
         attack();
     }
