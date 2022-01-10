@@ -51,7 +51,6 @@ public class InputManager : MonoSingleton<InputManager>
         Button newKeyButton;
         for (int i = 0; i < (int)Keys.LENGTH- 1; i++)
         {
-            Debug.Log("잉");
             int temp = i;
             keyMaps.Add((Keys)temp, defaultKeys[temp]);
             newKeyButton = Instantiate(keyButton, buttonRoot);

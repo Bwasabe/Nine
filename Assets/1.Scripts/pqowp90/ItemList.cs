@@ -6,13 +6,12 @@ using UnityEngine;
 public enum ItemType
 {
     weapon,
-    armor,
     accessories,
     hilItem,
 }
 
 
-[CreateAssetMenu(fileName = "Item List", menuName = "ScriptableObject/ItemList", order = int.MaxValue)]
+[CreateAssetMenu(fileName = "ItemList", menuName = "ItemList", order = int.MaxValue)]
 [System.Serializable]
 public class ItemList : ScriptableObject
 {
