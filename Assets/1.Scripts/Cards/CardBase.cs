@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CardBase : MonoBehaviour, ISkillable
 {
-    private new string name;
-    private string description;
+    [SerializeField]
+    private Card myCard;
 
 
     public virtual void Skill(){
