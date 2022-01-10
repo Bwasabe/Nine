@@ -16,8 +16,8 @@ MonoBehaviour:
   hp: 3
   speed: 8
   jumpPower: 21
-  slidingSpeed: 15
-  slidingDuration: 0.5
+  slidingSpeed: 40
+  slidingDuration: 0.1
   jumpCount: 0
   jumpMaxCount: 2
   gravity: 3.2
