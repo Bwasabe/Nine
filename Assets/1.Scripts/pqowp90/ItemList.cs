@@ -21,10 +21,12 @@ public class ItemList : ScriptableObject
 [System.Serializable]
 public class ItemInfo{
     public string itemName;
+    public string explan;
     public int itemId;
     public int count;
     public Sprite itemSprite;
     public ItemType itemType;
+    
 
     
 
@@ -32,9 +34,11 @@ public class ItemInfo{
     {
         ItemInfo newCopy = new ItemInfo();
         newCopy.itemName = this.itemName;
+        newCopy.explan = this.explan;
         newCopy.itemId = this.itemId;
         newCopy.count = this.count;
         newCopy.itemType = this.itemType;
+        newCopy.itemSprite = this.itemSprite;
         return newCopy;
     }
 }

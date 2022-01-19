@@ -23,7 +23,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
                     if (instance == null)
                     {
                         instance = new GameObject(typeof(T).ToString()).AddComponent<T>();
-                        DontDestroyOnLoad(instance);
+                        //DontDestroyOnLoad(instance);
                     }
                 }
                 return instance;

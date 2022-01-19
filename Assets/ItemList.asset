@@ -12,4 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d136b6d94df7cbe4eb91a267d98e9ac2, type: 3}
   m_Name: ItemList
   m_EditorClassIdentifier: 
-  itemInfos: []
+  itemInfos:
+  - itemName: 111111
+    explan: 1111111111111111111111111
+    itemId: 0
+    count: 0
+    itemSprite: {fileID: 21300054, guid: 197dc101be73bc64ebf9c4837ee28a15, type: 3}
+    itemType: 1
+  - itemName: 222222222
+    explan: 222222222222222222222
+    itemId: 1
+    count: 0
+    itemSprite: {fileID: 21300064, guid: 197dc101be73bc64ebf9c4837ee28a15, type: 3}
+    itemType: 1
