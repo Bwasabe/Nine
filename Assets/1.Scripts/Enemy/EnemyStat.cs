@@ -1,27 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
 
-public class EnemyStat : EnemyBase , IDamageable
-{
-    [SerializeField]
-    private int hp;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
+// [RequireComponent(typeof(CharacterBase))]
+// public class EnemyStat : MonoBehaviour , IDamageable
+// {
+//     private CharacterBase character;
 
-    public virtual void Damage(int damage){
-        if(hp < 1){
-            Dead();
-        }
-        else{
+//     protected virtual void Start() {
+//         character = GetComponent<CharacterBase>();
+//     }
+//     public virtual void Damage(int damage){
+//         if(character.Character.hp < 1){
+//             Dead();
+//         }
+//         else{
 
-        }
-    }
+//         }
+//     }
 
-    protected virtual void Dead(){
+//     protected virtual void Dead(){
         
-    }
-}
+//     }
+// }
