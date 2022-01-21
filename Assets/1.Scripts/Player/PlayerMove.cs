@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
+
 public class PlayerMove : MonoBehaviour
 {
 
@@ -74,6 +77,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D col;
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     //TODO : private
     public float hori;
@@ -104,6 +108,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         //testText.text = string.Format("{0}", (int)rb.velocity.y);
+        //Debug.DrawRay(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right) * bottomDistance, Color.red);
         move();
         jump();
     }
@@ -115,6 +120,7 @@ public class PlayerMove : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
         animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
     private void InitValue()
     {
@@ -201,13 +207,15 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool("IsRunning", true);
             isBack = hori < 0;
-            transform.rotation = Quaternion.Euler(0f, (hori < 0) ? 180f : 0f, 0f);
+            spriteRenderer.flipX = isBack;
+            //transform.localScale = new Vector3(isBack ? -transform.localScale.x : transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            Debug.Log(transform.localScale.x);
+            //transform.rotation = Quaternion.Euler(0f, (hori < 0) ? 180f : 0f, 0f);
         }
     }
 
     public bool IsGround()
     {
-        Debug.DrawRay(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right) * bottomDistance, Color.blue);
         return Physics2D.Raycast(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right), bottomDistance, bottomLayer);
     }
     private bool IsDownBlock()
