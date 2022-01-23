@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dust_DestroyEvent : MonoBehaviour
+public class Dust_DestroyEvent : MonoBehaviour, IPoolable
 {
     public void destroyEvent()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+    public void OnPool(){
+
     }
 }

@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
         playerMove.IsFreeze();
         rb.drag = 0f;
         rb.gravityScale = 0f;
-        rb.velocity = new Vector2(slidingSpeed * ((rb.velocity.x > 0) ? 1 : -1), 0f);
+        rb.velocity = new Vector2(slidingSpeed * (((playerMove.hori != 0) ? (playerMove.hori > 0) : !playerMove.isBack) ? 1 : -1), 0f);
         yield return Yields.WaitForSeconds(slidingDuration);
         rb.gravityScale = 3.2f;
         rb.drag = 3.7f;
