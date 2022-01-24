@@ -46,7 +46,7 @@ public class PlayerMove : MonoBehaviour
     #region SerializeField
 
     [SerializeField]
-    private Character playerstatus;
+    private Player playerstatus;
 
 
 
@@ -153,7 +153,7 @@ public class PlayerMove : MonoBehaviour
 
 
     #region Public
-    public void SetStatus(Character character)
+    public void SetStatus(Player character)
     {
         speed = character.speed;
         jumpPower = character.jumpPower;
