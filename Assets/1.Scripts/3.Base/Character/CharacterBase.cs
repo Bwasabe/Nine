@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D) ,typeof(Collider2D) , typeof(SpriteRenderer) )]
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
 public class CharacterBase : MonoBehaviour
 {
@@ -12,21 +12,11 @@ public class CharacterBase : MonoBehaviour
         Right,
     }
 
-    protected Facing facing;
-    protected SpriteRenderer spriteRenderer;
-    protected Rigidbody2D rb;
-    protected Collider2D col;
-    protected Animator animator;
-
-    
-    [SerializeField]
-    private Character character;
-
-    public Character Character{
-        get{
-            return character;
-        }
-    }
+    public Facing facing { get; protected set; }
+    public SpriteRenderer spriteRenderer { get; protected set; }
+    public Rigidbody2D rb { get; protected set; }
+    public Collider2D col { get; protected set; }
+    public Animator animator { get; protected set; }
 
 
     protected virtual void Start() {
