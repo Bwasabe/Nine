@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ItemPanel : MonoBehaviour
 {
+    [SerializeField]
+    private bool chackchack;
     public ItemInfo item;
     [SerializeField]
     private Text itemName;
@@ -18,7 +20,12 @@ public class ItemPanel : MonoBehaviour
         itemSprite.sprite = item.itemSprite;
     }
     public void ClickThis(){
-        UIManager.Instance.ShowPanel(item);
+        if(item.itemId == 0)return;
+        UIManager.Instance.ShowPanel(item, 2);
+    }
+    public void JustClickThis(int show){
+        if(item.itemId == 0)return;
+        UIManager.Instance.ShowPanel(item, show);
     }
 
 }

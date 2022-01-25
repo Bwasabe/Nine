@@ -6,6 +6,7 @@ using UnityEngine;
 public enum ItemType
 {
     weapon,
+    skill,
     accessories,
     hilItem,
 }

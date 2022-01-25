@@ -124,7 +124,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void InitValue()
     {
-        bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.05f);
+        bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.1f);
         bottomDistance = col.bounds.size.x;
         SetStatus(playerstatus);
     }
@@ -236,7 +236,7 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 if (jumpCount >= jumpMaxCount) return;
-                animator.Play("PlayerJump");
+                animator.SetTrigger("Jump");
                 state &= ~PlayerState.JUMPING_DOWN;
                 state |= PlayerState.JUMP;
                 jumpCount++;
