@@ -33,7 +33,6 @@ public class EnemyMove : CharacterMove
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Patrol, CheckPlatform);
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Patrol, Move);
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Chase, ReturnToPatrol);
-        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, ReturnToPatrolAttack);
     }
 
 
@@ -64,13 +63,7 @@ public class EnemyMove : CharacterMove
             timer = 0f;
         }
     }
-    private void ReturnToPatrolAttack()
-    {
-        if (!enemyFOV.IsViewPlayer())
-        {
-            enemyAI.FSM.ChangeState(EnemyAI.States.Patrol);
-        }
-    }
+    
     public void SetIsFacingToLocalScale()
     {
         isFacingRight = transform.localScale.x > 0 ? true : false;

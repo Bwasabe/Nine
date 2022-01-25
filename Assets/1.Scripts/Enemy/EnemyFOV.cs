@@ -28,19 +28,6 @@ public class EnemyFOV : MonoBehaviour
         playerLayer = LayerMask.NameToLayer("Player");
     }
 
-    // public Vector2 CirclePoint(float angle)
-    // {
-    //     if(enemyMove != null)
-    //     {
-    //         angle += enemyMove.GetFront().x < 0 ? -90f : 90f;
-    //     }
-    //     else
-    //     {
-    //         angle += 90f;
-    //     }
-
-    //     return new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
-    // }
 
     public bool IsTracePlayer()
     {

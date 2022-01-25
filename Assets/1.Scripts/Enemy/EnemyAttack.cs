@@ -24,9 +24,16 @@ public class EnemyAttack : MonoBehaviour
     }
     protected virtual void AddFSM(){
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Chase, CheckAttackPossible);
+        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, ReturnToChaseAttack);
         enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Attack, Attack);
     }
-
+    private void ReturnToChaseAttack()
+    {
+        if (!enemyFOV.IsViewPlayer())
+        {
+            enemyAI.FSM.ChangeState(EnemyAI.States.Chase);
+        }
+    }
     private void CheckAttackPossible(){
         if(enemyFOV.IsAttackPossible() && enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer()){
             enemyAI.FSM.ChangeState(EnemyAI.States.Attack);

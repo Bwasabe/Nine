@@ -81,7 +81,7 @@ public class LowerGuardAttack : EnemyAttack
         Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
         GameObject g = Instantiate(bullet, shootPos.position, Quaternion.identity);
         g.SetActive(true);
-        g.transform.rotation = Quaternion.Euler(0f, 0f, Vector2.Angle(/*transform.localScale.x > 0 ? transform.right : transform.right * -1f*/transform.right, dir));
+        g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg);
     }
     private void ExitAttack()
     {
