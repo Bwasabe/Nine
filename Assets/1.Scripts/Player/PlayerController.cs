@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private Character player;
+    private Player player;
 
     private PlayerState state = PlayerState.NONE;
 
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Public
-    public void SetStatus(Character character)
+    public void SetStatus(Player character)
     {
         slidingSpeed = character.slidingSpeed;
         slidingDuration = character.slidingDuration;

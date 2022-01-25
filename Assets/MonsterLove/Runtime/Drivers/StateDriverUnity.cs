@@ -79,6 +79,8 @@ namespace MonsterLove.StateMachine
 		public StateEvent Reset;
 		public StateEvent Start;
 		public StateEvent Update;
+		public StateEvent FixedUpdate;
+
 
 		//Unity Networking Deprecated
 		//public StateEvent<NetworkDisconnection> OnDisconnectedFromServer;

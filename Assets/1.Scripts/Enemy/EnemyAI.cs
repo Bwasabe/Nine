@@ -6,12 +6,12 @@ using MonsterLove.StateMachine;
 
 public enum FSMStates
 {
-    Awake,
     OnEnable,
     Start,
 
     Enter,
     Update,
+    FixedUpdate,
     Exit,
     OnTriggerEnter2D,
 
@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
         Idle,
         Patrol,
         Chase,
+        BungOff,
         Attack,
         Skill,
         Invincible,
@@ -33,18 +34,34 @@ public class EnemyAI : MonoBehaviour
 
 
     private Dictionary<FSMStates, Dictionary<States, Action>> fsmStateDictionary = new Dictionary<FSMStates, Dictionary<States, Action>>();
-
-
+    [SerializeField]
+    private States currentState;
+    [SerializeField]
+    private States changeState;
 
     private void Awake()
     {
         FSM = new StateMachine<States, StateDriverUnity>(this);
-        fsmStateDictionary[FSMStates.Awake][States.Undisturbed]?.Invoke();
+        foreach (FSMStates states in Enum.GetValues(typeof(FSMStates)))
+        {
+            fsmStateDictionary[states] = new Dictionary<States, Action>();
+            foreach (States state in Enum.GetValues(typeof(States)))
+            {
+                fsmStateDictionary[states][state] = new Action(() => { });
+            }
+        }
+
     }
     private void Update()
     {
+        currentState = FSM.State;
         FSM.Driver.Update.Invoke();
         fsmStateDictionary[FSMStates.Update][States.Undisturbed]?.Invoke();
+    }
+    private void FixedUpdate()
+    {
+        FSM.Driver.FixedUpdate.Invoke();
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Undisturbed]?.Invoke();
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -57,11 +74,25 @@ public class EnemyAI : MonoBehaviour
 
     public void AddFSMAction(FSMStates eventState, States state, Action action)
     {
-        fsmStateDictionary[eventState][state] += action;
+        Action thisAction;
+        if (fsmStateDictionary[FSMStates.Enter].TryGetValue(States.Patrol, out thisAction))
+        {
+            thisAction += action;
+            fsmStateDictionary[eventState][state] += thisAction;
+
+        }
+        else
+        {
+            fsmStateDictionary[eventState].Add(state, action);
+        }
     }
 
 
-
+    [ContextMenu("스테이트 강제 변환")]
+    private void ChangeState()
+    {
+        FSM.ChangeState(changeState);
+    }
 
     #region Idle
 
@@ -72,6 +103,10 @@ public class EnemyAI : MonoBehaviour
     void Idle_Update()
     {
         fsmStateDictionary[FSMStates.Update][States.Idle]?.Invoke();
+    }
+    void Idle_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Idle]?.Invoke();
     }
     void Idle_Exit()
     {
@@ -93,6 +128,10 @@ public class EnemyAI : MonoBehaviour
     void Patrol_Update()
     {
         fsmStateDictionary[FSMStates.Update][States.Patrol]?.Invoke();
+    }
+    void Patrol_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Patrol]?.Invoke();
     }
     void Patrol_Exit()
     {
@@ -116,6 +155,10 @@ public class EnemyAI : MonoBehaviour
     {
         fsmStateDictionary[FSMStates.Update][States.Chase]?.Invoke();
     }
+    void Chase_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Chase]?.Invoke();
+    }
     void Chase_Exit()
     {
         fsmStateDictionary[FSMStates.Exit][States.Chase]?.Invoke();
@@ -123,6 +166,32 @@ public class EnemyAI : MonoBehaviour
     void Chase_OnTriggerEnter2D(Collider2D other)
     {
         fsmStateDictionary[FSMStates.OnTriggerEnter2D][States.Chase]?.Invoke();
+    }
+
+    #endregion
+
+
+    #region BungOff
+
+    void BungOff_Enter()
+    {
+        fsmStateDictionary[FSMStates.Enter][States.BungOff]?.Invoke();
+    }
+    void BungOff_Update()
+    {
+        fsmStateDictionary[FSMStates.Update][States.BungOff]?.Invoke();
+    }
+    void BungOff_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.BungOff]?.Invoke();
+    }
+    void BungOff_Exit()
+    {
+        fsmStateDictionary[FSMStates.Exit][States.BungOff]?.Invoke();
+    }
+    void BungOff_OnTriggerEnter2D(Collider2D other)
+    {
+        fsmStateDictionary[FSMStates.OnTriggerEnter2D][States.BungOff]?.Invoke();
     }
 
     #endregion
@@ -137,6 +206,10 @@ public class EnemyAI : MonoBehaviour
     void Attack_Update()
     {
         fsmStateDictionary[FSMStates.Update][States.Attack]?.Invoke();
+    }
+    void Attack_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Attack]?.Invoke();
     }
     void Attack_Exit()
     {
@@ -160,6 +233,10 @@ public class EnemyAI : MonoBehaviour
     {
         fsmStateDictionary[FSMStates.Update][States.Skill]?.Invoke();
     }
+    void Skill_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Skill]?.Invoke();
+    }
     void Skill_Exit()
     {
         fsmStateDictionary[FSMStates.Exit][States.Skill]?.Invoke();
@@ -182,6 +259,10 @@ public class EnemyAI : MonoBehaviour
     {
         fsmStateDictionary[FSMStates.Update][States.Invincible]?.Invoke();
     }
+    void Invincible_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Invincible]?.Invoke();
+    }
     void Invincible_Exit()
     {
         fsmStateDictionary[FSMStates.Exit][States.Invincible]?.Invoke();
@@ -203,6 +284,10 @@ public class EnemyAI : MonoBehaviour
     void Dead_Update()
     {
         fsmStateDictionary[FSMStates.Update][States.Dead]?.Invoke();
+    }
+    void Dead_FixedUpdate()
+    {
+        fsmStateDictionary[FSMStates.FixedUpdate][States.Dead]?.Invoke();
     }
     void Dead_Exit()
     {

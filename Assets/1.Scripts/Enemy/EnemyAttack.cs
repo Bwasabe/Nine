@@ -2,9 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour, IAttackable
+[RequireComponent(typeof(EnemyAI))]
+[RequireComponent(typeof(EnemyFOV))]
+
+public class EnemyAttack : MonoBehaviour
 {
-   public void Attack(){
-       
-   } 
+    protected EnemyAI enemyAI;
+    protected EnemyFOV enemyFOV;
+
+    [SerializeField]
+    private int atk;
+
+
+    private void Start() {
+        Initialize();
+    }
+    protected virtual void Initialize(){
+        enemyAI = GetComponent<EnemyAI>();
+        enemyFOV = GetComponent<EnemyFOV>();
+        AddFSM();
+    }
+    protected virtual void AddFSM(){
+        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Chase, CheckAttackPossible);
+        enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Attack, Attack);
+    }
+
+    private void CheckAttackPossible(){
+        if(enemyFOV.IsAttackPossible() && enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer()){
+            enemyAI.FSM.ChangeState(EnemyAI.States.Attack);
+        }
+    }
+    
+    protected virtual void Attack(){
+        
+    }
+
+    
+
+
 }

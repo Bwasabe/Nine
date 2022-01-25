@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterBase))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class CharacterStatus : MonoBehaviour ,IDamageable
 {
     [SerializeField]
@@ -11,12 +11,10 @@ public class CharacterStatus : MonoBehaviour ,IDamageable
     [SerializeField]
     protected int hp;
 
-    protected CharacterBase characterBase;
-
+    private SpriteRenderer spriteRenderer;
     protected virtual void Start() {
-        characterBase = GetComponent<CharacterBase>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
     public virtual void Damage(int damage){
         if(hp < 1){
             Dead();
@@ -28,9 +26,9 @@ public class CharacterStatus : MonoBehaviour ,IDamageable
     }
 
     private IEnumerator DamageMotion(){
-        characterBase.spriteRenderer.color = Color.red;
+        spriteRenderer.color = Color.red;
         yield return Yields.WaitForSeconds(0.1f);
-        characterBase.spriteRenderer.color = Color.white;
+        spriteRenderer.color = Color.white;
     }
     
     public virtual void Dead(){
