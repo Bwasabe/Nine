@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: NINE
   hp: 3
-  speed: 8
+  speed: 12
   jumpPower: 21
   slidingSpeed: 40
   slidingDuration: 0.1
