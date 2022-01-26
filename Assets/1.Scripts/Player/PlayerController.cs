@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private IEnumerator Slide() 
+    private IEnumerator Slide()
     {
         playerMove.IsFreeze();
         rb.drag = 0f;

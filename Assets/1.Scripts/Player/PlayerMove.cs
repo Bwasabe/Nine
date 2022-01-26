@@ -91,7 +91,7 @@ public class PlayerMove : MonoBehaviour
     public int jumpCount;
     public int jumpMaxCount;
 
-    public bool isBack{get; private set;}
+    public bool isBack { get; private set; }
     private bool isChangeDirection;
 
     #region 이벤트
@@ -112,6 +112,8 @@ public class PlayerMove : MonoBehaviour
         Debug.DrawRay(bottomChk.position, Vector2.right * bottomDistance, Color.red);
         move();
         jump();
+        Ground();
+        SetPlayerDirection();
     }
     #endregion
 
@@ -142,6 +144,8 @@ public class PlayerMove : MonoBehaviour
     {
         move -= Move;
         jump -= Jump;
+        hori = 0;
+        //rb.velocity = Vector2.up*rb.velocity.y;
     }
     public void IsMove()
     {
@@ -195,7 +199,6 @@ public class PlayerMove : MonoBehaviour
             }
         }
         rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed * hori, Time.deltaTime * moveSmooth), rb.velocity.y);
-        SetPlayerDirection();
     }
     private void SetPlayerDirection()
     {
@@ -247,6 +250,10 @@ public class PlayerMove : MonoBehaviour
         }
         animator.SetFloat("VelocityY", rb.velocity.y);
 
+
+    }
+    private void Ground()
+    {
         if (IsGround())
         {
             animator.SetBool("IsGround", true);
@@ -262,14 +269,14 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            if(jumpCount == 0){
+            if (jumpCount == 0)
+            {
                 jumpCount = 1;
             }
             animator.SetBool("IsGround", false);
             rb.gravityScale = gravity;
             rb.drag = linearDrag * jumpDrag;
         }
-
     }
 
     private IEnumerator JumpingDown()
