@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetKeyDown(InputManager.keyMaps[Keys.ATTACK]) && !state.HasFlag(PlayerState.ATTACK))
+        if (Input.GetKeyDown(InputManager.keyMaps[Keys.ATTACK]) && !state.HasFlag(PlayerState.ATTACK) && !state.HasFlag(PlayerState.SLIDE))
         {
             state |= PlayerState.ATTACK;
             StartCoroutine(Attacking());
@@ -127,9 +127,11 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Attacking()
     {
-        animator.Play("PlayerAttack");
+        playerMove.IsFreeze();
+        animator.Play("PlayerAttack", -1, 0f);
         animator.SetFloat("AttackCount", attackCount);
-        yield return Yields.WaitForSeconds(0.4f);
+        yield return Yields.WaitForSeconds(0.2f);
+        playerMove.IsMove();
         attackCount = (attackCount == 0) ? 1 : 0;
 
         state &= ~PlayerState.ATTACK;
