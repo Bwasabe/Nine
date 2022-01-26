@@ -44,6 +44,18 @@ TextureImporter:
   - first:
       213: -6364774785671028987
     second: Tiles_RedCity_Size_Original_13
+  - first:
+      213: 8741878407523173536
+    second: Tiles_RedCity_Size_Original_14
+  - first:
+      213: -1977999503897887548
+    second: Tiles_RedCity_Size_Original_15
+  - first:
+      213: -2876983110866977919
+    second: Tiles_RedCity_Size_Original_16
+  - first:
+      213: 6694154905029635578
+    second: Tiles_RedCity_Size_Original_17
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -374,7 +386,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 32
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -395,7 +407,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 32
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -416,7 +428,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 32
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -470,6 +482,90 @@ TextureImporter:
       bones: []
       spriteID: b3f57349cabc2284d92995b3989e08c5
       internalID: -6364774785671028987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_RedCity_Size_Original_14
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a4831e5814615970800000000000000
+      internalID: 8741878407523173536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_RedCity_Size_Original_15
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cc744c5eebbc84e0800000000000000
+      internalID: -1977999503897887548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_RedCity_Size_Original_16
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18bb9f38a17e218d0800000000000000
+      internalID: -2876983110866977919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_RedCity_Size_Original_17
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afdeab14b6a66ec50800000000000000
+      internalID: 6694154905029635578
       vertices: []
       indices: 
       edges: []
