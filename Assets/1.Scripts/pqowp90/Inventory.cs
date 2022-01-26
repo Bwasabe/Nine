@@ -94,7 +94,7 @@ public class Inventory : MonoSingleton<Inventory>
                     ItemInfo go = itemList.itemInfos.Find(x => x.itemId == 0);
                     go.itemType = item.itemType;
                     mouding[i].SetInfo(go);
-                    Debug.Log(item.itemName + " 아이템을 해제시켰습니다");
+                    SandMessge.MessegeBoxOn("아이템을 해제했습니다", new Vector2(0f, -300f));
                     UIManager.TriggerUI(mouding[i]);
 
                 };
@@ -104,19 +104,22 @@ public class Inventory : MonoSingleton<Inventory>
             if(mouding[i].itemId == 0){
                 setBtnText("장착");
                 return ()=>{
-                    mouding[i].SetInfo(item);Debug.Log(item.itemName + " 아이템을 장착했습니다");
+                    mouding[i].SetInfo(item);
+                    SandMessge.MessegeBoxOn("아이템을 장착했습니다", new Vector2(0f, -300f));
                     UIManager.Instance.GoButtonChange();
                     UIManager.TriggerUI(mouding[i]);
                 };
             }
         }
         setBtnText("교체");
-        Debug.Log("교체할 아이템을 선택하세요");
+        SandMessge.MessegeBoxOn("교체할 아이템을 선택하세요", new Vector2(0f, -300f));
         return ()=>{
             
             UIManager.Instance.GoButtonChange();
             UIManager.Instance.ChangeItem = true;
             UIManager.Instance.willChangeItem = item;
+
+            SandMessge.MessegeBoxOn("교체했습니다", new Vector2(0f, -300f));
             
         };
     }

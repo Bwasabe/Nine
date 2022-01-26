@@ -10,31 +10,31 @@ public class IPoolObj : MonoBehaviour, IPoolable
     private float lifeTime;
     [SerializeField]
     private float disableTime;
-    [SerializeField]
-    private DisableMotion disableMotion;
-    private enum DisableMotion{
-        faid_out,
-        fly_up,
-        fly_down,
+    private Image image;
+    private Text text;
+    private void Awake(){
+        image = GetComponent<Image>();
+        text = GetComponentInChildren<Text>();
     }
     
     public void OnPool(){
-
+        transform.DOKill();
+        image.DOKill();
+        text.DOKill();
+        image.DOFade(1f,0f);
+        text.DOFade(1f,0f);
+        
         StartCoroutine(Die());
+        
+    }
+    public void SetText(string text){
+        this.text.text = text;
     }
     private IEnumerator Die(){
         yield return new WaitForSeconds(lifeTime);
-        switch(disableMotion){
-            case DisableMotion.faid_out:
-                GetComponent<Image>().DOFade(0f,disableTime).OnComplete(()=>gameObject.SetActive(false));
-            break;
-            case DisableMotion.fly_up:
-
-            break;
-            case DisableMotion.fly_down:
-
-            break;
-        }
+        transform.DOLocalMoveY(-500f, 2f);
+        image.DOFade(0f,disableTime).OnComplete(()=>gameObject.SetActive(false));
+        text.DOFade(0f,disableTime);
     }
 
 

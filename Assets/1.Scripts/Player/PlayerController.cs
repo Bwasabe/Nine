@@ -140,13 +140,10 @@ public class PlayerController : MonoBehaviour
         }else{
             animator.SetFloat("AttackCount", attackCount);
         }
-        if(cardCount==5){
-            yield return Yields.WaitForSeconds(0.2f);
-        }
         if(cardCount==0){
             yield return Yields.WaitForSeconds(0.5f);
         }
-        yield return Yields.WaitForSeconds(0.3f);
+        yield return Yields.WaitForSeconds(0.35f);
         playerMove.IsMove();
         attackCount = (attackCount == 0) ? 1 : 0;
 
