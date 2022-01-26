@@ -29,6 +29,8 @@ public class CardManager : MonoBehaviour
     private SpriteRenderer[] spriteRenderers;
     private Card[] cardNumber;
 
+    private Vector2 oldSize;
+    private Vector2 bigSize;
 
     private float timer;
     private int currentCard = -1;
@@ -40,6 +42,8 @@ public class CardManager : MonoBehaviour
     {
         //Debug.Log(Mathf.Atan2(105f, 70f) * Mathf.Rad2Deg);
         spriteRenderers = cardRoot.GetComponentsInChildren<SpriteRenderer>();
+        oldSize = cards[0].localScale;
+        bigSize = Vector2.one * 1.1f;
         yield return Yields.WaitForSeconds(0.5f);
         StartCoroutine(InitCards());
     }
@@ -81,14 +85,14 @@ public class CardManager : MonoBehaviour
             cards[currentCard].DOLocalRotate(new Vector3(0f, 0f, 360f), 0.2f).OnComplete(() =>
             {
                 cards[currentCard].DOLocalMoveY(0f, 0.3f).SetEase(Ease.InQuint);
-                cards[currentCard].DOScale(new Vector2(0.5f, 0.9f), 0.3f).SetEase(Ease.Linear);
+                cards[currentCard].DOScale(oldSize, 0.3f).SetEase(Ease.Linear);
             });
         });
 
         yield return Yields.WaitForSeconds(1f);
         cards[currentCard].DOScale(new Vector2(0.2f, 1.3f), 0.05f).OnComplete(() =>
         {
-            cards[currentCard].DOScale(new Vector2(0.5f , 0.9f), 0.05f);
+            cards[currentCard].DOScale(oldSize, 0.05f);
         });
         yield return Yields.WaitForSeconds(0.1f);
         currentCard = -1;
@@ -98,7 +102,7 @@ public class CardManager : MonoBehaviour
     private void CardUse()
     {
         cards[currentCard].DOLocalMoveY(1.7f, 0.3f).SetEase(Ease.OutQuint);
-        cards[currentCard].DOScale(new Vector2(0.9f, 1.4f), 0.3f).SetEase(Ease.Linear);
+        cards[currentCard].DOScale(bigSize* 1.2f, 0.3f).SetEase(Ease.Linear);
         spriteRenderers[currentCard].DOFade(0f, 0.3f);
         timer = 0f;
         ImageDeselect();
@@ -107,13 +111,14 @@ public class CardManager : MonoBehaviour
     private IEnumerator ImageUse()
     {
         int num = currentCard;
-        Vector2 pos = cardImages[num].transform.position;
         cardMask.anchoredPosition = cardImages[num].anchoredPosition;
         cardImages[num].SetParent(cardMask);
         for (int i = 0; i < 50; i++)
         {
-            cardMask.transform.position = (Vector2)cardMask.transform.position + (Vector2.one * 0.05f);
-            cardImages[num].transform.position = pos;
+            Vector2 pos = cardImages[num].position;
+            cardMask.anchoredPosition = cardMask.anchoredPosition + Vector2.one*5f;
+            cardImages[num].position = pos;
+            //Debug.Log(pos);
             yield return Yields.WaitForSeconds(0.01f);
         }
         cardImages[num].SetParent(cardMask.transform.parent);
@@ -174,7 +179,7 @@ public class CardManager : MonoBehaviour
         FadeCards(1f, 0.2f);
         timer = 0f;
         cardImages[currentCard].DOSizeDelta(new Vector2(70f, 105f), 0.3f);
-        cards[currentCard].DOScale(new Vector2(0.7f, 1.2f), 0.3f);
+        cards[currentCard].DOScale(bigSize, 0.3f);
         cards[currentCard].DOLocalMoveY(0.4f, 0.3f);
         CardDeselect(currentCard);
         ImageDeselect(currentCard);
@@ -211,7 +216,7 @@ public class CardManager : MonoBehaviour
             {
                 if (i == value) continue;
             }
-            cards[i].DOScale(new Vector2(0.5f, 0.9f), 0.3f);
+            cards[i].DOScale(oldSize, 0.3f);
             cards[i].DOLocalMoveY(0f, 0.3f);
         }
     }
