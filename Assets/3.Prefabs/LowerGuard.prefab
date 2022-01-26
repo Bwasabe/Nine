@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7471586049937068096}
   - component: {fileID: 7120127419286425784}
   - component: {fileID: 4589048170984677521}
+  - component: {fileID: 7562922017853796308}
   m_Layer: 0
   m_Name: LowerGuard
   m_TagString: Untagged
@@ -193,9 +194,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 320
   speed: 3
   patrolTime: 2
+--- !u!114 &7562922017853796308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7471586049937068099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495e0d534b0ef2b4682889f62227b091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  spriteRenderer: {fileID: 7471586051141520705}
+  damageAnimationName: LowerGuard_Invincible
+  deadAnimationName: LowerGuard_Dead
+  animator: {fileID: 7471586051141520718}
 --- !u!1 &7471586051089599376
 GameObject:
   m_ObjectHideFlags: 0

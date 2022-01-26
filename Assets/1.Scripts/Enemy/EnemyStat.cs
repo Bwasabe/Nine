@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStat : CharacterStatus
+public class EnemyStat : CharacterDamaged
 {
-    public override void Damage(int damage)
-    {
-        base.Damage(damage);
-        if(hp >=1){
-            
-        }
-    }
+    // public override void Damage(int damage)
+    // {
+    //     base.Damage(damage);
+    // }
 }

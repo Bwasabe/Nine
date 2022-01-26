@@ -39,6 +39,7 @@ public class EnemyChase : MonoBehaviour
     private void AddFSM()
     {
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Patrol, IsCanChasePlayer);
+        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, IsCanChasePlayer);
         enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Chase, FindPlayerMotion);
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Chase, ChaseMove);
     }
@@ -47,8 +48,6 @@ public class EnemyChase : MonoBehaviour
 
     private void IsCanChasePlayer()
     {
-        Debug.Log(enemyFOV.IsViewPlayer());
-        Debug.Log(enemyFOV.IsTracePlayer());
         if (enemyFOV.IsViewPlayer() && enemyFOV.IsTracePlayer() && !enemyFOV.IsAttackPossible())
         {
             enemyAI.FSM.ChangeState(EnemyAI.States.Chase);

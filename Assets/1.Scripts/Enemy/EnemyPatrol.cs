@@ -40,13 +40,6 @@ public class EnemyPatrol : EnemyMove
     {
         rb.velocity = new Vector2(speed * (isFacingRight ? 1f : -1f), rb.velocity.y);
     }
-    private void CheckPlatform()
-    {
-        if (IsPlatformExist() == false)
-        {
-            isFacingRight = !isFacingRight;
-        }
-    }
     private void ReturnToPatrol()
     {
         if (!enemyFOV.IsViewPlayer())

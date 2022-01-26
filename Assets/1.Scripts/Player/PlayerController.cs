@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerMove playerMove;
 
+    private PlayerAttack playerAttack;
+
     private Rigidbody2D rb;
     private Animator animator;
     private AnimatorClipInfo[] animatorClipInfos;
@@ -52,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private int attackCount;
 
-    [SerializeField]
+    [SerializeField]//TODO: Delete
     private int cardCount;
 
 
@@ -73,12 +75,12 @@ public class PlayerController : MonoBehaviour
         playerMove = GameManager.Instance.PlayerMove;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        playerAttack = GetComponent<PlayerAttack>();
         SetStatus(player);
         animatorClipInfos = animator.GetCurrentAnimatorClipInfo(0);
     }
     private void Update()
     {
-        //testText.text = string.Format("{0}", animatorClipInfos[0].clip.length);
         slide();
         attack();
     }
@@ -134,6 +136,7 @@ public class PlayerController : MonoBehaviour
         animator.Play("PlayerAttack", -1, 0f);
         cardCount++;
         
+        playerAttack.Attack(cardCount);
         if(cardCount>=6){
             animator.SetFloat("AttackCount", 2);
             cardCount = 0;
@@ -144,6 +147,8 @@ public class PlayerController : MonoBehaviour
             yield return Yields.WaitForSeconds(0.5f);
         }
         yield return Yields.WaitForSeconds(0.35f);
+        playerAttack.OffCol();
+
         playerMove.IsMove();
         attackCount = (attackCount == 0) ? 1 : 0;
 

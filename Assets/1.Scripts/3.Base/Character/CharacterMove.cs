@@ -12,8 +12,7 @@ public class CharacterMove : MonoBehaviour
     protected Collider2D col;
 
 
-    [SerializeField]
-    protected LayerMask layerMask;
+    
 
     protected virtual void Start() {
         rb = GetComponent<Rigidbody2D>();

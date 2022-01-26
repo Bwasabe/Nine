@@ -23,6 +23,7 @@ public class EnemyAnimation : MonoBehaviour
 
     private void Update()
     {
+        if(enemyAI.FSM.State == EnemyAI.States.Invincible || enemyAI.FSM.State == EnemyAI.States.Dead)return;
         animator.SetInteger("States", (int)enemyAI.FSM.State);
     }
 
