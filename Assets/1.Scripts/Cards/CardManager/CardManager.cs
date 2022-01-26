@@ -7,7 +7,7 @@ using DG.Tweening;
 public class CardManager : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform[] cardImages;
+    private RectTransform[] cardRects;
 
     [SerializeField]
     private RectTransform cardMask;
@@ -17,22 +17,31 @@ public class CardManager : MonoBehaviour
     private float cardDuration = 1f;
     [SerializeField]
     private float firstAnchorPosX;
-
+    [SerializeField]
+    private Transform leftTr;
+    [SerializeField]
+    private Transform rightTr;
 
 
     [SerializeField]
     private Transform cardRoot;
     [SerializeField]
+    private RectTransform cardImageRoot;
+    [SerializeField]
     private Transform[] cards;
-
+    [SerializeField]
+    private Sprite reverseCard;
 
     private SpriteRenderer[] spriteRenderers;
+    private Image[] cardImages;
     private Card[] cardNumber;
 
+    private Vector2 oldSize;
+    private Vector2 bigSize;
 
     private float timer;
+    private float cardImagePosY;
     private int currentCard = -1;
-
 
     private bool isCardUse;
 
@@ -40,19 +49,24 @@ public class CardManager : MonoBehaviour
     {
         //Debug.Log(Mathf.Atan2(105f, 70f) * Mathf.Rad2Deg);
         spriteRenderers = cardRoot.GetComponentsInChildren<SpriteRenderer>();
+        cardImages = cardImageRoot.GetComponentsInChildren<Image>();
+        oldSize = cards[0].localScale;
+        bigSize = Vector2.one * 1.1f;
+        cardImagePosY = cardRects[0].anchoredPosition.y;
         yield return Yields.WaitForSeconds(0.5f);
         StartCoroutine(InitCards());
+        CardSprite();
     }
 
     private IEnumerator InitCards()
     {
         for (int i = 4; i >= 0; i--)
         {
-            cardImages[i].DOAnchorPosX(firstAnchorPosX + cardSpacing * i, 0.1f);
+            cardRects[i].DOAnchorPosX(firstAnchorPosX + cardSpacing * i, 0.1f);
             yield return Yields.WaitForSeconds(0.1f);
         }
+        RoundAlignment();
     }
-
 
     private void Update()
     {
@@ -72,7 +86,7 @@ public class CardManager : MonoBehaviour
             StartCoroutine(ImageUse());
         }
     }
-    private IEnumerator ResetCard()
+    private IEnumerator ResetCard(Sprite sprite)
     {
         yield return Yields.WaitForSeconds(0.5f);
         spriteRenderers[currentCard].DOFade(1f, 0.3f).OnComplete(() =>
@@ -81,14 +95,16 @@ public class CardManager : MonoBehaviour
             cards[currentCard].DOLocalRotate(new Vector3(0f, 0f, 360f), 0.2f).OnComplete(() =>
             {
                 cards[currentCard].DOLocalMoveY(0f, 0.3f).SetEase(Ease.InQuint);
-                cards[currentCard].DOScale(new Vector2(0.5f, 0.9f), 0.3f).SetEase(Ease.Linear);
+                cards[currentCard].DOScale(oldSize, 0.3f).SetEase(Ease.Linear);
             });
         });
 
         yield return Yields.WaitForSeconds(1f);
         cards[currentCard].DOScale(new Vector2(0.2f, 1.3f), 0.05f).OnComplete(() =>
         {
-            cards[currentCard].DOScale(new Vector2(0.5f , 0.9f), 0.05f);
+            //TODO: 대충 앞면
+            spriteRenderers[currentCard].sprite = sprite;
+            cards[currentCard].DOScale(oldSize, 0.05f);
         });
         yield return Yields.WaitForSeconds(0.1f);
         currentCard = -1;
@@ -97,49 +113,50 @@ public class CardManager : MonoBehaviour
     }
     private void CardUse()
     {
+        Sprite sprite = spriteRenderers[currentCard].sprite;
         cards[currentCard].DOLocalMoveY(1.7f, 0.3f).SetEase(Ease.OutQuint);
-        cards[currentCard].DOScale(new Vector2(0.9f, 1.4f), 0.3f).SetEase(Ease.Linear);
-        spriteRenderers[currentCard].DOFade(0f, 0.3f);
+        cards[currentCard].DOScale(bigSize * 1.2f, 0.3f).SetEase(Ease.Linear);
+        spriteRenderers[currentCard].DOFade(0f, 0.3f).OnComplete(() => spriteRenderers[currentCard].sprite = reverseCard);
         timer = 0f;
         ImageDeselect();
-        StartCoroutine(ResetCard());
+        StartCoroutine(ResetCard(sprite));
     }
     private IEnumerator ImageUse()
     {
         int num = currentCard;
-        Vector2 pos = cardImages[num].transform.position;
-        cardMask.anchoredPosition = cardImages[num].anchoredPosition;
-        cardImages[num].SetParent(cardMask);
+        cardMask.anchoredPosition = cardRects[num].anchoredPosition;
+        cardRects[num].SetParent(cardMask);
         for (int i = 0; i < 50; i++)
         {
-            cardMask.transform.position = (Vector2)cardMask.transform.position + (Vector2.one * 0.05f);
-            cardImages[num].transform.position = pos;
+            Vector2 pos = cardRects[num].position;
+            cardMask.anchoredPosition = cardMask.anchoredPosition + Vector2.one * 5f;
+            cardRects[num].position = pos;
+            //Debug.Log(pos);
             yield return Yields.WaitForSeconds(0.01f);
         }
-        cardImages[num].SetParent(cardMask.transform.parent);
-        cardImages[num].anchoredPosition = new Vector2(-100f, -150f);
+        cardRects[num].SetParent(cardImageRoot);
+        cardRects[num].anchoredPosition = new Vector2(-100f, cardImagePosY);
         yield return Yields.WaitForSeconds(0.2f);
         StartCoroutine(ImageReset(num));
     }
     private IEnumerator ImageReset(int num)
     {
-        Image cardImage = cardImages[num].GetComponent<Image>();
-        Color oldColor = cardImage.color;
-        cardImages[num].pivot = Vector2.one * 0.5f;
+        cardRects[num].pivot = Vector2.one * 0.5f;
         yield return Yields.WaitForSeconds(0.1f);
-        cardImage.color = Color.gray;
         //TODO: 대충 뒷면
-        cardImages[num].transform.rotation = Quaternion.Euler(0f, 0f, 180f);
-        cardImages[num].DOLocalRotate(new Vector3(0f, 0f, 360f), 0.3f);
-        cardImages[num].DOAnchorPosX(firstAnchorPosX + cardSpacing * num, 0.3f);
+        cardImages[num].sprite = reverseCard;
+        cardRects[num].transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+        cardRects[num].DOLocalRotate(new Vector3(0f, 0f, 360f), 0.3f);
+        cardRects[num].DOAnchorPosX(firstAnchorPosX + cardSpacing * num, 0.3f);
         yield return Yields.WaitForSeconds(0.5f);
-        cardImages[num].DOScale(new Vector2(0.2f, 1.3f), 0.05f).OnComplete(() =>
+        cardRects[num].DOScale(new Vector2(0.2f, 1.3f), 0.05f).OnComplete(() =>
         {
-            cardImages[num].DOScale(Vector2.one, 0.05f);
+            cardRects[num].DOScale(Vector2.one, 0.05f);
         });
         yield return Yields.WaitForSeconds(0.1f);
-        cardImage.color = oldColor;
         //TODO: 대충 앞면
+        cardImages[num].sprite = spriteRenderers[num].sprite;
+
     }
 
 
@@ -173,8 +190,8 @@ public class CardManager : MonoBehaviour
         }
         FadeCards(1f, 0.2f);
         timer = 0f;
-        cardImages[currentCard].DOSizeDelta(new Vector2(70f, 105f), 0.3f);
-        cards[currentCard].DOScale(new Vector2(0.7f, 1.2f), 0.3f);
+        cardRects[currentCard].DOSizeDelta(new Vector2(70f, 105f), 0.3f);
+        cards[currentCard].DOScale(bigSize, 0.3f);
         cards[currentCard].DOLocalMoveY(0.4f, 0.3f);
         CardDeselect(currentCard);
         ImageDeselect(currentCard);
@@ -201,7 +218,13 @@ public class CardManager : MonoBehaviour
         }
     }
 
-
+    private void CardSprite()
+    {
+        for (int i = 0; i < cardRects.Length; i++)
+        {
+            cardRects[i].GetComponent<Image>().sprite = spriteRenderers[i].sprite;
+        }
+    }
 
     private void CardDeselect(int value = -1)
     {
@@ -211,7 +234,7 @@ public class CardManager : MonoBehaviour
             {
                 if (i == value) continue;
             }
-            cards[i].DOScale(new Vector2(0.5f, 0.9f), 0.3f);
+            cards[i].DOScale(oldSize, 0.3f);
             cards[i].DOLocalMoveY(0f, 0.3f);
         }
     }
@@ -223,9 +246,29 @@ public class CardManager : MonoBehaviour
             {
                 if (i == value) continue;
             }
-            cardImages[i].DOSizeDelta(new Vector2(50f, 80), 0.3f);
+            cardRects[i].DOSizeDelta(new Vector2(50f, 80), 0.3f);
         }
     }
+    private void RoundAlignment()
+    {
+        float[] objLerps = new float[5];
+        float height = 0.5f;
 
+        float interval = 1f / (5 - 1);
+        for (int i = 0; i < 5; i++)
+            objLerps[i] = interval * i;
+
+        for (int i = 0; i < 5; i++)
+        {
+            var targetPos = Vector3.Lerp(leftTr.position, rightTr.position, objLerps[i]);
+            var targetRot = Quaternion.identity;
+            float curve = Mathf.Sqrt(Mathf.Pow(height, 2) - Mathf.Pow(objLerps[i] - 0.5f, 2));
+
+            targetPos.y += curve;
+            targetRot = Quaternion.Slerp(leftTr.rotation, rightTr.rotation, objLerps[i]);
+            cards[i].transform.position = targetPos;
+            cards[i].transform.rotation = targetRot;
+        }
+    }
 }
 
