@@ -38,8 +38,8 @@ namespace MonsterLove.StateMachine
 		public StateEvent OnBecameVisible;
 		public StateEvent<Collider> OnCollisionEnter;
 		public StateEvent<Collision2D> OnCollisionEnter2D;
-		public StateEvent<Collider> OnCollisionExit;
-		public StateEvent<Collider2D> OnCollisionExit2D;
+		public StateEvent<Collision> OnCollisionExit;
+		public StateEvent<Collision2D> OnCollisionExit2D;
 		public StateEvent<Collision> OnCollisionStay;
 		public StateEvent<Collision2D> OnCollisionStay2D;
 		public StateEvent OnConnectedToServer;
@@ -79,6 +79,8 @@ namespace MonsterLove.StateMachine
 		public StateEvent Reset;
 		public StateEvent Start;
 		public StateEvent Update;
+		public StateEvent FixedUpdate;
+
 
 		//Unity Networking Deprecated
 		//public StateEvent<NetworkDisconnection> OnDisconnectedFromServer;

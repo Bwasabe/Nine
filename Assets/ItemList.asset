@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d136b6d94df7cbe4eb91a267d98e9ac2, type: 3}
+  m_Name: ItemList
+  m_EditorClassIdentifier: 
+  itemInfos:
+  - itemName: "\uC5C6\uC74C"
+    explan: 
+    itemId: 0
+    count: 0
+    itemSprite: {fileID: 21300000, guid: b47b4e18ddac8a24ca69b4afc7682849, type: 3}
+    itemType: 0
+  - itemName: "\uC2A4\uD2B8\uB808\uC774\uD2B8 \uAE30\uC6D0 \uBAA9\uAC78\uC774"
+    explan: "\uC22B\uC790\uC758 \uC5F0\uC18D\uC131\uC5D0\uB300\uD55C \uAE4A\uC740
+      \uACE0\uCC30\uC744 \uC77D\uACE0 \uC5B4\uB5A4 \uC7A5\uC778\uC774 \uB9CC\uB4E0
+      \uBAA9\uAC78\uC774\uB2E4."
+    itemId: 1
+    count: 0
+    itemSprite: {fileID: 21300000, guid: 442bf8beb590e5145ab45ce87df6fe3e, type: 3}
+    itemType: 2
+  - itemName: "\uD50C\uB7EC\uC26C \uC2A4\uB304\uC2A4\uB304 \uBC18\uC9C0"
+    explan: "\uC6B0\uC8FC\uC758 \uAE30\uC6B4\uC744 \uBAA8\uC544\uC11C \uD578\uB4DC\uD328\uC640
+      \uCD5C\uB300\uD55C \uBB38\uC591\uC744 \uB9DE\uCDB0\uC900\uB2E4."
+    itemId: 2
+    count: 0
+    itemSprite: {fileID: 21300000, guid: 32431a2372852284080d76025c10901b, type: 3}
+    itemType: 2
+  - itemName: "\uC789~ \uC554\uC0B4\uB77C\uB9D0\uB77C\uC774\uAFC8"
+    explan: "\uCD5C\uACE0\uC758 \uC554\uC0B4\uC790 \uAE40 \uC554\uC0B4\uC554\uC0B4\uC528\uAC00
+      \uC4F0\uB358 \uCE7C."
+    itemId: 3
+    count: 0
+    itemSprite: {fileID: 21300000, guid: ac55689b87641da408665ef0bfefdada, type: 3}
+    itemType: 0
+  - itemName: "\uBC14\uB2C8\uAC78 \uC0AC\uC9C4"
+    explan: "\uBCF4\uBA74 \uC815\uC2E0\uC801\uC73C\uB85C \uD68C\uBCF5\uB41C\uB2E4."
+    itemId: 4
+    count: 0
+    itemSprite: {fileID: 21300000, guid: a471d14d97d2f6947931ebeca039cfc6, type: 3}
+    itemType: 3

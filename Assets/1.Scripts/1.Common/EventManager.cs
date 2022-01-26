@@ -4,6 +4,9 @@ using System;
 public class EventManager
 {
 
+    /// <summary>
+    /// EventManager.FunctionName("KeyName" , Action)
+    /// </summary>
     private static Dictionary<string, Action> eventDictionary = new Dictionary<string, Action>();
 
     public static void StartListening(string eventName, Action listener)

@@ -3,6 +3,48 @@ using System;
 
 public class Param1EventManager<Object>
 {
+    /// <summary>
+    /// EventManager<ReturnType>.FunctionName("KeyName" , Func)
+    /// </summary>
+    private static Dictionary<string, Func<Object>> eventFuncDictionary = new Dictionary<string, Func<Object>>();
+
+    public static void StartListening(string eventName, Func<Object> listener)
+    {
+        Func<Object> thisEvent;
+        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent += listener;
+            eventFuncDictionary[eventName] = thisEvent;
+        }
+        else
+        {
+            eventFuncDictionary.Add(eventName, listener);
+        }
+    }
+
+    public static void StopListening(string eventName, Func<Object> listener)
+    {
+        Func<Object> thisEvent;
+        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent -= listener;
+            eventFuncDictionary[eventName] = thisEvent;
+        }
+        else
+        {
+            eventFuncDictionary.Remove(eventName);
+        }
+    }
+
+    public static void FuncTriggerEvent(string eventName, Object param)
+    {
+        Func<Object> thisEvent;
+        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke();
+        }
+    }
+
     private static Dictionary<string, Action<Object>> eventParamDictionary = new Dictionary<string, Action<Object>>();
 
     public static void StartListening(string eventName, Action<Object> listener)
@@ -41,52 +83,4 @@ public class Param1EventManager<Object>
             thisEvent?.Invoke(param);
         }
     }
-
-
-    /// <summary>
-    /// EventManager<Type>.FunctionName("KeyName" , Func)
-    /// </summary>
-    private static Dictionary<string, Func<Object>> eventFuncDictionary = new Dictionary<string, Func<Object>>();
-
-    public static void StartListening(string eventName, Func<Object> listener)
-    {
-        Func<Object> thisEvent;
-        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent += listener;
-            eventFuncDictionary[eventName] = thisEvent;
-        }
-        else
-        {
-            eventFuncDictionary.Add(eventName, listener);
-        }
-    }
-
-    public static void StopListening(string eventName, Func<Object> listener)
-    {
-        Func<Object> thisEvent;
-        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent -= listener;
-            eventFuncDictionary[eventName] = thisEvent;
-        }
-        else
-        {
-            eventFuncDictionary.Remove(eventName);
-        }
-    }
-
-    public static Object TriggerEvent(string eventName)
-    {
-        Func<Object> thisEvent;
-        if (eventFuncDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            return thisEvent.Invoke();
-        }
-        else{
-            return default;
-        }
-    }
-
-
 }

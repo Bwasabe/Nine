@@ -46,7 +46,7 @@ public class PlayerMove : MonoBehaviour
     #region SerializeField
 
     [SerializeField]
-    private Character playerstatus;
+    private Player playerstatus;
 
 
 
@@ -90,7 +90,7 @@ public class PlayerMove : MonoBehaviour
     public int jumpCount;
     public int jumpMaxCount;
 
-    private bool isBack;
+    public bool isBack{get; private set;}
     private bool isChangeDirection;
 
     #region 이벤트
@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         //testText.text = string.Format("{0}", (int)rb.velocity.y);
-        //Debug.DrawRay(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right) * bottomDistance, Color.red);
+        Debug.DrawRay(bottomChk.position, Vector2.right * bottomDistance, Color.red);
         move();
         jump();
     }
@@ -124,8 +124,8 @@ public class PlayerMove : MonoBehaviour
     }
     private void InitValue()
     {
-        bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.05f);
-        bottomDistance = col.bounds.size.x - 0.1f;
+        bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.1f);
+        bottomDistance = col.bounds.size.x;
         SetStatus(playerstatus);
     }
     private void InitAction()
@@ -153,7 +153,7 @@ public class PlayerMove : MonoBehaviour
 
 
     #region Public
-    public void SetStatus(Character character)
+    public void SetStatus(Player character)
     {
         speed = character.speed;
         jumpPower = character.jumpPower;
@@ -209,18 +209,17 @@ public class PlayerMove : MonoBehaviour
             isBack = hori < 0;
             spriteRenderer.flipX = isBack;
             //transform.localScale = new Vector3(isBack ? -transform.localScale.x : transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            Debug.Log(transform.localScale.x);
             //transform.rotation = Quaternion.Euler(0f, (hori < 0) ? 180f : 0f, 0f);
         }
     }
 
     public bool IsGround()
     {
-        return Physics2D.Raycast(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right), bottomDistance, bottomLayer);
+        return Physics2D.Raycast(bottomChk.position, Vector2.right, bottomDistance, bottomLayer);
     }
     private bool IsDownBlock()
     {
-        return Physics2D.Raycast(bottomChk.position, ((isBack) ? Vector2.left : Vector2.right), bottomDistance, downLayer);
+        return Physics2D.Raycast(bottomChk.position, Vector2.right, bottomDistance, downLayer);
     }
 
     private void Jump()
@@ -237,7 +236,7 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 if (jumpCount >= jumpMaxCount) return;
-                animator.Play("PlayerJump");
+                animator.SetTrigger("Jump");
                 state &= ~PlayerState.JUMPING_DOWN;
                 state |= PlayerState.JUMP;
                 jumpCount++;

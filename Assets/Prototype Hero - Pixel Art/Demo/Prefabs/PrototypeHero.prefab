@@ -181,12 +181,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60f39d280f172e44ab73cb24a06b940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxSpeed: 4.5
+  m_runSpeed: 4.5
+  m_walkSpeed: 2
   m_jumpForce: 7.5
   m_dodgeForce: 8
   m_parryKnockbackForce: 4
   m_noBlood: 0
   m_hideSword: 0
+  m_maxSpeed: 4.5
 --- !u!50 &7853426713638563735
 Rigidbody2D:
   serializedVersion: 4
@@ -341,10 +343,12 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -352,6 +356,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -406,22 +411,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566e4b8fc5fae3e45946ac89bf3dc306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunStopDust: {fileID: 7310271610845027193, guid: 39afca3c109b26049a80bc07593eb271,
-    type: 3}
-  m_JumpDust: {fileID: 8935918012585647707, guid: 4a4123fbc8b39d441868897a71d2b2b1,
-    type: 3}
-  m_LandingDust: {fileID: 9076098953984712191, guid: 0b745be9abb3a6d4dadd8705950196d1,
-    type: 3}
-  m_DodgeDust: {fileID: 8590431080485398814, guid: da52102717e04414e812836f28ae21bb,
-    type: 3}
-  m_WallSlideDust: {fileID: 5762863905650480404, guid: a63019ff0940b5f4487fe87a3d3fc0af,
-    type: 3}
-  m_WallJumpDust: {fileID: 7972526843131001964, guid: 2a6283ef7fbba594caf7888f051f4a2b,
-    type: 3}
-  m_AirSlamDust: {fileID: 2943720192077617830, guid: 27cb532070b8c2b4e97001c33cf37429,
-    type: 3}
-  m_ParryEffect: {fileID: 3569397387010719113, guid: 9300fb4b08a7c0f448a15475613f22d5,
-    type: 3}
+  m_RunStopDust: {fileID: 7310271610845027193, guid: 39afca3c109b26049a80bc07593eb271, type: 3}
+  m_JumpDust: {fileID: 8935918012585647707, guid: 4a4123fbc8b39d441868897a71d2b2b1, type: 3}
+  m_LandingDust: {fileID: 9076098953984712191, guid: 0b745be9abb3a6d4dadd8705950196d1, type: 3}
+  m_DodgeDust: {fileID: 8590431080485398814, guid: da52102717e04414e812836f28ae21bb, type: 3}
+  m_WallSlideDust: {fileID: 5762863905650480404, guid: a63019ff0940b5f4487fe87a3d3fc0af, type: 3}
+  m_WallJumpDust: {fileID: 7972526843131001964, guid: 2a6283ef7fbba594caf7888f051f4a2b, type: 3}
+  m_AirSlamDust: {fileID: 2943720192077617830, guid: 27cb532070b8c2b4e97001c33cf37429, type: 3}
+  m_ParryEffect: {fileID: 3569397387010719113, guid: 9300fb4b08a7c0f448a15475613f22d5, type: 3}
 --- !u!1 &7463237975426559972
 GameObject:
   m_ObjectHideFlags: 0

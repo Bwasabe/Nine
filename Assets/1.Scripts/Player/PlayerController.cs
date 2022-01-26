@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private Character player;
+    private Player player;
 
     private PlayerState state = PlayerState.NONE;
 
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Public
-    public void SetStatus(Character character)
+    public void SetStatus(Player character)
     {
         slidingSpeed = character.slidingSpeed;
         slidingDuration = character.slidingDuration;
@@ -104,12 +104,12 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private IEnumerator Slide()
+    private IEnumerator Slide() 
     {
         playerMove.IsFreeze();
         rb.drag = 0f;
         rb.gravityScale = 0f;
-        rb.velocity = new Vector2(slidingSpeed * ((rb.velocity.x > 0) ? 1 : -1), 0f);
+        rb.velocity = new Vector2(slidingSpeed * (((playerMove.hori != 0) ? (playerMove.hori > 0) : !playerMove.isBack) ? 1 : -1), 0f);
         yield return Yields.WaitForSeconds(slidingDuration);
         rb.gravityScale = 3.2f;
         rb.drag = 3.7f;
