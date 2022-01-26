@@ -38,6 +38,8 @@ public class EnemyAI : MonoBehaviour
     private States currentState;
     [SerializeField]
     private States changeState;
+    [SerializeField]
+    private States firstState;
 
     private void Awake()
     {
@@ -50,6 +52,7 @@ public class EnemyAI : MonoBehaviour
                 fsmStateDictionary[states][state] = new Action(() => { });
             }
         }
+        FSM.ChangeState(firstState);
 
     }
     private void Update()

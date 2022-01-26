@@ -10,7 +10,7 @@ public class EnemyChase : MonoBehaviour
     private EnemyFOV enemyFOV;
 
     private EnemyAI enemyAI;
-
+    
 
     private Rigidbody2D rb;
 
