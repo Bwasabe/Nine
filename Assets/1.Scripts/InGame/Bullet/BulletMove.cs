@@ -10,17 +10,17 @@ public class BulletMove : MonoBehaviour
     private float destroyDuration;
 
 
-    private void OnEnable() {
+    protected virtual void OnEnable() {
         StartCoroutine(Disappear());
     }
-    private void Update() {
+    protected virtual void Update() {
         Move();
     }
 
-    private void Move(){
+    protected virtual void Move(){
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
-    private IEnumerator Disappear(){
+    protected virtual IEnumerator Disappear(){
         yield return Yields.WaitForSeconds(destroyDuration);
         //TODO: 풀링 꺼짐
         Destroy(gameObject);
