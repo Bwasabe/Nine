@@ -34,6 +34,6 @@ public class PoliceAttack : EnemyAttack
         Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
         GameObject g = Instantiate(bullet, shootPos.position, Quaternion.identity);
         g.SetActive(true);
-        g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg);
+        g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg  + 180f);
     }
 }

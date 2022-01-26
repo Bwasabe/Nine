@@ -4,7 +4,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyAI))]
 [RequireComponent(typeof(EnemyFOV))]
-[RequireComponent(typeof(EnemyMove))]
 
 public class EnemyAttack : MonoBehaviour
 {
@@ -72,7 +71,7 @@ public class EnemyAttack : MonoBehaviour
     }
     private void ReturnToChaseAttack()
     {
-        if (!enemyFOV.IsViewPlayer())
+        if (!enemyFOV.IsViewPlayer() || !enemyFOV.IsAttackPossible())
         {
             enemyAI.FSM.ChangeState(EnemyAI.States.Chase);
         }
