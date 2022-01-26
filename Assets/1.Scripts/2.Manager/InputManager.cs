@@ -11,13 +11,7 @@ public enum Keys
     JUMP,
     SLIDE,
     ATTACK,
-    USECARD,
     INTERACT,
-    CARD1,
-    CARD2,
-    CARD3,
-    CARD4,
-    CARD5,
     LENGTH,
 }
 

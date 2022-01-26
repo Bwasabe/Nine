@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardBase : MonoBehaviour, ISkillable
+public class CardBase : MonoBehaviour
 {
     [SerializeField]
     private Card myCard;
 
-
-    public virtual void Skill(){
-        
-    }
+    
 
 }

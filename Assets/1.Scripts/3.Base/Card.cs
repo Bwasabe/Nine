@@ -5,13 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Card", menuName = "Card", order = 10)]
 public class Card : ScriptableObject {
     public enum CardPattern{
-        Spade,
-        Diamond,
         Heart,
-        Clover
+        Diamond,
+        Clover,
+        Spade,
     }
-    public string description;
+    public CardPattern cardPattern;
     public int cardNumber;
+    public Sprite cardSprite;
+    public bool isJoker = false;
 
-    
 }

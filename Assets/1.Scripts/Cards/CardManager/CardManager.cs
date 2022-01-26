@@ -42,28 +42,23 @@ public class CardManager : MonoBehaviour
 
     // private float timer;
     // private float cardImagePosY;
-    // private int currentCard = -1;
 
-    // private bool isCardUse;
 
-    // private void Start()
+    // private IEnumerator Start()
     // {
     //     //Debug.Log(Mathf.Atan2(105f, 70f) * Mathf.Rad2Deg);
-    //     // spriteRenderers = cardRoot.GetComponentsInChildren<SpriteRenderer>();
-    //     // cardImages = cardImageRoot.GetComponentsInChildren<Image>();
-    //     // oldSize = cards[0].localScale;
-    //     // bigSize = Vector2.one * 1.1f;
-    //     // cardImagePosY = cardRects[0].anchoredPosition.y;
-    //     // for (int i = 0; i < cards.Length; i++){
-    //     //     cardPosY[i] = cards[i].localPosition.y;
-    //     //     Debug.Log(cardPosY[i]);
-    //     // }
-    //     // RoundAlignment();
-    //     // yield return Yields.WaitForSeconds(0.5f);
-    //     // StartCoroutine(InitCards());
-    //     // CardSprite();
-
-    //     InvokeRepeating("RoundAlignment", 0f, 0.5f);
+    //     spriteRenderers = cardRoot.GetComponentsInChildren<SpriteRenderer>();
+    //     cardImages = cardImageRoot.GetComponentsInChildren<Image>();
+    //     oldSize = cards[0].localScale;
+    //     bigSize = Vector2.one * 1.1f;
+    //     cardImagePosY = cardRects[0].anchoredPosition.y;
+    //     for (int i = 0; i < cards.Length; i++){
+    //         cardPosY[i] = cards[i].localPosition.y;
+    //         Debug.Log(cardPosY[i]);
+    //     }
+    //     yield return Yields.WaitForSeconds(0.5f);
+    //     StartCoroutine(InitCards());
+    //     CardSprite();
     // }
 
     // private IEnumerator InitCards()
@@ -77,9 +72,9 @@ public class CardManager : MonoBehaviour
 
     // private void Update()
     // {
-    //     CheckCardKey();
+    //     //CheckCardKey();
     //     CheckAppearCardTime();
-    //     UseCard();
+    //     //UseCard();
     // }
 
 
@@ -114,9 +109,7 @@ public class CardManager : MonoBehaviour
     //         cards[currentCard].DOScale(oldSize, 0.05f);
     //     });
     //     yield return Yields.WaitForSeconds(0.1f);
-    //     currentCard = -1;
     //     FadeCards(1f, 0.2f);
-    //     isCardUse = false;
     // }
     // private void CardUse()
     // {
@@ -214,7 +207,6 @@ public class CardManager : MonoBehaviour
     //         FadeCards(0f, 0.1f);
     //         CardDeselect();
     //         ImageDeselect();
-    //         currentCard = -1;
     //     }
     // }
     // private void FadeCards(float fadeValue, float duration)
@@ -257,34 +249,70 @@ public class CardManager : MonoBehaviour
     //     }
     // }
 
-    private void Update(){
-        RoundAlignment();
-    }
+    // private void Update(){
+    //     RoundAlignment();
+    // }
 
     [SerializeField]
     private List<Transform> cardTs = new List<Transform>();
 
-
+    [ContextMenu("원형")]
     private void RoundAlignment()
     {
-        int cardCount = cardTs.Count;
-        if(cardCount == 1){
-            cardTs[0].transform.localPosition = Vector3.Lerp(cardTs[0].transform.localPosition, new Vector3(0f, rightTr.localPosition.y, 0f), 0.1f);
-            return;
-        }else if(cardCount == 0){
-            return;
-        }
-        float[] objLerps = new float[cardCount];
+        float[] objLerps = new float[cardTs.Count];
 
-        float interval = 1f / (cardCount - 1);
-        for (int i = 0; i < cardCount; i++)
-            objLerps[i] = interval * i;
-
-        for (int i = 0; i < cardCount; i++)
+        switch (cardTs.Count)
         {
-            var targetPos = Vector3.Lerp(leftTr.localPosition/5f*cardCount, rightTr.localPosition/5f*cardCount, objLerps[i]);
-            cardTs[i].transform.localPosition = Vector3.Lerp(cardTs[i].transform.localPosition, targetPos, 0.1f);
+            case 1: objLerps = new float[] { 0.5f }; break;
+            case 2: objLerps = new float[] { 0.27f, 0.73f }; break;
+            case 3: objLerps = new float[] { 0.1f, 0.5f, 0.9f }; break;
+            default:
+                float interval = 1f / (cardTs.Count - 1);
+                for (int i = 0; i < cardTs.Count; i++)
+                    objLerps[i] = interval * i;
+                break;
+        }
+        for (int i = 0; i < cardTs.Count; i++)
+        {
+            var targetPos = Vector3.Lerp(leftTr.position, rightTr.position, objLerps[i]);
+
+            var targetRot = Quaternion.identity;
+            if (cardTs.Count >= 4)
+            {
+
+                float curve = Mathf.Sqrt(Mathf.Pow(0.5f, 2) - Mathf.Pow(objLerps[i] - 0.5f, 2));
+                targetPos.y += curve;
+                targetRot = Quaternion.Slerp(leftTr.rotation, rightTr.rotation, objLerps[i]);
+            }
+            cardTs[i].DOMove(targetPos , 1f);
+            cardTs[i].DORotate(targetRot.eulerAngles, 1f);
+            //cardTs[i].transform.SetPositionAndRotation(targetPos, targetRot);
         }
     }
 }
+//     private void RoundAlignment()
+//     {
+//         int cardCount = cardTs.Count;
+//         if (cardCount == 1)
+//         {
+//             cardTs[0].transform.localPosition = Vector3.Lerp(cardTs[0].transform.localPosition, new Vector3(0f, rightTr.localPosition.y, 0f), 0.1f);
+//             return;
+//         }
+//         else if (cardCount == 0)
+//         {
+//             return;
+//         }
+//         float[] objLerps = new float[cardCount];
+
+//         float interval = 1f / (cardCount - 1);
+//         for (int i = 0; i < cardCount; i++)
+//             objLerps[i] = interval * i;
+
+//         for (int i = 0; i < cardCount; i++)
+//         {
+//             var targetPos = Vector3.Lerp(leftTr.localPosition / 5f * cardCount, rightTr.localPosition / 5f * cardCount, objLerps[i]);
+//             cardTs[i].transform.localPosition = Vector3.Lerp(cardTs[i].transform.localPosition, targetPos, 0.1f);
+//         }
+//     }
+// }
 
