@@ -77,6 +77,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D col;
     private Animator animator;
+    [SerializeField]
     private SpriteRenderer spriteRenderer;
 
     //TODO : private
@@ -120,7 +121,6 @@ public class PlayerMove : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
         animator = GetComponentInChildren<Animator>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
     private void InitValue()
     {
@@ -207,7 +207,7 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool("IsRunning", true);
             isBack = hori < 0;
-            spriteRenderer.flipX = isBack;
+            spriteRenderer.transform.rotation = Quaternion.Euler(0f, (isBack) ? 180f : 0f, 0f);
             //transform.localScale = new Vector3(isBack ? -transform.localScale.x : transform.localScale.x, transform.localScale.y, transform.localScale.z);
             //transform.rotation = Quaternion.Euler(0f, (hori < 0) ? 180f : 0f, 0f);
         }
