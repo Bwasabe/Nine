@@ -58,7 +58,8 @@ public class UIManager : MonoSingleton<UIManager>
     private ButtonChange buttonChange;
 
     private void Update(){
-        cencleChaneItemBtn.SetActive(ChangeItem);
+        if(cencleChaneItemBtn!=null)
+            cencleChaneItemBtn.SetActive(ChangeItem);
     }
     public void CencleChaneItem(){
         willChangeItem = null;
