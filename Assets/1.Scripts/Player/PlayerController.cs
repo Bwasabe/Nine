@@ -52,6 +52,9 @@ public class PlayerController : MonoBehaviour
 
     private int attackCount;
 
+    [SerializeField]
+    private int cardCount;
+
 
     #region 이벤트
     private void Awake()
@@ -129,8 +132,21 @@ public class PlayerController : MonoBehaviour
     {
         playerMove.IsFreeze();
         animator.Play("PlayerAttack", -1, 0f);
-        animator.SetFloat("AttackCount", attackCount);
-        yield return Yields.WaitForSeconds(0.2f);
+        cardCount++;
+        
+        if(cardCount>=6){
+            animator.SetFloat("AttackCount", 2);
+            cardCount = 0;
+        }else{
+            animator.SetFloat("AttackCount", attackCount);
+        }
+        if(cardCount==5){
+            yield return Yields.WaitForSeconds(0.2f);
+        }
+        if(cardCount==0){
+            yield return Yields.WaitForSeconds(0.5f);
+        }
+        yield return Yields.WaitForSeconds(0.3f);
         playerMove.IsMove();
         attackCount = (attackCount == 0) ? 1 : 0;
 

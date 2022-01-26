@@ -145,6 +145,9 @@ public class PlayerMove : MonoBehaviour
         move -= Move;
         jump -= Jump;
         hori = 0;
+        if(IsGround()){
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
         //rb.velocity = Vector2.up*rb.velocity.y;
     }
     public void IsMove()
