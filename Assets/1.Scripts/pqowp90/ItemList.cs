@@ -27,6 +27,7 @@ public class ItemInfo{
     public int count;
     public Sprite itemSprite;
     public ItemType itemType;
+    public bool isModeing;
     
 
     
@@ -41,5 +42,17 @@ public class ItemInfo{
         newCopy.itemType = this.itemType;
         newCopy.itemSprite = this.itemSprite;
         return newCopy;
+    }
+    public void SetInfo(ItemInfo item)
+    {
+        item.isModeing = true;
+        if(this.itemId!=0)
+            Inventory.Instance.inventori.Find(x => x.itemId == this.itemId).isModeing = false;
+        this.itemName = item.itemName;
+        this.explan = item.explan;
+        this.itemId = item.itemId;
+        this.count = item.count;
+        this.itemType = item.itemType;
+        this.itemSprite = item.itemSprite;
     }
 }

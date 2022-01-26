@@ -22,6 +22,21 @@ public class Inventory : MonoSingleton<Inventory>
     public void Test(int id){
         AddItem(id, 1);
     }
+    private void Start(){
+        CreateMyPanel(weapons);
+        CreateMyPanel(skills);
+        CreateMyPanel(accessories);
+        CreateMyPanel(hilItems);
+    }
+    public void ChangeWhatItem(ItemInfo item, ItemInfo item2){
+        getArr(item.itemType).Find(x => x.itemId == item.itemId).SetInfo(item2);
+        UIManager.TriggerUI(item);
+    }
+    private void CreateMyPanel(List<ItemInfo> hi){
+        foreach(ItemInfo item in hi){
+            UIManager.Instance.CreatePanelByType(item, false);
+        }
+    }
     public void AddItem(int itemId, int count){
         ItemInfo item = null;
         if(inventori.Find(x => x.itemId == itemId)!=null){
@@ -74,18 +89,36 @@ public class Inventory : MonoSingleton<Inventory>
         List<ItemInfo> mouding = getArr(item.itemType);
         for(int i=0;i<mouding.Count;i++){
             if(mouding[i].itemId == item.itemId){
-                setBtnText("장비헤제");
-                return ()=>{mouding[i] = itemList.itemInfos.Find(x => x.itemId == 0);Debug.Log("아이템을 헤제시켰습니다");};
+                setBtnText("해제");
+                return ()=>{
+                    ItemInfo go = itemList.itemInfos.Find(x => x.itemId == 0);
+                    go.itemType = item.itemType;
+                    mouding[i].SetInfo(go);
+                    Debug.Log(item.itemName + " 아이템을 해제시켰습니다");
+                    UIManager.TriggerUI(mouding[i]);
+
+                };
             }
         }
         for(int i=0;i<mouding.Count;i++){
             if(mouding[i].itemId == 0){
-                setBtnText("장비장착");
-                return ()=>{mouding[i] = item;Debug.Log("아이템을 장착했습니다");};
+                setBtnText("장착");
+                return ()=>{
+                    mouding[i].SetInfo(item);Debug.Log(item.itemName + " 아이템을 장착했습니다");
+                    UIManager.Instance.GoButtonChange();
+                    UIManager.TriggerUI(mouding[i]);
+                };
             }
         }
         setBtnText("교체");
-        return ()=>{Debug.Log("교체할 아이템을 선택하세요");};
+        Debug.Log("교체할 아이템을 선택하세요");
+        return ()=>{
+            
+            UIManager.Instance.GoButtonChange();
+            UIManager.Instance.ChangeItem = true;
+            UIManager.Instance.willChangeItem = item;
+            
+        };
     }
     private List<ItemInfo> getArr(ItemType itemType){
         switch(itemType){

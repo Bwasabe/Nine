@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b263dbc3c29d3bf4cb3b823e319c5acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chackchack: 0
   item:
     itemName: 
     explan: 
@@ -333,8 +334,10 @@ MonoBehaviour:
     count: 0
     itemSprite: {fileID: 0}
     itemType: 0
+    isModeing: 0
   itemName: {fileID: 7299407440038696798}
   itemSprite: {fileID: 7299407440629438283}
+  isModing: {fileID: 7299407440658992599}
 --- !u!114 &7299407441441686443
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,6 +29,7 @@ public class ItemRealPanel : MonoBehaviour
         itemImage.sprite = item.itemSprite;
     }
     public void SetButtonText(string text){
+        if(buttonText == null)return;
         buttonText.text = text;
     }
     public void ClickButton(){

@@ -48,7 +48,26 @@ public class UIManager : MonoSingleton<UIManager>
     private ItemInfo lastItem1;
     private ItemInfo lastItem2;
 
+    private Vector2 screenSize;
+
+    public bool ChangeItem = false;
+    public ItemInfo willChangeItem;
+    [SerializeField]
+    private GameObject cencleChaneItemBtn;
+    [SerializeField]
+    private ButtonChange buttonChange;
+
+    private void Update(){
+        cencleChaneItemBtn.SetActive(ChangeItem);
+    }
+    public void CencleChaneItem(){
+        willChangeItem = null;
+        ChangeItem = false;
+    }
+
     private void Start() {
+        screenSize.y = Camera.main.orthographicSize;
+        screenSize.x = screenSize.y*Camera.main.aspect;
         player = GameManager.Instance.Player;
         playerMove = GameManager.Instance.PlayerMove;
         AddPanel();
@@ -78,9 +97,14 @@ public class UIManager : MonoSingleton<UIManager>
             i++;
         }
     }
+    public void GoButtonChange(){
+        buttonChange.PressThisButton(20);
+    }
     public void OnOnePanel(bool num){
-        BigUIPanels[0].SetActive(num);
-        BigUIPanels[1].SetActive(!num);
+        BigUIPanels[0].transform.DOLocalMoveX(1500f*((num)?0f:-1f), 0.5f);
+        BigUIPanels[1].transform.DOLocalMoveX(1500f*((!num)?0f:1f), 0.5f);
+        // BigUIPanels[0].SetActive(num);
+        // BigUIPanels[1].SetActive(!num);
     }
     public void ClickItemPanel(ItemInfo item, PanelStatus num){
         itemRealPanel2.SetAndShowPanel(item);
@@ -132,7 +156,7 @@ public class UIManager : MonoSingleton<UIManager>
         }else
             CreatePanelByType(item, true);
     }
-    private void CreatePanelByType(ItemInfo _item, bool gogogo){
+    public void CreatePanelByType(ItemInfo _item, bool gogogo){
         switch(_item.itemType){
             case ItemType.weapon:
                 CreatePanel(_item, "RESET_WEAPON_ITEM", (gogogo)?weaponPanel:weaponPanel2);
@@ -159,9 +183,27 @@ public class UIManager : MonoSingleton<UIManager>
         }else if(show == 2){
             lastItem1 = item;
             InfoPanel(PanelStatus.Mounting, lastItem1);
+        }else if(show == 3){
+            InfoPanel(PanelStatus.Replace, lastItem1, item);
         }
     }
     public void HidePanel(){
         itemRealPanel1.gameObject.SetActive(true);
+    }
+    public static void TriggerUI(ItemInfo item){
+        switch(item.itemType){
+            case ItemType.weapon:
+                EventManager.TriggerEvent("RESET_WEAPON_ITEM");
+            break;
+            case ItemType.skill:
+                EventManager.TriggerEvent("RESET_SKILL_ITEM");
+            break;
+            case ItemType.accessories:
+                EventManager.TriggerEvent("RESET_ACCESSORI_ITEM");
+            break;
+            case ItemType.hilItem:
+                EventManager.TriggerEvent("RESET_HILITEM_ITEM");
+            break;
+        }
     }
 }

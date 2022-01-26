@@ -28,10 +28,11 @@ public class ButtonChange : MonoBehaviour
         buttonImage.color = (on)?new Color(0.1294118f,0.1647059f,0.2078432f):new Color(0.3529412f,0.3490196f,0.3529412f);
     }
     public void PressThisButton(int myNum){
+        if(UIManager.Instance.ChangeItem)return;
         if(!isBig){
             UIManager.Instance.OnOnePanel(myNum);
         }else{
-            UIManager.Instance.OnOnePanel((myNum>=10)?myNum==10:myNum==20);
+            UIManager.Instance.OnOnePanel(myNum==10);
         }
         if(isBig)ButtonChangeMans2();
         else ButtonChangeMans();
