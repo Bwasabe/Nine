@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyAI))]
 
-public class LowerGuardAnimation : MonoBehaviour
+public class EnemyAnimation : MonoBehaviour
 {
     private EnemyAI enemyAI;
 

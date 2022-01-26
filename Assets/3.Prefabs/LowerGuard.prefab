@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7471586049937068108}
   - component: {fileID: 7471586049937068105}
   - component: {fileID: 7471586049937068096}
-  - component: {fileID: 7471586049937068104}
+  - component: {fileID: 7120127419286425784}
   m_Layer: 0
   m_Name: LowerGuard
   m_TagString: Untagged
@@ -165,10 +165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75158f879cb2cef4eb5a79d21b342e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootSprite: {fileID: -6130591557314638575, guid: 6c2615d48f571b9498f39345ffc72ca7, type: 3}
   atk: 10
   bullet: {fileID: 0}
   shootPos: {fileID: 7471586051089599377}
-  shootSprite: {fileID: -6130591557314638575, guid: 6c2615d48f571b9498f39345ffc72ca7, type: 3}
 --- !u!114 &7471586049937068096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   moveSmooth: 5
---- !u!114 &7471586049937068104
+--- !u!114 &7120127419286425784
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

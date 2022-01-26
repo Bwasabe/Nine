@@ -4,16 +4,18 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyFOV))]
 [RequireComponent(typeof(EnemyAI))]
-[RequireComponent(typeof(EnemyMove))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyChase : MonoBehaviour
 {
     private EnemyFOV enemyFOV;
 
     private EnemyAI enemyAI;
-    private EnemyMove enemyMove;
+
 
     private Rigidbody2D rb;
+
+
+
 
 
     [SerializeField]
@@ -65,7 +67,8 @@ public class EnemyChase : MonoBehaviour
         }
         rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed, Time.deltaTime *moveSmooth), rb.velocity.y);
     }
-
+     
+    
     private IEnumerator FindPlayerMotionCoroutine()
     {
         float oldSpeed = speed;
