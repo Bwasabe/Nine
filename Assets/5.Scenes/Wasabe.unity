@@ -7391,6 +7391,8 @@ MonoBehaviour:
   cardSpacing: 68
   cardDuration: 3
   firstAnchorPosX: 150
+  leftTr: {fileID: 5661310571111617793}
+  rightTr: {fileID: 5661310571001424405}
   cardRoot: {fileID: 4668402016248171481}
   cardImageRoot: {fileID: 2101377268}
   cards:

@@ -35,6 +35,7 @@ public class CardManager : MonoBehaviour
     private SpriteRenderer[] spriteRenderers;
     private Image[] cardImages;
     private Card[] cardNumber;
+    private float[] cardPosY = {0,0,0,0,0 };
 
     private Vector2 oldSize;
     private Vector2 bigSize;
@@ -53,6 +54,11 @@ public class CardManager : MonoBehaviour
         oldSize = cards[0].localScale;
         bigSize = Vector2.one * 1.1f;
         cardImagePosY = cardRects[0].anchoredPosition.y;
+        for (int i = 0; i < cards.Length; i++){
+            cardPosY[i] = cards[i].localPosition.y;
+            Debug.Log(cardPosY[i]);
+        }
+        RoundAlignment();
         yield return Yields.WaitForSeconds(0.5f);
         StartCoroutine(InitCards());
         CardSprite();
@@ -65,7 +71,6 @@ public class CardManager : MonoBehaviour
             cardRects[i].DOAnchorPosX(firstAnchorPosX + cardSpacing * i, 0.1f);
             yield return Yields.WaitForSeconds(0.1f);
         }
-        RoundAlignment();
     }
 
     private void Update()
@@ -94,7 +99,7 @@ public class CardManager : MonoBehaviour
             cards[currentCard].transform.rotation = Quaternion.Euler(0f, 0f, 180f);
             cards[currentCard].DOLocalRotate(new Vector3(0f, 0f, 360f), 0.2f).OnComplete(() =>
             {
-                cards[currentCard].DOLocalMoveY(0f, 0.3f).SetEase(Ease.InQuint);
+                cards[currentCard].DOLocalMoveY(cardPosY[currentCard],0.3f).SetEase(Ease.InQuint);
                 cards[currentCard].DOScale(oldSize, 0.3f).SetEase(Ease.Linear);
             });
         });
@@ -114,7 +119,7 @@ public class CardManager : MonoBehaviour
     private void CardUse()
     {
         Sprite sprite = spriteRenderers[currentCard].sprite;
-        cards[currentCard].DOLocalMoveY(1.7f, 0.3f).SetEase(Ease.OutQuint);
+        cards[currentCard].DOLocalMoveY(cardPosY[currentCard]+ 1.7f, 0.3f).SetEase(Ease.OutQuint);
         cards[currentCard].DOScale(bigSize * 1.2f, 0.3f).SetEase(Ease.Linear);
         spriteRenderers[currentCard].DOFade(0f, 0.3f).OnComplete(() => spriteRenderers[currentCard].sprite = reverseCard);
         timer = 0f;
@@ -192,7 +197,7 @@ public class CardManager : MonoBehaviour
         timer = 0f;
         cardRects[currentCard].DOSizeDelta(new Vector2(70f, 105f), 0.3f);
         cards[currentCard].DOScale(bigSize, 0.3f);
-        cards[currentCard].DOLocalMoveY(0.4f, 0.3f);
+        cards[currentCard].DOLocalMoveY(cardPosY[currentCard],0.3f);
         CardDeselect(currentCard);
         ImageDeselect(currentCard);
 
@@ -235,7 +240,7 @@ public class CardManager : MonoBehaviour
                 if (i == value) continue;
             }
             cards[i].DOScale(oldSize, 0.3f);
-            cards[i].DOLocalMoveY(0f, 0.3f);
+            cards[i].DOLocalMoveY(cardPosY[i], 0.3f);
         }
     }
     private void ImageDeselect(int value = -1)
