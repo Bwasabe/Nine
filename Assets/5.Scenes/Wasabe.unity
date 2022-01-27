@@ -8280,7 +8280,7 @@ Tilemap:
   m_GameObject: {fileID: 1304616542}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: -15, y: -1, z: 0}
+  - first: {x: -35, y: -4, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
