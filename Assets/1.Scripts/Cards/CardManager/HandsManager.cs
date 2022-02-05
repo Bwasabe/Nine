@@ -45,9 +45,6 @@ public class HandsManager : MonoBehaviour
                     cardNumbers[j] = cardNumbers[j + 1];
                     cardNumbers[j + 1] = t;
 
-                    // Card.CardPattern p = currentCards[j].cardPattern;
-                    // currentCards[j].cardPattern = currentCards[j + 1].cardPattern;
-                    // currentCards[j + 1].cardPattern = p;
                 }
             }
         }
@@ -88,23 +85,6 @@ public class HandsManager : MonoBehaviour
     private bool RoyalCheck()
     {
         bool isRoyal = false;
-        // int[] cardNumbers = { 0, 0, 0, 0, 0 };
-        // for (int i = 0; i < currentCards.Count; i++)
-        // {
-        //     cardNumbers[i] = currentCards[i].cardNumber;
-        // }
-        // for (int i = 0; i <= cardNumbers.Length; i++)
-        // {
-        //     for (int j = 0; j <= cardNumbers.Length - i; j++)
-        //     {
-        //         if (cardNumbers[j] < cardNumbers[j + 1])
-        //         {
-        //             int t = cardNumbers[j];
-        //             cardNumbers[j] = cardNumbers[j + 1];
-        //             cardNumbers[j + 1] = t;
-        //         }
-        //     }
-        // }
         if (cardNumbers[0] == 13 && cardNumbers[1] == 12 && cardNumbers[2] == 11 && cardNumbers[3] == 10 && cardNumbers[4] == 1)
         {
             isRoyal = true;

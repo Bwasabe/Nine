@@ -327,6 +327,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 30
   spriteRenderer: {fileID: 1528972557670809899}
-  damageAnimationName: PoliceDamage
-  deadAnimationName: PoliceDead
+  damageAnimationName: Police_Damage
+  deadAnimationName: Police_Dead
   animator: {fileID: 1528972557670809892}

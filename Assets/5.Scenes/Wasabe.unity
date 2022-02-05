@@ -7465,17 +7465,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 648688943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938223d9d0a8dc24fab1b3900ed46c30, type: 3}
+  m_Script: {fileID: 11500000, guid: de6dbe024a07fe241b6d4066769b721f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftTr: {fileID: 5661310571111617793}
-  rightTr: {fileID: 5661310571001424405}
   cardTs:
   - {fileID: 5661310571111617793}
   - {fileID: 5661310571728139217}
   - {fileID: 5661310570304563288}
   - {fileID: 5661310570488786743}
   - {fileID: 5661310571001424405}
+  cardDuration: 1
+  leftTr: {fileID: 5661310571111617793}
+  rightTr: {fileID: 5661310571001424405}
+  cardRoot: {fileID: 4668402016248171481}
+  reverseCard: {fileID: -8563361416297111352, guid: 46adc472c432f9547b8a083668e40f43, type: 3}
 --- !u!114 &648688946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8023,14 +8026,6 @@ PrefabInstance:
     - target: {fileID: 1528972557800479787, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1528972557800479796, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
-      propertyPath: deadAnimationName
-      value: Police_Dead
-      objectReference: {fileID: 0}
-    - target: {fileID: 1528972557800479796, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
-      propertyPath: damageAnimationName
-      value: Police_Damage
       objectReference: {fileID: 0}
     - target: {fileID: 1528972557800479798, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: bullet
@@ -22179,7 +22174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &5661310570488786740
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -22247,7 +22242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5661310570488786743
 Transform:
   m_ObjectHideFlags: 0
@@ -22278,7 +22273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5661310571001424405
 Transform:
   m_ObjectHideFlags: 0
@@ -22360,7 +22355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5661310571111617793
 Transform:
   m_ObjectHideFlags: 0
@@ -22547,7 +22542,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5661310571728139217
 Transform:
   m_ObjectHideFlags: 0
