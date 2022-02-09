@@ -5,9 +5,8 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     ///TODOLIST
-    //로프엑션 구현하기
-    //캐릭터 공격 구현하기
-    //적 캐릭터 베이스 구현하기
+    //
+
     #region PublicValues
     public PlayerMove PlayerMove
     {
@@ -33,11 +32,22 @@ public class GameManager : MonoSingleton<GameManager>
         }
         private set { }
     }
+    public float TimeScale{
+        get{
+            return timeScale;
+        }
+        set{
+            timeScale = value;
+        }
+    }
+
     #endregion
 
     #region ReturnValuesOfPublic
     private PlayerMove playerMove;
     private PlayerController player;
+
+    private float timeScale;
     #endregion
 
 

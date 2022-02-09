@@ -10,8 +10,6 @@ public class CharacterAttack : MonoBehaviour
     protected LayerMask targetLayer;
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other);
-        Debug.Log(other.GetComponent<IDamageable>());
 
         if ((1 << other.gameObject.layer & targetLayer) > 0)
         {
