@@ -16,28 +16,42 @@ public class DialogManager : MonoBehaviour
     [SerializeField]
     private string dialogPath = "대화 내용";
 
-
+    private AsyncOperationHandle handle;
 
     private void Awake()
     {
-        GameDialogVO textData = null;
-        Addressables.LoadAssetAsync<TextAsset>(dialogPath).Completed += (AsyncOperationHandle<TextAsset> dialog) =>
+
+        GameTextDataVO textData = null;
+        Addressables.LoadAssetAsync<TextAsset>(dialogPath).Completed += (AsyncOperationHandle<TextAsset> obj) =>
         {
-            textData = JsonUtility.FromJson<GameDialogVO>(dialog.Result.ToString());
+            handle = obj;
+            textData = JsonUtility.FromJson<GameTextDataVO>(obj.Result.ToString());
+            Debug.Log(obj.Result.ToString());
+            StartCoroutine(Init(textData));
         };
 
+    }
+    private IEnumerator Init(GameTextDataVO textData)
+    {
+        yield return Yields.WaitUntil(() => textData != null);
         foreach (DialogVO vo in textData.list)
         {
             dialogTextDictionary.Add(vo.code, vo.text);
         }
-
+        Addressables.Release(handle);
         Param2EventManager<int, Action>.StartListening("SHOW_DIALOG", ShowDialog);
+        ShowDialog(0);
     }
 
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Alpha0)){
+            ShowDialog(1);
+        }
+    }
 
-    public void ShowDialog(int index, Action callback = null)
+    private void ShowDialog(int index, Action callback = null)
     {
-        if (index >= dialogTextDictionary.Count)
+        if (index > dialogTextDictionary.Count)
         {
             return;
         }

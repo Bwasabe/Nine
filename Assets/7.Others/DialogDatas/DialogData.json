@@ -1,0 +1,21 @@
+﻿{"version": "0.0.1",
+    "list":[
+        {
+            "code":0,
+            "text":[
+                {"facePosition":0, "icon":0,"name":"나인", "msg":"에헤헤헿"},
+                {"facePosition":1, "icon":1, "name":"뭐지","msg":"........뀨!"},
+                {"facePosition":0, "icon":0, "name":"나인","msg":"뭐야?..저 이상한 건"}
+            ]
+        },
+
+        {
+            "code":1,
+            "text":[
+                {"facePosition":0, "icon":0,"name":"나인", "msg":"우히"},
+                {"facePosition":1, "icon":1, "name":"뭐지","msg":"........쿵!"},
+                {"facePosition":0, "icon":0, "name":"나인","msg":"뭐지?..저 이상한 건"}
+            ]
+        }
+    ]
+}

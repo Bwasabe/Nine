@@ -1,12 +1,14 @@
 [System.Serializable]
 public class TextVO
 {
-    public enum Facing
+    public enum FacePosition
     {
-        LEFT = 1,
-        RIGHT = 2,
-        Middle = 3,
+        LEFT = 0,
+        RIGHT = 1,
+        Middle = 2,
     }
+    public FacePosition facePosition;
     public int icon;
+    public string name;
     public string msg;
 }
