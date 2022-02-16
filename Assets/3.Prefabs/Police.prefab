@@ -156,7 +156,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1528972557800479787
 Transform:
   m_ObjectHideFlags: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441e542285dc4054aac1b0a8a52eb7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngle: 20
+  viewAngle: 40
   viewRange: 10
   attackRange: 8
   bungOffRange: 2
@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c5eb140154bc947ab311ad5e2330e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  patrolTime: 2
   speed: 10
   moveSmooth: 5
   findPlayerDuration: 0
@@ -309,7 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootSprite: {fileID: 4067186644388010172, guid: 3d8bcbff3b245054792c7c71e4c33c6d, type: 3}
-  atk: 20
+  endAttackSprite: {fileID: 4264297678721519391, guid: 3d8bcbff3b245054792c7c71e4c33c6d, type: 3}
   bullet: {fileID: 0}
   shootPos: {fileID: 1528972557744752635}
   scaleX: 1
@@ -325,8 +326,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495e0d534b0ef2b4682889f62227b091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
+  hp: 100
   spriteRenderer: {fileID: 1528972557670809899}
+  animator: {fileID: 1528972557670809892}
   damageAnimationName: Police_Damage
   deadAnimationName: Police_Dead
-  animator: {fileID: 1528972557670809892}

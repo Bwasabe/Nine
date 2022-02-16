@@ -10,7 +10,6 @@ public class LowerGuardAttack : EnemyAttack
     private GameObject bullet;
     [SerializeField]
     private Transform shootPos;
-    
 
     private Rigidbody2D rb;
 
@@ -38,7 +37,6 @@ public class LowerGuardAttack : EnemyAttack
         g.SetActive(true);
         g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg);
     }
-
 
 
 

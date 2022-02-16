@@ -30,16 +30,9 @@ public class EnemyBungOff : MonoBehaviour
     }
     private void AddFSM()
     {
-        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, CheckBungOff);
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.BungOff, BungOffMove);
     }
-    private void CheckBungOff()
-    {
-        if ((enemyFOV.IsAttackPossible() && !enemyFOV.IsTracePlayer()) || enemyFOV.IsBungOffPossible())
-        {
-            enemyAI.FSM.ChangeState(EnemyAI.States.BungOff);
-        }
-    }
+    
 
     private void BungOffMove()
     {
@@ -53,12 +46,12 @@ public class EnemyBungOff : MonoBehaviour
 
         }
         rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed, Time.deltaTime * moveSmooth), rb.velocity.y);
-        Debug.Log("도망 : " + enemyFOV.IsGoBackAttackPossible());
+        Debug.Log("도망 : " + enemyFOV.IsDistancePossible(enemyFOV.AttackRange * 0.7f));
         CheckGoBackAttack();
     }
     private void CheckGoBackAttack()
     {
-        if (enemyFOV.IsGoBackAttackPossible())
+        if (enemyFOV.IsDistancePossible(enemyFOV.AttackRange * 0.7f) && !enemyFOV.IsDistancePossible(enemyFOV.BungOffRange) )
         {
             enemyAI.FSM.ChangeState(EnemyAI.States.Attack);
         }

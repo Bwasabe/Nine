@@ -7,6 +7,7 @@ public class PlayerDamaged : CharacterDamaged
     private bool isDamaged;
     public override void Damage(int damage){
         isDamaged = true;
+        
         base.Damage(damage);
         if(hp>= 1){
             StartCoroutine(DamageMotion());

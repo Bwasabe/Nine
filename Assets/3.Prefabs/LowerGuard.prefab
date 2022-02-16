@@ -19,13 +19,13 @@ GameObject:
   - component: {fileID: 7120127419286425784}
   - component: {fileID: 4589048170984677521}
   - component: {fileID: 7562922017853796308}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LowerGuard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7471586049937068097
 Transform:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   viewAngle: 20
   viewRange: 10
   attackRange: 5
-  bungOffRange: 2
+  bungOffRange: 3
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 832
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c5eb140154bc947ab311ad5e2330e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  patrolTime: 2
   speed: 10
   moveSmooth: 5
   findPlayerDuration: 0.5
@@ -151,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootSprite: {fileID: -6130591557314638575, guid: 6c2615d48f571b9498f39345ffc72ca7, type: 3}
-  atk: 10
+  endAttackSprite: {fileID: -6033139242836725670, guid: 6c2615d48f571b9498f39345ffc72ca7, type: 3}
   bullet: {fileID: 0}
   shootPos: {fileID: 7471586051089599377}
 --- !u!114 &7471586049937068096
@@ -196,7 +197,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   speed: 3
-  patrolTime: 2
 --- !u!114 &7562922017853796308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,11 +209,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495e0d534b0ef2b4682889f62227b091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
+  hp: 100
   spriteRenderer: {fileID: 7471586051141520705}
+  animator: {fileID: 7471586051141520718}
   damageAnimationName: LowerGuard_Invincible
   deadAnimationName: LowerGuard_Dead
-  animator: {fileID: 7471586051141520718}
 --- !u!1 &7471586051089599376
 GameObject:
   m_ObjectHideFlags: 0
