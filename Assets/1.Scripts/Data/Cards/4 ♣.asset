@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPattern: 2
   cardNumber: 4
-  cardSprite: {fileID: 5951946844645714287, guid: 46adc472c432f9547b8a083668e40f43, type: 3}
+  cardSprite: {fileID: -5895191231709818157, guid: 4cbb089bf9c881c478439dcc373f9fc8, type: 3}
   isJoker: 0

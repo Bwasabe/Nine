@@ -19,8 +19,14 @@ public class Inventory : MonoSingleton<Inventory>
     [SerializeField]
     public List<ItemInfo> hilItems = new List<ItemInfo>();
 
-    public void Test(int id){
-        AddItem(id, 1);
+    public void Test(int count){
+        foreach(ItemInfo item in itemList.itemInfos){
+            if(item.itemId == 0){
+                continue;
+            }
+            AddItem(item.itemId, count);
+        }
+        
     }
     private void Start(){
         CreateMyPanel(weapons);

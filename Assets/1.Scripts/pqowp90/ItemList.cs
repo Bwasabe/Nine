@@ -18,6 +18,8 @@ public class ItemList : ScriptableObject
 {
     [SerializeField]
     public List<ItemInfo> itemInfos = new List<ItemInfo>();
+    [SerializeField]
+    public List<Card> cardInfos = new List<Card>();
 }
 [System.Serializable]
 public class ItemInfo{

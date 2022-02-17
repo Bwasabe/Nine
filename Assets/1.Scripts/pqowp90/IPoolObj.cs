@@ -12,20 +12,38 @@ public class IPoolObj : MonoBehaviour, IPoolable
     private float disableTime;
     private Image image;
     private Text text;
+    public bool isTextBox;
+    private SpriteRenderer spriteRenderer;
     private void Awake(){
-        image = GetComponent<Image>();
-        text = GetComponentInChildren<Text>();
+        if(!isTextBox){
+            image = GetComponent<Image>();
+            text = GetComponentInChildren<Text>();
+        }else{
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
     }
     
     public void OnPool(){
-        transform.DOKill();
-        image.DOKill();
-        text.DOKill();
-        image.DOFade(1f,0f);
-        text.DOFade(1f,0f);
+        if(!isTextBox){
+            transform.DOKill();
+            image.DOKill();
+            text.DOKill();
+            image.DOFade(1f,0f);
+            text.DOFade(1f,0f);
+            
+            StartCoroutine(Die());
+        }else{
+            if(spriteRenderer == null){
+                spriteRenderer = GetComponent<SpriteRenderer>();
+            }
+            spriteRenderer.color = new Color(0f,0f,0f,0.897f);
+            spriteRenderer.DOColor(new Color(0f,0f,0f,0.213f), 0.5f).OnComplete(()=>{gameObject.SetActive(false);});
+        }
         
-        StartCoroutine(Die());
-        
+    }
+    public void SetSprite(Sprite image, bool flip){
+        spriteRenderer.sprite = image;
+        spriteRenderer.flipX = flip;
     }
     public void SetText(string text){
         this.text.text = text;

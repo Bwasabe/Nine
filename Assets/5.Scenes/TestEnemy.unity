@@ -1330,6 +1330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testText: {fileID: 0}
   player: {fileID: 11400000, guid: 196aa918c2be346418553d7a8ae8e479, type: 2}
+  cardCount: 0
 --- !u!114 &1387621385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,6 +1356,7 @@ MonoBehaviour:
   jumpDrag: 0.15
   moveSmooth: 5
   jumpSmooth: 5
+  spriteRenderer: {fileID: 0}
   hori: 0
   bottomDistance: 0
   speed: 0
@@ -1536,6 +1538,17 @@ MonoBehaviour:
   hilItemPanel2: {fileID: 0}
   optionPanel: {fileID: 283622201}
   inputManager: {fileID: 1974106790}
+  ChangeItem: 0
+  willChangeItem:
+    itemName: 
+    explan: 
+    itemId: 0
+    count: 0
+    itemSprite: {fileID: 0}
+    itemType: 0
+    isModeing: 0
+  cencleChaneItemBtn: {fileID: 0}
+  buttonChange: {fileID: 0}
 --- !u!4 &1542604617
 Transform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -57,6 +58,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]//TODO: Delete
     private int cardCount;
 
+    private bool attactAgane = false;
+    [SerializeField]
+    private ParticleSystem myParticleSystem;
+    [SerializeField]
+    private hi ghostMode;
+    private SpriteRenderer spriteRenderer;
 
     #region 이벤트
     private void Awake()
@@ -65,6 +72,7 @@ public class PlayerController : MonoBehaviour
         slide += () => { };
         colEnter += () => { };
         colExit += () => { };
+        ghostMode = GetComponentInChildren<hi>();
     }
     private void OnEnable()
     {
@@ -83,6 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         slide();
         attack();
+
     }
     #endregion
 
@@ -105,6 +114,8 @@ public class PlayerController : MonoBehaviour
         {
             state |= PlayerState.SLIDE;
             StartCoroutine(Slide());
+            
+
         }
     }
 
@@ -112,23 +123,38 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Slide()
     {
         playerMove.IsFreeze();
-        rb.drag = 0f;
-        rb.gravityScale = 0f;
-        rb.velocity = new Vector2(slidingSpeed * (((playerMove.hori != 0) ? (playerMove.hori > 0) : !playerMove.isBack) ? 1 : -1), 0f);
+        //rb.drag = 0f;
+        //rb.gravityScale = 0f;
+        //playerMove.useGravity = false;
+        //rb.velocity = new Vector2(slidingSpeed * (((playerMove.hori != 0) ? (playerMove.hori > 0) : !playerMove.isBack) ? 1 : -1), 0f);
+        ghostMode.GOGhost(slidingDuration, 0.05f);
+        rb.velocity = new Vector2(slidingSpeed * (!playerMove.isBack ? 1 : -1), 0f);
+        animator.ResetTrigger("SlideEnd");
+        animator.Play("PlayerSlide");
+        playerMove.SlideTween = DOTween.To(()=> rb.velocity, x=> rb.velocity = x, new Vector2((!playerMove.isBack ? 1 : -1)*7f,0), slidingDuration).SetEase(Ease.OutQuad);
         yield return Yields.WaitForSeconds(slidingDuration);
-        rb.gravityScale = 3.2f;
-        rb.drag = 3.7f;
-        playerMove.IsMove();
+        animator.SetTrigger("SlideEnd");
+        //playerMove.useGravity = true;
+        //rb.gravityScale = 3.2f;
+        //rb.drag = 3.7f;
         state &= ~PlayerState.SLIDE;
+        if(!state.HasFlag(PlayerState.ATTACK)){
+            playerMove.IsMove();
+        }
     }
 
     private void Attack()
     {
-        if (Input.GetKeyDown(InputManager.keyMaps[Keys.ATTACK]) && !state.HasFlag(PlayerState.ATTACK) && !state.HasFlag(PlayerState.SLIDE))
+        if (Input.GetKeyDown(InputManager.keyMaps[Keys.ATTACK]))
         {
-            state |= PlayerState.ATTACK;
-            StartCoroutine(Attacking());
+            attactAgane = true;
+            if(!state.HasFlag(PlayerState.ATTACK)){
+                state |= PlayerState.ATTACK;
+                StartCoroutine(Attacking());
+            }
         }
+        
+        
     }
     private IEnumerator Attacking()
     {
@@ -143,16 +169,24 @@ public class PlayerController : MonoBehaviour
         }else{
             animator.SetFloat("AttackCount", attackCount);
         }
-        if(cardCount==0){
-            yield return Yields.WaitForSeconds(0.5f);
-        }
-        yield return Yields.WaitForSeconds(0.35f);
+
+        attactAgane = false;
+
+        attackCount = (attackCount == 0) ? 1 : 0;
+        yield return Yields.WaitForSeconds((cardCount==0)?0.45f:0.35f);
         playerAttack.OffCol();
 
-        playerMove.IsMove();
-        attackCount = (attackCount == 0) ? 1 : 0;
+        if(attactAgane){
+            playerMove.ChackHori();
+            playerMove.SetPlayerDirection();
+            StartCoroutine(Attacking());
+        }else{
 
-        state &= ~PlayerState.ATTACK;
+            playerMove.IsMove();
+            
+
+            state &= ~PlayerState.ATTACK;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

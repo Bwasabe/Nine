@@ -15,4 +15,14 @@ public class Card : ScriptableObject {
     public Sprite cardSprite;
     public bool isJoker = false;
 
+    public Card CardDeepCopy()
+    {
+        Card newCopy = new Card();
+        newCopy.cardNumber = this.cardNumber;
+        newCopy.cardPattern = this.cardPattern;
+        newCopy.cardSprite = this.cardSprite;
+        newCopy.isJoker = this.isJoker;
+        return newCopy;
+    }
+
 }

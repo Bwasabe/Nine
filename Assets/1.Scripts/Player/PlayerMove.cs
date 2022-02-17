@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
@@ -78,7 +79,7 @@ public class PlayerMove : MonoBehaviour
     private Collider2D col;
     private Animator animator;
     [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
 
     //TODO : private
     public float hori;
@@ -92,7 +93,10 @@ public class PlayerMove : MonoBehaviour
     public int jumpMaxCount;
 
     public bool isBack { get; private set; }
+    
     private bool isChangeDirection;
+    public bool useGravity = true;
+    public Tween SlideTween = null;
 
     #region 이벤트
     private void OnEnable()
@@ -102,6 +106,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Start()
     {
+        
         Initialize();
         InitValue();
     }
@@ -143,15 +148,17 @@ public class PlayerMove : MonoBehaviour
     public void IsFreeze()
     {
         move -= Move;
-        jump -= Jump;
-        hori = 0;
+        //jump -= Jump;
         if(IsGround()){
-            rb.velocity = new Vector2(0f, rb.velocity.y);
+            rb.velocity = new Vector2((isBack?-1f:1f)*2f, rb.velocity.y);
         }
+        hori = 0;
+        
         //rb.velocity = Vector2.up*rb.velocity.y;
     }
     public void IsMove()
     {
+        DefaultAction();
         move += Move;
         jump += Jump;
     }
@@ -170,8 +177,25 @@ public class PlayerMove : MonoBehaviour
     }
     #endregion
 
-    private void Move()
+    public void Move()
     {
+        ChackHori();
+        animator.SetFloat("VelocityX", Mathf.Abs(rb.velocity.x));
+        if (IsGround())
+        {
+            isChangeDirection = (hori > 0f && rb.velocity.x < 0f) || (hori < 0f && rb.velocity.x > 0f);
+            if (hori == 0 || isChangeDirection)
+            {
+                rb.drag = linearDrag;
+            }
+            else
+            {
+                rb.drag = 0f;
+            }
+        }
+        rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed * hori, Time.deltaTime * moveSmooth), rb.velocity.y);
+    }
+    public void ChackHori(){
         if (Input.GetKey(InputManager.keyMaps[Keys.LEFT]) && Input.GetKey(InputManager.keyMaps[Keys.RIGHT]))
         {
             hori = 0;
@@ -188,22 +212,8 @@ public class PlayerMove : MonoBehaviour
         {
             hori = 0;
         }
-        animator.SetFloat("VelocityX", Mathf.Abs(rb.velocity.x));
-        if (IsGround())
-        {
-            isChangeDirection = (hori > 0f && rb.velocity.x < 0f) || (hori < 0f && rb.velocity.x > 0f);
-            if (hori == 0 || isChangeDirection)
-            {
-                rb.drag = linearDrag;
-            }
-            else
-            {
-                rb.drag = 0f;
-            }
-        }
-        rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed * hori, Time.deltaTime * moveSmooth), rb.velocity.y);
     }
-    private void SetPlayerDirection()
+    public void SetPlayerDirection()
     {
         if (hori == 0)
         {
@@ -242,11 +252,17 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 if (jumpCount >= jumpMaxCount) return;
+                IsMove();
+                SlideTween.Kill();
                 animator.SetTrigger("Jump");
+                animator.Play("PlayerJump");
+                DefaultAction();
+                InitAction();
                 state &= ~PlayerState.JUMPING_DOWN;
                 state |= PlayerState.JUMP;
                 jumpCount++;
                 rb.velocity = new Vector2(rb.velocity.x, 0f);
+                useGravity = true;
                 rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
                 return;
             }
@@ -257,7 +273,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Ground()
     {
-        if (IsGround())
+        if (useGravity && IsGround())
         {
             animator.SetBool("IsGround", true);
             if (state.HasFlag(PlayerState.JUMP))
@@ -267,7 +283,6 @@ public class PlayerMove : MonoBehaviour
             else if (rb.velocity.y <= 0.1f)
             {
                 jumpCount = 0;
-
             }
         }
         else
