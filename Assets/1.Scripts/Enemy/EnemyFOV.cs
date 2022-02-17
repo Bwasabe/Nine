@@ -11,11 +11,28 @@ public class EnemyFOV : MonoBehaviour
     private float viewAngle = 40f;
     [SerializeField]
     private float viewRange;
+    [SerializeField]
+    private float attackRange = 5f;
+    [SerializeField]
+    private float bungOffRange = 2f;
 
-    [SerializeField]
-    private float attackRange;
-    [SerializeField]
-    private float bungOffRange;
+    public float ViewRange{
+        get{
+            return viewRange;
+        }
+    }
+    public float AttackRange
+    {
+        get
+        {
+            return attackRange;
+        }
+    }
+    public float BungOffRange{
+        get{
+            return bungOffRange;
+        }
+    }
 
 
     [SerializeField]
@@ -56,7 +73,7 @@ public class EnemyFOV : MonoBehaviour
         bool isView = false;
         Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
         RaycastHit2D hit2D = Physics2D.Raycast
-            (transform.position, dir.normalized, viewRange, obstacleLayerMask);
+            (transform.position, dir.normalized, Mathf.Infinity, obstacleLayerMask);
 
         if (hit2D.collider != null)
         {
@@ -66,20 +83,10 @@ public class EnemyFOV : MonoBehaviour
         return isView;
     }
 
-    public bool IsAttackPossible()
+    public bool IsDistancePossible(float distance)
     {
         return (GameManager.Instance.Player.transform.position - transform.position).sqrMagnitude
-            <= Mathf.Pow(attackRange, 2);
-    }
-    public bool IsGoBackAttackPossible()
-    {
-        return (GameManager.Instance.Player.transform.position - transform.position).sqrMagnitude
-            >= Mathf.Pow(attackRange, 2) * 0.7f;
-    }
-    public bool IsBungOffPossible()
-    {
-        return (GameManager.Instance.Player.transform.position - transform.position).sqrMagnitude
-                    <= Mathf.Pow(bungOffRange, 2);
+            <= Mathf.Pow(distance, 2);
     }
 
     private void OnDrawGizmos()

@@ -11,16 +11,17 @@ public class EnemyAttack : MonoBehaviour
     protected EnemyFOV enemyFOV;
     private EnemyMove enemyMove;
 
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
 
-    private bool isFire;
+    protected bool isFire;
 
 
     [SerializeField]
     private Sprite shootSprite;
 
     [SerializeField]
-    private int atk;
+    private Sprite endAttackSprite;
+
 
 
     private void Start()
@@ -37,11 +38,11 @@ public class EnemyAttack : MonoBehaviour
     }
     protected virtual void AddFSM()
     {
-        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Chase, CheckAttackPossible);
         //enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, ReturnToChaseAttack);
         enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Attack, AttackEnter);
         enemyAI.AddFSMAction(FSMStates.FixedUpdate, EnemyAI.States.Attack, ChangeFacing);
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, Attacking);
+        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, CheckBungOff);
     }
     private void Attacking()
     {
@@ -55,7 +56,18 @@ public class EnemyAttack : MonoBehaviour
         {
             isFire = false;
         }
+        if (!enemyFOV.IsDistancePossible(enemyFOV.ViewRange))
+        {
+            enemyAI.FSM.ChangeState(EnemyAI.States.Chase);
+        }
 
+    }
+    private void CheckBungOff()
+    {
+        if (enemyFOV.IsDistancePossible(enemyFOV.BungOffRange))
+        {
+            enemyAI.FSM.ChangeState(EnemyAI.States.BungOff);
+        }
     }
     private void ChangeFacing()
     {
@@ -69,13 +81,7 @@ public class EnemyAttack : MonoBehaviour
         }
         enemyMove.SetIsFacingToLocalScale();
     }
-    private void CheckAttackPossible()
-    {
-        if (enemyFOV.IsAttackPossible() && enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
-        {
-            enemyAI.FSM.ChangeState(EnemyAI.States.Attack);
-        }
-    }
+
 
     protected virtual void AttackEnter()
     {
@@ -83,9 +89,14 @@ public class EnemyAttack : MonoBehaviour
     }
     protected virtual void Attack()
     {
-
+        StartCoroutine(ReturnToChase());
     }
 
 
+    private IEnumerator ReturnToChase()
+    {
+        yield return Yields.WaitUntil(() => spriteRenderer.sprite == endAttackSprite);
+        enemyAI.FSM.ChangeState(EnemyAI.States.Chase);
+    }
 
 }

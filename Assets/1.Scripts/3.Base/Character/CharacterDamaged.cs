@@ -11,34 +11,40 @@ public class CharacterDamaged : MonoBehaviour, IDamageable
     protected SpriteRenderer spriteRenderer;
 
     [SerializeField]
+    private Animator animator;
+
+    [SerializeField]
     private string damageAnimationName;
     [SerializeField]
     private string deadAnimationName;
 
-    [SerializeField]
-    private Animator animator;
-   
+
+
+    private bool isDead;
+
 
     public virtual void Damage(int damage)
     {
-        Debug.Log("베이스");
-        if (hp < 1)
+        if (isDead) return;
+        if (hp >= 1)
         {
-            Dead();
-            animator.Play(deadAnimationName);
+            hp -= damage;
+            animator.Play(damageAnimationName);
         }
         else
         {
-            hp-= damage;
-            animator.Play(damageAnimationName);
+            Dead();
+            isDead = true;
+            animator.Play(deadAnimationName);
+
         }
     }
 
     public virtual void Dead()
     {
         Debug.Log("죽음");
-        Debug.Break();
+
     }
 
-    
+
 }

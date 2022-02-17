@@ -7474,7 +7474,7 @@ MonoBehaviour:
   - {fileID: 5661310570304563288}
   - {fileID: 5661310570488786743}
   - {fileID: 5661310571001424405}
-  cardDuration: 1
+  cardDuration: 100
   leftTr: {fileID: 5661310571111617793}
   rightTr: {fileID: 5661310571001424405}
   cardRoot: {fileID: 4668402016248171481}
@@ -7982,6 +7982,10 @@ PrefabInstance:
     - target: {fileID: 1528972557800479785, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_Name
       value: Police (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528972557800479785, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1528972557800479787, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_RootOrder
@@ -22174,7 +22178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &5661310570488786740
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -22242,7 +22246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5661310570488786743
 Transform:
   m_ObjectHideFlags: 0
@@ -22273,7 +22277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5661310571001424405
 Transform:
   m_ObjectHideFlags: 0
@@ -22355,7 +22359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5661310571111617793
 Transform:
   m_ObjectHideFlags: 0
@@ -22542,7 +22546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5661310571728139217
 Transform:
   m_ObjectHideFlags: 0

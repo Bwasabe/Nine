@@ -5912,6 +5912,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LowerGuard
       objectReference: {fileID: 0}
+    - target: {fileID: 7471586049937068099, guid: 8df3c03349f230b498a630850d372df8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7471586049937068105, guid: 8df3c03349f230b498a630850d372df8, type: 3}
       propertyPath: bullet
       value: 
@@ -20981,6 +20985,10 @@ PrefabInstance:
     - target: {fileID: 1528972557800479785, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_Name
       value: Police
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528972557800479785, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1528972557800479787, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_RootOrder

@@ -47,5 +47,43 @@ public class Param2EventManager<Object, Object2>
         }
     }
 
+    private static Dictionary<string, Action<Object, Object2>> eventParamDictionary = new Dictionary<string, Action<Object, Object2>>();
+
+    public static void StartListening(string eventName, Action<Object, Object2> listener)
+    {
+        Action<Object, Object2> thisEvent;
+        if (eventParamDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent += listener;
+            eventParamDictionary[eventName] = thisEvent;
+        }
+        else
+        {
+            eventParamDictionary.Add(eventName, listener);
+        }
+    }
+
+    public static void StopListening(string eventName, Action<Object, Object2> listener)
+    {
+        Action<Object, Object2> thisEvent;
+        if (eventParamDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent -= listener;
+            eventParamDictionary[eventName] = thisEvent;
+        }
+        else
+        {
+            eventParamDictionary.Remove(eventName);
+        }
+    }
+
+    public static void TriggerEvent(string eventName, Object param, Object2 param2)
+    {
+        Action<Object, Object2> thisEvent;
+        if (eventParamDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent?.Invoke(param, param2);
+        }
+    }
     
 }
