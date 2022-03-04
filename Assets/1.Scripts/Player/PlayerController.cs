@@ -91,7 +91,20 @@ public class PlayerController : MonoBehaviour
     {
         slide();
         attack();
-
+        if(state.HasFlag(PlayerState.ATTACK)){
+            if(animator.GetBool("IsGround") == false){
+                if(animator.GetFloat("AttackCount") == 0){
+                    animator.SetFloat("AttackCount", 3);
+                }
+            }
+            else if(animator.GetBool("IsGround") == true){
+                if(animator.GetFloat("AttackCount") == 3){
+                    animator.SetFloat("AttackCount", 0);
+                }else if(animator.GetFloat("AttackCount") == 4){
+                    animator.SetFloat("AttackCount", 2);
+                }
+            }
+        }
     }
     #endregion
 
@@ -161,10 +174,12 @@ public class PlayerController : MonoBehaviour
         playerMove.IsFreeze();
         animator.Play("PlayerAttack", -1, 0f);
         cardCount++;
+        attackCount = (animator.GetBool("IsGround")) ? (attackCount == 0) ? 1 : 0 : 3;
         
         playerAttack.Attack(cardCount);
         if(cardCount>=6){
-            animator.SetFloat("AttackCount", 2);
+            animator.SetFloat("AttackCount", (animator.GetBool("IsGround")) ? 2 : 4);
+            
             cardCount = 0;
         }else{
             animator.SetFloat("AttackCount", attackCount);
@@ -172,19 +187,19 @@ public class PlayerController : MonoBehaviour
 
         attactAgane = false;
 
-        attackCount = (attackCount == 0) ? 1 : 0;
+        if(!animator.GetBool("IsGround")){
+            yield return Yields.WaitForSeconds(0.1f);
+        }
         yield return Yields.WaitForSeconds((cardCount==0)?0.45f:0.35f);
+        
+        
         playerAttack.OffCol();
-
+        playerMove.ChackHori();
+        playerMove.SetPlayerDirection();
         if(attactAgane){
-            playerMove.ChackHori();
-            playerMove.SetPlayerDirection();
             StartCoroutine(Attacking());
         }else{
-
             playerMove.IsMove();
-            
-
             state &= ~PlayerState.ATTACK;
         }
     }

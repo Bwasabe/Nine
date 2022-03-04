@@ -36,8 +36,8 @@ public class IPoolObj : MonoBehaviour, IPoolable
             if(spriteRenderer == null){
                 spriteRenderer = GetComponent<SpriteRenderer>();
             }
-            spriteRenderer.color = new Color(0f,0f,0f,0.897f);
-            spriteRenderer.DOColor(new Color(0f,0f,0f,0.213f), 0.5f).OnComplete(()=>{gameObject.SetActive(false);});
+            spriteRenderer.color = new Color(0f,0f,0f,0.7f);
+            spriteRenderer.DOColor(new Color(0f,0f,0f,0.2f), 0.3f).OnComplete(()=>{gameObject.SetActive(false);});
         }
         
     }
