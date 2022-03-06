@@ -149,12 +149,15 @@ public class PlayerMove : MonoBehaviour
     {
         move -= Move;
         //jump -= Jump;
-        if(IsGround()){
-            rb.velocity = new Vector2((isBack?-1f:1f)*2f, rb.velocity.y);
-        }
+        AttackWalk();
         hori = 0;
         
         //rb.velocity = Vector2.up*rb.velocity.y;
+    }
+    public void AttackWalk(){
+        if(IsGround()){
+            rb.velocity = new Vector2((isBack?-1f:1f)*2f, rb.velocity.y);
+        }
     }
     public void IsMove()
     {

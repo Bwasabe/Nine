@@ -25211,7 +25211,7 @@ MonoBehaviour:
     m_Bits: 256
   linearDrag: 3.7
   jumpDrag: 0.15
-  moveSmooth: 10
+  moveSmooth: 6
   jumpSmooth: 5
   spriteRenderer: {fileID: 3446630678054914566}
   hori: 0

@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
         slide();
         attack();
         if(state.HasFlag(PlayerState.ATTACK)){
+            //playerMove.AttackWalk();
             if(animator.GetBool("IsGround") == false){
                 if(animator.GetFloat("AttackCount") == 0){
                     animator.SetFloat("AttackCount", 3);
@@ -171,14 +172,16 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Attacking()
     {
+        bool isGround = playerMove.IsGround();
+
         playerMove.IsFreeze();
         animator.Play("PlayerAttack", -1, 0f);
         cardCount++;
-        attackCount = (animator.GetBool("IsGround")) ? (attackCount == 0) ? 1 : 0 : 3;
+        attackCount = (isGround) ? (attackCount == 0) ? 1 : 0 : 3;
         
         playerAttack.Attack(cardCount);
         if(cardCount>=6){
-            animator.SetFloat("AttackCount", (animator.GetBool("IsGround")) ? 2 : 4);
+            animator.SetFloat("AttackCount", (isGround) ? 2 : 4);
             
             cardCount = 0;
         }else{
@@ -187,7 +190,7 @@ public class PlayerController : MonoBehaviour
 
         attactAgane = false;
 
-        if(!animator.GetBool("IsGround")){
+        if(!isGround){
             yield return Yields.WaitForSeconds(0.1f);
         }
         yield return Yields.WaitForSeconds((cardCount==0)?0.45f:0.35f);
