@@ -30,10 +30,14 @@ public class NewCardManager : MonoSingleton<NewCardManager>
     private void Start()
     {
         spriteRenderers = cardRoot.GetComponentsInChildren<SpriteRenderer>();
+        for(int i=0;i<spriteRenderers.Length;i++){
+            cardTs.Add(spriteRenderers[i].transform);
+        }
     }
 
     private void Update() {
-        CheckAppearCardTime();
+        //CheckAppearCardTime();
+        RoundAlignment();
     }
     private void CardUse()
     {

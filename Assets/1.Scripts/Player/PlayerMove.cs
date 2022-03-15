@@ -23,8 +23,7 @@ public class PlayerMove : MonoBehaviour
     }
     #region Action
 
-    public event Action move;
-    public event Action jump;
+
 
     public Action getMove
     {
@@ -98,11 +97,13 @@ public class PlayerMove : MonoBehaviour
     public bool useGravity = true;
     public Tween SlideTween = null;
 
+    private bool canMove;
+    private bool canJump;
+
     #region 이벤트
     private void OnEnable()
     {
-        DefaultAction();
-        InitAction();
+        IsMove();
     }
     private void Start()
     {
@@ -115,8 +116,8 @@ public class PlayerMove : MonoBehaviour
     {
         //testText.text = string.Format("{0}", (int)rb.velocity.y);
         Debug.DrawRay(bottomChk.position, Vector2.right * bottomDistance, Color.red);
-        move();
-        jump();
+        Move();
+        Jump();
         Ground();
         SetPlayerDirection();
     }
@@ -135,35 +136,25 @@ public class PlayerMove : MonoBehaviour
         bottomDistance = col.bounds.size.x;
         SetStatus(playerstatus);
     }
-    private void InitAction()
-    {
-        move += Move;
-        jump += Jump;
-    }
-    public void DefaultAction()
-    {
-        move = () => { };
-        jump = () => { };
-    }
+
+
     public void IsFreeze()
     {
-        move -= Move;
-        //jump -= Jump;
-        AttackWalk();
+        canMove = false;
         hori = 0;
-        
-        //rb.velocity = Vector2.up*rb.velocity.y;
+        AttackWalk();
     }
     public void AttackWalk(){
         if(IsGround()){
             rb.velocity = new Vector2((isBack?-1f:1f)*2f, rb.velocity.y);
         }
     }
+    public void Stop(){
+        rb.velocity = new Vector2((isBack?-1f:1f)*4f, rb.velocity.y);
+    }
     public void IsMove()
     {
-        DefaultAction();
-        move += Move;
-        jump += Jump;
+        canMove = canJump = true;
     }
     #endregion
 
@@ -182,6 +173,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Move()
     {
+        if(!canMove)return;
         ChackHori();
         animator.SetFloat("VelocityX", Mathf.Abs(rb.velocity.x));
         if (IsGround())
@@ -243,6 +235,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
+        if(!canJump)return;
         if (Input.GetKeyDown(InputManager.keyMaps[Keys.JUMP]))
         {
             if (Input.GetKey(InputManager.keyMaps[Keys.DOWN]) && IsDownBlock())
@@ -257,10 +250,9 @@ public class PlayerMove : MonoBehaviour
                 if (jumpCount >= jumpMaxCount) return;
                 IsMove();
                 SlideTween.Kill();
+                rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -speed, speed), rb.velocity.y);
                 animator.SetTrigger("Jump");
                 animator.Play("PlayerJump");
-                DefaultAction();
-                InitAction();
                 state &= ~PlayerState.JUMPING_DOWN;
                 state |= PlayerState.JUMP;
                 jumpCount++;

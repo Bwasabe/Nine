@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7310271610845027194}
   - component: {fileID: 7310271610845027195}
   - component: {fileID: 7310271610845027192}
-  - component: {fileID: 7217160010715744859}
+  - component: {fileID: -845874615129933080}
   m_Layer: 0
   m_Name: RunStopDust
   m_TagString: Untagged
@@ -103,7 +103,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7217160010715744859
+--- !u!114 &-845874615129933080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,6 +112,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7310271610845027193}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb07ed6160897e4468b19717ac684f34, type: 3}
+  m_Script: {fileID: 11500000, guid: 28269d95916c6a64da67e389d26ac37d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeTime: 0
+  disableTime: 0
+  isTextBox: 0

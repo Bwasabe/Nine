@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private ParticleSystem myParticleSystem;
     [SerializeField]
-    private hi ghostMode;
+    private PlayerEffectManager ghostMode;
     private SpriteRenderer spriteRenderer;
 
     #region 이벤트
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
         slide += () => { };
         colEnter += () => { };
         colExit += () => { };
-        ghostMode = GetComponentInChildren<hi>();
+        ghostMode = GetComponentInChildren<PlayerEffectManager>();
     }
     private void OnEnable()
     {
@@ -90,19 +90,21 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         slide();
-        attack();
+        attack(); 
         if(state.HasFlag(PlayerState.ATTACK)){
             //playerMove.AttackWalk();
             if(animator.GetBool("IsGround") == false){
                 if(animator.GetFloat("AttackCount") == 0){
-                    animator.SetFloat("AttackCount", 3);
+                    animator.SetFloat("AttackCount", 3);    
                 }
             }
             else if(animator.GetBool("IsGround") == true){
                 if(animator.GetFloat("AttackCount") == 3){
                     animator.SetFloat("AttackCount", 0);
+                    playerMove.Stop();
                 }else if(animator.GetFloat("AttackCount") == 4){
                     animator.SetFloat("AttackCount", 2);
+                    playerMove.Stop();
                 }
             }
         }
@@ -136,11 +138,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Slide()
     {
+        
         playerMove.IsFreeze();
-        //rb.drag = 0f;
-        //rb.gravityScale = 0f;
-        //playerMove.useGravity = false;
-        //rb.velocity = new Vector2(slidingSpeed * (((playerMove.hori != 0) ? (playerMove.hori > 0) : !playerMove.isBack) ? 1 : -1), 0f);
+        
         ghostMode.GOGhost(slidingDuration, 0.05f);
         rb.velocity = new Vector2(slidingSpeed * (!playerMove.isBack ? 1 : -1), 0f);
         animator.ResetTrigger("SlideEnd");
@@ -148,9 +148,7 @@ public class PlayerController : MonoBehaviour
         playerMove.SlideTween = DOTween.To(()=> rb.velocity, x=> rb.velocity = x, new Vector2((!playerMove.isBack ? 1 : -1)*7f,0), slidingDuration).SetEase(Ease.OutQuad);
         yield return Yields.WaitForSeconds(slidingDuration);
         animator.SetTrigger("SlideEnd");
-        //playerMove.useGravity = true;
-        //rb.gravityScale = 3.2f;
-        //rb.drag = 3.7f;
+
         state &= ~PlayerState.SLIDE;
         if(!state.HasFlag(PlayerState.ATTACK)){
             playerMove.IsMove();

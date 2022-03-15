@@ -54,6 +54,9 @@ public class IPoolObj : MonoBehaviour, IPoolable
         image.DOFade(0f,disableTime).OnComplete(()=>gameObject.SetActive(false));
         text.DOFade(0f,disableTime);
     }
+    public void Hide(){
+        gameObject.SetActive(false);
+    }
 
 
 
