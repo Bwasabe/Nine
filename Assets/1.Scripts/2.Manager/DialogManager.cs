@@ -18,6 +18,8 @@ public class DialogManager : MonoBehaviour
 
     private AsyncOperationHandle handle;
 
+    private Action<EventParam> _showDialog;
+
     private void Awake()
     {
 
@@ -29,7 +31,6 @@ public class DialogManager : MonoBehaviour
             Debug.Log(obj.Result.ToString());
             StartCoroutine(Init(textData));
         };
-
     }
     private IEnumerator Init(GameTextDataVO textData)
     {
@@ -39,7 +40,12 @@ public class DialogManager : MonoBehaviour
             dialogTextDictionary.Add(vo.code, vo.text);
         }
         Addressables.Release(handle);
-        Param2EventManager<int, Action>.StartListening("SHOW_DIALOG", ShowDialog);
+
+        EventParam eventParam = new EventParam {objs = new object[] {1 , null} };
+        _showDialog = (eventParam) => {
+            ShowDialog((int)eventParam.objs[0] , (Action)eventParam.objs[1]);
+        };
+        ParamEventManager.StartListening("SHOW_DIALOG", _showDialog);
         ShowDialog(0);
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using static Define;
 
 public class CameraStart : MonoBehaviour
 {
@@ -10,9 +11,11 @@ public class CameraStart : MonoBehaviour
 
 
     private void Start() {
-        DOTween.To(() => Camera.main.orthographicSize, x => {
-            Camera.main.orthographicSize = x;
-            Debug.Log(Camera.main.orthographicSize);
+        MainCam.orthographicSize = 8f;
+        MainCam.transform.rotation = Quaternion.Euler(-60f, 0f, 0f);
+        DOTween.To(() => MainCam.orthographicSize, x => {
+            MainCam.orthographicSize = x;
+            Debug.Log(MainCam.orthographicSize);
         }, 8, 2f);
         transform.DORotate(Vector3.zero, 3f).OnComplete(() => backgrounds.ForEach(x => x.enabled = true));
         transform.DOMoveY(0f, 3f);
