@@ -91,11 +91,16 @@ public class PlayerController : MonoBehaviour
     {
         slide();
         attack(); 
+        if(state.HasFlag(PlayerState.SLIDE)){
+            if(playerMove.IsWall()){
+                rb.velocity = new Vector2((!playerMove.isBack ? 1 : -1)*7f,rb.velocity.y);
+            }
+        }
         if(state.HasFlag(PlayerState.ATTACK)){
             //playerMove.AttackWalk();
             if(animator.GetBool("IsGround") == false){
                 if(animator.GetFloat("AttackCount") == 0){
-                    animator.SetFloat("AttackCount", 3);    
+                    animator.SetFloat("AttackCount", 3);
                 }
             }
             else if(animator.GetBool("IsGround") == true){
@@ -124,6 +129,7 @@ public class PlayerController : MonoBehaviour
         slide += Sliding;
         attack += Attack;
     }
+    public bool IsSliding(){return state.HasFlag(PlayerState.SLIDE);}
     private void Sliding()
     {
         if (Input.GetKeyDown(InputManager.keyMaps[Keys.SLIDE]) && !state.HasFlag(PlayerState.SLIDE))

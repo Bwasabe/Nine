@@ -24,7 +24,7 @@ public class PlayerMove : MonoBehaviour
     #region Action
 
 
-
+    private PlayerController playerController;
     public Action getMove
     {
         get
@@ -54,7 +54,7 @@ public class PlayerMove : MonoBehaviour
     private Text testText;
 
     [SerializeField]
-    private Transform bottomChk;
+    private Transform bottomChk, wallChk;
     [SerializeField]
     private LayerMask bottomLayer;
     [SerializeField]
@@ -83,6 +83,7 @@ public class PlayerMove : MonoBehaviour
     //TODO : private
     public float hori;
     public float bottomDistance;
+    public float wallDistance;
     public float speed;
     public float jumpPower;
     public float gravity;
@@ -107,7 +108,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Start()
     {
-        
+        playerController = GetComponent<PlayerController>();
         Initialize();
         InitValue();
     }
@@ -116,6 +117,7 @@ public class PlayerMove : MonoBehaviour
     {
         //testText.text = string.Format("{0}", (int)rb.velocity.y);
         Debug.DrawRay(bottomChk.position, Vector2.right * bottomDistance, Color.red);
+        Debug.DrawRay(wallChk.position, Vector2.right * wallDistance, Color.red);
         Move();
         Jump();
         Ground();
@@ -133,7 +135,10 @@ public class PlayerMove : MonoBehaviour
     private void InitValue()
     {
         bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.1f);
+        wallChk.position = new Vector2(col.bounds.min.x-0.2f, (col.bounds.min.y+col.bounds.max.y)/2f);
+
         bottomDistance = col.bounds.size.x;
+        wallDistance = col.bounds.size.x+0.4f;
         SetStatus(playerstatus);
     }
 
@@ -228,6 +233,10 @@ public class PlayerMove : MonoBehaviour
     {
         return Physics2D.Raycast(bottomChk.position, Vector2.right, bottomDistance, bottomLayer);
     }
+    public bool IsWall()
+    {
+        return Physics2D.Raycast(wallChk.position, Vector2.right, wallDistance, bottomLayer);
+    }
     private bool IsDownBlock()
     {
         return Physics2D.Raycast(bottomChk.position, Vector2.right, bottomDistance, downLayer);
@@ -266,6 +275,9 @@ public class PlayerMove : MonoBehaviour
 
 
     }
+    public bool IsJumping(){
+        return state.HasFlag(PlayerState.JUMP);
+    }
     private void Ground()
     {
         if (useGravity && IsGround())
@@ -277,7 +289,9 @@ public class PlayerMove : MonoBehaviour
             }
             else if (rb.velocity.y <= 0.1f)
             {
-                jumpCount = 0;
+                if(!playerController.IsSliding()){
+                    jumpCount = 0;
+                }
             }
         }
         else
