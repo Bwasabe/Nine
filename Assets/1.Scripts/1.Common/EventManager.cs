@@ -4,11 +4,14 @@ using System;
 public class EventManager
 {
 
+
+    private static Dictionary<string, Action> eventDictionary = new Dictionary<string, Action>();
+
+
     /// <summary>
     /// EventManager.FunctionName("KeyName" , Action)
     /// </summary>
-    private static Dictionary<string, Action> eventDictionary = new Dictionary<string, Action>();
-
+    /// <param name = "eventName">오호호</param>
     public static void StartListening(string eventName, Action listener)
     {
         Action thisEvent;
@@ -45,6 +48,6 @@ public class EventManager
             thisEvent?.Invoke();
         }
     }
-    
+
 
 }
