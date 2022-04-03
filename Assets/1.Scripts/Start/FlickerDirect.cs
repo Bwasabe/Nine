@@ -11,5 +11,8 @@ public class FlickerDirect : MonoSingleton<FlickerDirect>
         Transform scene = transform.Find($"{_sceneName}{nextIndex}");
         scene.GetComponent<IChangeable>().SceneChange();
     }
+    private void Start() {
+        SceneChange(1);
+    }
 
 }

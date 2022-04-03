@@ -11,14 +11,14 @@ public class CameraStart : MonoBehaviour
 
 
     private void Start() {
-        MainCam.orthographicSize = 8f;
+        ManagerStart.Instance.FadeObject.DOFade(0f, 1f);
         MainCam.transform.rotation = Quaternion.Euler(-60f, 0f, 0f);
         DOTween.To(() => MainCam.orthographicSize, x => {
             MainCam.orthographicSize = x;
             Debug.Log(MainCam.orthographicSize);
         }, 8, 2f);
         transform.DORotate(Vector3.zero, 3f).OnComplete(() => backgrounds.ForEach(x => x.enabled = true));
-        transform.DOMoveY(0f, 3f);
+        transform.DOMoveY(-10f, 3f);
     }
 
 

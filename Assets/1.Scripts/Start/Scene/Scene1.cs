@@ -1,23 +1,18 @@
+using static Yields;
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using DG.Tweening;
 using UnityEngine.Experimental.Rendering.Universal;
-
-
-using static Yields;
-using static Define;
-
+using System.Reflection;
 
 public class Scene1 : MonoBehaviour, IChangeable
 {
     [SerializeField]
-    private GameObject _SoundObj;
+    private GameObject _soundObj;
 
 
-    [SerializeField]
-    private Image _fadeObject;
     [SerializeField]
     private TMP_Text _title;
     [SerializeField]
@@ -29,13 +24,7 @@ public class Scene1 : MonoBehaviour, IChangeable
     [SerializeField]
     private Color _tmpColor;
     [SerializeField]
-    private Color _fadeColor;
-    [SerializeField]
-    private Color _firstFadeColor;
-    [SerializeField]
     private float _offLightIntencity = 0.9f;
-    [SerializeField]
-    private float _cameraPos = 38f;
 
 
     private Color _titleColor;
@@ -44,23 +33,31 @@ public class Scene1 : MonoBehaviour, IChangeable
     private Color _subtitleLightColor;
     private float _lightIntencity = 1.2f;
 
+    private Transform _thisTransform = null;
+
+    private Coroutine _lightCoroutine = null;
+
+    private void Awake()
+    {
+        EventManager.StartListening("Scene1" , Scene1ToScene2);
+    }
     private void Start()
     {
+        _thisTransform = transform;
         _titleColor = _title.color;
         _subtitleColor = _subtitle.color;
         _titleLightColor = _titleLight.color;
         _subtitleLightColor = _subtitleLight.color;
         _lightIntencity = _titleLight.intensity;
+        ManagerStart.Instance.FirstFade();
+        _soundObj.SetActive(true);
         OffLight();
-        _fadeObject.color = _firstFadeColor;
-        _SoundObj.SetActive(true);
-        StartCoroutine(LightFlicker());
     }
 
     [ContextMenu("색깔 변환")]
     public void SceneChange()
     {
-        StartCoroutine(LightFlicker());
+        _lightCoroutine = StartCoroutine(LightFlicker());
     }
 
     [ContextMenu("끄기")]
@@ -69,7 +66,7 @@ public class Scene1 : MonoBehaviour, IChangeable
 
         _title.color = _tmpColor;
         _subtitle.color = _tmpColor;
-        _fadeObject.color = _fadeColor;
+        ManagerStart.Instance.Fade();
 
         _titleLight.color = _tmpColor;
         _subtitleLight.color = _tmpColor;
@@ -82,15 +79,28 @@ public class Scene1 : MonoBehaviour, IChangeable
     {
         _title.color = _titleColor;
         _subtitle.color = _subtitleColor;
-        _fadeObject.color = Vector4.zero;
+        ManagerStart.Instance.FadeObject.color = Vector4.zero;
 
         _titleLight.color = _titleLightColor;
         _subtitleLight.color = _subtitleLightColor;
         _titleLight.intensity = _lightIntencity;
         _subtitleLight.intensity = _lightIntencity;
     }
+
+
+    private void Scene1ToScene2()
+    {
+        FlickerDirect.Instance.SceneChange(2);
+        StopCoroutine(_lightCoroutine);
+        _soundObj.SetActive(false);
+        ManagerStart.Instance.SetCurrentScene(MethodBase.GetCurrentMethod().DeclaringType.FullName, 2);
+    }
+
+
     private IEnumerator LightFlicker()
     {
+        yield return WaitUntil(() => _soundObj != null);
+
         #region Neon1
         // yield return WaitForSeconds(1.43f); //1.43
         // OnLight();
@@ -107,7 +117,7 @@ public class Scene1 : MonoBehaviour, IChangeable
         // yield return WaitForSeconds(0.6f); // 2.73
         // OnLight();
         #endregion
-        float[] neonDuration = { 1.4f, 0.2f, 0.1f, 0.2f, 0.4f, 0.2f, 0.7f, 0.3f, 0.04f, 0.06f, 0.14f, 0.06f, 0.5f };
+        float[] neonDuration = { 1.3f, 0.2f, 0.1f, 0.2f, 0.4f, 0.2f, 0.7f, 0.3f, 0.04f, 0.06f, 0.14f, 0.06f, 0.5f };
         bool isOn = false;
         for (int i = 0; i < neonDuration.Length; i++)
         {
@@ -124,9 +134,10 @@ public class Scene1 : MonoBehaviour, IChangeable
         }
 
         yield return WaitForSeconds(1f);
-        MaincamTransform.DOMoveX(_cameraPos, 0.5f).OnComplete(() =>
-        {
-            FlickerDirect.Instance.SceneChange(2);
-        });
+        // FlickerDirect.Instance.SceneChange(2);
+        FlickerDirect.Instance.SceneChange(2);
+        ManagerStart.Instance.SetCurrentScene(MethodBase.GetCurrentMethod().DeclaringType.FullName, 2);
+
+
     }
 }

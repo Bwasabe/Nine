@@ -15,12 +15,18 @@ public class PoliceAttack : EnemyAttack
 
     private Rigidbody2D rb;
 
-    public Sequence bulletScale{ get; private set; }
+    public Sequence bulletScale { get; private set; }
 
 
     private void Start()
     {
         Initialize();
+    }
+    protected override void AddFSM()
+    {
+        enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Attack, AttackEnter);
+        enemyAI.AddFSMAction(FSMStates.FixedUpdate, EnemyAI.States.Attack, ChangeFacing);
+        enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, Attacking);
     }
     protected override void Initialize()
     {
@@ -38,11 +44,15 @@ public class PoliceAttack : EnemyAttack
         Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
         GameObject g = Instantiate(bullet, shootPos.position, Quaternion.identity);
         g.SetActive(true);
-        g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg  + 180f);
+        g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(
+            Mathf.Atan2(dir.y, dir.x), -enemyFOV.ViewAngle * Mathf.Rad2Deg + 180f, enemyFOV.ViewAngle * Mathf.Rad2Deg + 180f));//*(enemyMove.isFacingRight ? 1f : -1f ));
         bulletScale = DOTween.Sequence();
         bulletScale.Append(g.transform.DOScaleX(scaleX, 0.3f));
+        Debug.Log(g.transform.eulerAngles);
+
     }
-    public void KillScale(){
+    public void KillScale()
+    {
         bulletScale.Kill();
     }
 }

@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     ///TODOLIST
-    //
+    //TODO: 적 시야각 Gizemo만들기
+    //TODO: 총알 제대로 날리기
+    //TODO: 한번 어텍에 들어가면 총을 쏜후 chase로 돌아가기
 
     #region PublicValues
     public PlayerMove PlayerMove
@@ -38,6 +40,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
         set{
             timeScale = value;
+            Time.timeScale = timeScale;
         }
     }
 
@@ -49,7 +52,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private float timeScale;
     #endregion
-
+    
 
 
 }

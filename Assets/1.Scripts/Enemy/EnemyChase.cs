@@ -9,7 +9,7 @@ public class EnemyChase : MonoBehaviour
 {
     private EnemyFOV enemyFOV;
 
-    private EnemyAI enemyAI;
+    protected EnemyAI enemyAI;
 
 
     private Rigidbody2D rb;
@@ -28,6 +28,8 @@ public class EnemyChase : MonoBehaviour
 
     private float timer;
 
+    private Transform _playerTransform = null;
+
     private void Start()
     {
         Initialize();
@@ -37,9 +39,10 @@ public class EnemyChase : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         enemyFOV = GetComponent<EnemyFOV>();
         rb = GetComponent<Rigidbody2D>();
+        _playerTransform = GameManager.Instance.Player.transform;
         AddFSM();
     }
-    private void AddFSM()
+    protected virtual void AddFSM()
     {
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Chase, ReturnToPatrol);
         enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Chase, FindPlayerMotion);
@@ -67,9 +70,9 @@ public class EnemyChase : MonoBehaviour
         }
     }
 
-    private void ChaseMove()
+    protected void ChaseMove()
     {
-        if (GameManager.Instance.Player.transform.position.x > transform.position.x)
+        if (_playerTransform.position.x-1f > transform.position.x)
         {
             speed = Mathf.Abs(speed);
         }
@@ -80,10 +83,10 @@ public class EnemyChase : MonoBehaviour
         rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, speed, Time.deltaTime * moveSmooth), rb.velocity.y);
     }
 
-    private void CheckAttackPossible()
+    protected void CheckAttackPossible()
     {
-        Debug.Log(enemyFOV.IsDistancePossible(enemyFOV.AttackRange) + " / " + enemyFOV.IsTracePlayer() + " / " + enemyFOV.IsViewPlayer());
-        if (enemyFOV.IsDistancePossible(enemyFOV.AttackRange))
+        //Debug.Log(enemyFOV.IsDistancePossible(enemyFOV.AttackRange) + " / " + enemyFOV.IsTracePlayer() + " / " + enemyFOV.IsViewPlayer());
+        if (enemyFOV.IsDistancePossible(enemyFOV.AttackRange) && enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
         {
             enemyAI.FSM.ChangeState(EnemyAI.States.Attack);
         }
@@ -99,7 +102,7 @@ public class EnemyChase : MonoBehaviour
         speed = oldSpeed;
     }
     
-    private void FindPlayerMotion()
+    protected void FindPlayerMotion()
     {
         StartCoroutine(FindPlayerMotionCoroutine());
     }

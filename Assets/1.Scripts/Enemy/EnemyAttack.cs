@@ -9,7 +9,7 @@ public class EnemyAttack : MonoBehaviour
 {
     protected EnemyAI enemyAI;
     protected EnemyFOV enemyFOV;
-    private EnemyMove enemyMove;
+    protected EnemyMove enemyMove;
 
     protected SpriteRenderer spriteRenderer;
 
@@ -44,7 +44,7 @@ public class EnemyAttack : MonoBehaviour
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, Attacking);
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Attack, CheckBungOff);
     }
-    private void Attacking()
+    protected void Attacking()
     {
 
         if (spriteRenderer.sprite == shootSprite && !isFire)
@@ -69,7 +69,7 @@ public class EnemyAttack : MonoBehaviour
             enemyAI.FSM.ChangeState(EnemyAI.States.BungOff);
         }
     }
-    private void ChangeFacing()
+    protected void ChangeFacing()
     {
         if (GameManager.Instance.Player.transform.position.x > transform.position.x)
         {

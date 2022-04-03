@@ -5912,10 +5912,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LowerGuard
       objectReference: {fileID: 0}
-    - target: {fileID: 7471586049937068099, guid: 8df3c03349f230b498a630850d372df8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7471586049937068105, guid: 8df3c03349f230b498a630850d372df8, type: 3}
       propertyPath: bullet
       value: 
@@ -5970,6 +5966,27 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5149466320845975120, guid: 4d58ac5d441da3543a4aa02c047329ce, type: 3}
   m_PrefabInstance: {fileID: 5149466320566949225}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &332672256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1528972557800479785, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
+  m_PrefabInstance: {fileID: 8252960244920490758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &332672257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332672256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b6d1b4cc6ca0d64db1f77771487faf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolTime: 2
+  speed: 5
+  moveSmooth: 5
+  findPlayerDuration: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7396,6 +7413,7 @@ MonoBehaviour:
   leftTr: {fileID: 5661310571111617793}
   rightTr: {fileID: 5661310571001424405}
   cardTs: []
+  usedCardTs: []
 --- !u!1 &699971529
 GameObject:
   m_ObjectHideFlags: 0
@@ -19927,6 +19945,8 @@ MonoBehaviour:
   testText: {fileID: 0}
   player: {fileID: 11400000, guid: 196aa918c2be346418553d7a8ae8e479, type: 2}
   cardCount: 0
+  myParticleSystem: {fileID: 0}
+  ghostMode: {fileID: 0}
 --- !u!50 &2048116791
 Rigidbody2D:
   serializedVersion: 4
@@ -19978,6 +19998,7 @@ MonoBehaviour:
   playerstatus: {fileID: 11400000, guid: 196aa918c2be346418553d7a8ae8e479, type: 2}
   testText: {fileID: 0}
   bottomChk: {fileID: 2112504374}
+  wallChk: {fileID: 0}
   bottomLayer:
     serializedVersion: 2
     m_Bits: 320
@@ -19991,11 +20012,13 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5661310571409128672}
   hori: 0
   bottomDistance: 0
+  wallDistance: 0
   speed: 0
   jumpPower: 0
   gravity: 0
   jumpCount: 0
   jumpMaxCount: 0
+  useGravity: 1
 --- !u!1 &2101377267
 GameObject:
   m_ObjectHideFlags: 0
@@ -20946,6 +20969,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1528972557800479776, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
+      propertyPath: viewAngle
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 1528972557800479785, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_Name
       value: Police
@@ -20959,12 +20986,16 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1528972557800479787, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528972557800479787, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.51
+      value: -19.06
       objectReference: {fileID: 0}
     - target: {fileID: 1528972557800479787, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.15
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 1528972557800479787, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
       propertyPath: m_LocalPosition.z
@@ -21002,7 +21033,8 @@ PrefabInstance:
       propertyPath: bullet
       value: 
       objectReference: {fileID: 787310020}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1528972557800479782, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ba5514b8fd65a074183f196e13430c93, type: 3}
 --- !u!1 &8916451199483945810
 GameObject:

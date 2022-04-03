@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyFOV : MonoBehaviour
 {
 
-
     [Range(0, 360)]
     [SerializeField]
     private float viewAngle = 40f;
@@ -16,8 +15,18 @@ public class EnemyFOV : MonoBehaviour
     [SerializeField]
     private float bungOffRange = 2f;
 
-    public float ViewRange{
-        get{
+    public float ViewAngle
+    {
+        get
+        {
+            return viewAngle;
+        }
+    }
+
+    public float ViewRange
+    {
+        get
+        {
             return viewRange;
         }
     }
@@ -28,8 +37,10 @@ public class EnemyFOV : MonoBehaviour
             return attackRange;
         }
     }
-    public float BungOffRange{
-        get{
+    public float BungOffRange
+    {
+        get
+        {
             return bungOffRange;
         }
     }
@@ -56,10 +67,11 @@ public class EnemyFOV : MonoBehaviour
             // z축 필요없으니 벡터 2로 변환시킴
             Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
 
-            if (Vector2.Angle(transform.localScale.x > 0 ? transform.right : transform.right * -1f, dir) < viewAngle * 0.5f)
+            if (Vector2.Angle(transform.localScale.x > 0 ? transform.right : transform.right * -1f, dir) < (viewAngle+90f) * 0.5f)
             {
 
                 isTrace = true;
+                Debug.Log("와 쫒아");
             }
         }
 
@@ -89,10 +101,27 @@ public class EnemyFOV : MonoBehaviour
             <= Mathf.Pow(distance, 2);
     }
 
+    private Vector2 DirFromAngle(float angle){
+        if(transform.localScale.x > 0){
+            return new Vector2(Mathf.Sin((angle + 90f) * Mathf.Deg2Rad), Mathf.Cos((angle+ 90f) * Mathf.Deg2Rad)  );
+        }
+        return new Vector2(Mathf.Sin((angle - 90f) * Mathf.Deg2Rad), Mathf.Cos((angle - 90f) * Mathf.Deg2Rad)  );
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, viewAngle);
+        Gizmos.color = Color.blue;
+        //Gizmos.DrawWireSphere(transform.position, viewAngle);
+        Vector2 dir = transform.right * (viewAngle + 90f);
+        Gizmos.DrawLine(transform.position, Mathf.Atan2(dir.y , dir.x)    );
+        Debug.Log(new Vector2(Mathf.Sin((viewAngle + 90f) * Mathf.Deg2Rad), Mathf.Cos((viewAngle+ 90f) * Mathf.Deg2Rad)) * viewRange);
+        //Gizmos.DrawLine(transform.position, new Vector2(Mathf.Sin((viewAngle + 90f) * Mathf.Deg2Rad), Mathf.Cos((viewAngle+ 90f) * Mathf.Deg2Rad) * viewRange *-1f));
+        //Gizmos.DrawLine(transform.position, new Vector2(Mathf.Cos(-viewAngle+90) ,Mathf.Sin(-viewAngle+90)*viewRange ));
+
+        // Vector2 leftBoundary = DirFromAngle(ViewAngle);
+        // Vector2 rightBoundary = DirFromAngle(ViewAngle / 2);
+        // Gizmos.DrawLine(transform.position, (Vector2)transform.position + leftBoundary * viewRange);
+        // Gizmos.DrawLine(transform.position, (Vector2)transform.position + rightBoundary * viewRange);
     }
 
 }
