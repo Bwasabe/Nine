@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 
 public class LowerGuardAttack : EnemyAttack
 {
@@ -16,15 +15,15 @@ public class LowerGuardAttack : EnemyAttack
     private Rigidbody2D rb;
 
 
-
     private void Start()
     {
         Initialize();
     }
+
     protected override void Initialize()
     {
         base.Initialize();
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponentInParent<Rigidbody2D>();
     }
     protected override void AttackEnter()
     {
@@ -35,10 +34,25 @@ public class LowerGuardAttack : EnemyAttack
     {
         //TODO: 풀링 소환
         Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
-        GameObject g = Instantiate(bullet, shootPos.position, Quaternion.identity);
+        dir -= Vector2.up * enemyFOV.tolerance;
+        float rotationZ = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        dir.Normalize();
+        GameObject g = Instantiate(bullet, shootPos.position, Quaternion.Euler(0f, 0f, rotationZ));
         g.SetActive(true);
-        g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(Mathf.Atan2(dir.y, dir.x), -enemyFOV.ViewAngle * 0.5f, enemyFOV.ViewAngle * 0.5f) * Mathf.Rad2Deg);
-        Debug.Log(g.transform.rotation);
+        if (enemyMove.isFacingRight)
+        {
+            rotationZ = Mathf.Clamp(g.transform.eulerAngles.z, -enemyFOV.ViewAngle, enemyFOV.ViewAngle);
+        }
+        else
+        {
+            rotationZ = Mathf.Clamp(g.transform.eulerAngles.z, -enemyFOV.ViewAngle + 180f, enemyFOV.ViewAngle + 180f);
+        }
+        g.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
+        //g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);// -enemyFOV.ViewAngle * 0.5f, enemyFOV.ViewAngle * 0.5f * Mathf.Rad2Deg);
+        Debug.Log(g.transform.eulerAngles);
+
+
+        base.Attack();
     }
 
 

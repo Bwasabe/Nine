@@ -44,11 +44,10 @@ public class PoliceAttack : EnemyAttack
         Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
         GameObject g = Instantiate(bullet, shootPos.position, Quaternion.identity);
         g.SetActive(true);
-        g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(
-            Mathf.Atan2(dir.y, dir.x), -enemyFOV.ViewAngle * Mathf.Rad2Deg + 180f, enemyFOV.ViewAngle * Mathf.Rad2Deg + 180f));//*(enemyMove.isFacingRight ? 1f : -1f ));
+        // g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(
+        //     Mathf.Atan2(dir.y, dir.x), -enemyFOV.ViewAngle * Mathf.Rad2Deg + 180f, enemyFOV.ViewAngle * Mathf.Rad2Deg + 180f));//*(enemyMove.isFacingRight ? 1f : -1f ));
         bulletScale = DOTween.Sequence();
         bulletScale.Append(g.transform.DOScaleX(scaleX, 0.3f));
-        Debug.Log(g.transform.eulerAngles);
 
     }
     public void KillScale()

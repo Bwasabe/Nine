@@ -50,9 +50,9 @@ public class DialogManager : MonoBehaviour
     }
 
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.Alpha0)){
-            ShowDialog(1);
-        }
+        // if(Input.GetKeyDown(KeyCode.Space)){
+        //     ShowDialog(1);
+        // }
     }
 
     private void ShowDialog(int index, Action callback = null)

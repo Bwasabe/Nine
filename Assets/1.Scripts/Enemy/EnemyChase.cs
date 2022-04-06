@@ -30,6 +30,12 @@ public class EnemyChase : MonoBehaviour
 
     private Transform _playerTransform = null;
 
+
+    public bool distancePlayer = false;
+    public bool viewPlayer = false;
+    public bool tracePlayer = false;
+
+
     private void Start()
     {
         Initialize();
@@ -50,6 +56,11 @@ public class EnemyChase : MonoBehaviour
         enemyAI.AddFSMAction(FSMStates.Update, EnemyAI.States.Chase, CheckAttackPossible);
     }
 
+    private void Update() {
+        distancePlayer = enemyFOV.IsDistancePossible(enemyFOV.AttackRange);
+        tracePlayer = enemyFOV.IsTracePlayer();
+        viewPlayer = enemyFOV.IsViewPlayer();
+    }
 
 
 

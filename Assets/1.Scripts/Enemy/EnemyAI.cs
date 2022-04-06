@@ -174,30 +174,30 @@ public class EnemyAI : MonoBehaviour
     #endregion
 
 
-    #region BungOff
+    // #region BungOff
 
-    void BungOff_Enter()
-    {
-        fsmStateDictionary[FSMStates.Enter][States.BungOff]?.Invoke();
-    }
-    void BungOff_Update()
-    {
-        fsmStateDictionary[FSMStates.Update][States.BungOff]?.Invoke();
-    }
-    void BungOff_FixedUpdate()
-    {
-        fsmStateDictionary[FSMStates.FixedUpdate][States.BungOff]?.Invoke();
-    }
-    void BungOff_Exit()
-    {
-        fsmStateDictionary[FSMStates.Exit][States.BungOff]?.Invoke();
-    }
-    void BungOff_OnTriggerEnter2D(Collider2D other)
-    {
-        fsmStateDictionary[FSMStates.OnTriggerEnter2D][States.BungOff]?.Invoke();
-    }
+    // void BungOff_Enter()
+    // {
+    //     fsmStateDictionary[FSMStates.Enter][States.BungOff]?.Invoke();
+    // }
+    // void BungOff_Update()
+    // {
+    //     fsmStateDictionary[FSMStates.Update][States.BungOff]?.Invoke();
+    // }
+    // void BungOff_FixedUpdate()
+    // {
+    //     fsmStateDictionary[FSMStates.FixedUpdate][States.BungOff]?.Invoke();
+    // }
+    // void BungOff_Exit()
+    // {
+    //     fsmStateDictionary[FSMStates.Exit][States.BungOff]?.Invoke();
+    // }
+    // void BungOff_OnTriggerEnter2D(Collider2D other)
+    // {
+    //     fsmStateDictionary[FSMStates.OnTriggerEnter2D][States.BungOff]?.Invoke();
+    // }
 
-    #endregion
+    // #endregion
 
 
     #region Attack

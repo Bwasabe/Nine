@@ -47,7 +47,6 @@ public class ManagerStart : MonoSingleton<ManagerStart>
     }
 
     private int _currentScene = 1;
-    //TODO: 마지막에 Scene3에서 화이트 아웃 방법 생각 해 볼것
     public int CurrentScene
     {
         get

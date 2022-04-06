@@ -78,6 +78,7 @@ public class DialogPanel : MonoBehaviour
     {
         yield return Yields.WaitUntil(() => spritefaces != null);
         Addressables.Release(handle);
+        Debug.Log(spritefaces);
         for (int i = 0; i < spritefaces.spriteCount; i++)
         {
             imageDictionary.Add(i, spritefaces.GetSprite(spriteFaceNames[i]));
