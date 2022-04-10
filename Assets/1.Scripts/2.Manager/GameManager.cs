@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    ///TODOLIST
-    //TODO: 플레이어하고 적하고 Collision충돌이 일어나면 안 움직이게 만들기
+    ////TODOLIST 
+    //// TODO : 적 충돌 아예 없애버리기 => 플레이어의 충돌을 없애는 쪽을 선택하는게 좋을듯
+    //// TODO: 보스 만들기
+    ////            ㄴ TODO: 주사위 떨구기
+    ////            ㄴ TODO: 장판 만들기
+    ////            ㄴ TODO: 불기둥을 만들기
+    ////            ㄴ TODO: 플레이어 머리 위로 떨어지는 주사위 만들기
 
     #region PublicValues
     public PlayerMove PlayerMove

@@ -1,3 +1,5 @@
+using static Yields;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,21 +22,21 @@ public class DialogManager : MonoBehaviour
 
     private Action<EventParam> _showDialog;
 
+    private GameTextDataVO textData = null;
+
     private void Awake()
     {
 
-        GameTextDataVO textData = null;
         Addressables.LoadAssetAsync<TextAsset>(dialogPath).Completed += (AsyncOperationHandle<TextAsset> obj) =>
         {
             handle = obj;
             textData = JsonUtility.FromJson<GameTextDataVO>(obj.Result.ToString());
-            Debug.Log(obj.Result.ToString());
-            StartCoroutine(Init(textData));
+            StartCoroutine(Init());
         };
     }
-    private IEnumerator Init(GameTextDataVO textData)
+    private IEnumerator Init()
     {
-        yield return Yields.WaitUntil(() => textData != null);
+        yield return WaitUntil(() => textData != null);
         foreach (DialogVO vo in textData.list)
         {
             dialogTextDictionary.Add(vo.code, vo.text);
@@ -49,11 +51,11 @@ public class DialogManager : MonoBehaviour
         ShowDialog(0);
     }
 
-    private void Update() {
-        // if(Input.GetKeyDown(KeyCode.Space)){
-        //     ShowDialog(1);
-        // }
-    }
+    // private void Update() {
+    //     if(Input.GetKeyDown(KeyCode.Space)){
+    //         ShowDialog(1);
+    //     }
+    // }
 
     private void ShowDialog(int index, Action callback = null)
     {
@@ -61,7 +63,7 @@ public class DialogManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("왜 안보여줄까");
         dialogPanel.StartDialog(dialogTextDictionary[index], callback);
     }
 }

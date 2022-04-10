@@ -107,9 +107,8 @@ public class DialogPanel : MonoBehaviour
             profileImages[i].enabled = true;
         }
         dialogText.text = "";
-
-        panel.DOScale(new Vector3(1, 1, 1), 0.8f).OnComplete(() =>
-        {
+        Debug.Log(panel.transform.localScale);
+        panel.transform.localScale = Vector3.one;
             profileImages[(int)list[currentIndex].facePosition].sprite = imageDictionary[list[currentIndex].icon];
             profileImages[(int)list[currentIndex].facePosition].DOFade(1f, 0.5f);
             profileImages[(int)list[currentIndex].facePosition].DOColor(Color.white, 0.5f).OnComplete(() =>
@@ -117,7 +116,10 @@ public class DialogPanel : MonoBehaviour
                 TypeIt(list[currentIndex]);
                 isOpen = true;
             });
-        });
+        // panel.DOScale(Vector3.one, 0.8f).OnComplete(() =>
+        // {
+        //     Debug.Log("왜 안될까");
+        // });
     }
 
     private void TypeIt(TextVO vo)

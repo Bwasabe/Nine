@@ -71,7 +71,7 @@ public class EnemyFOV : MonoBehaviour
             Vector2 dir = GameManager.Instance.Player.transform.position - transform.position;
             dir -= Vector2.up * tolerance;
             dir.Normalize();
-            if (Vector2.Angle(transform.localScale.x > 0 ? transform.right : transform.right * -1f, dir) < viewAngle* 0.5f)
+            if (Vector2.Angle(transform.localScale.x > 0 ? transform.right : transform.right * -1f, dir) < viewAngle * 0.5f)
             {
 
                 isTrace = true;
@@ -108,20 +108,25 @@ public class EnemyFOV : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.green;
         //Gizmos.DrawWireSphere(transform.position, viewAngle);
         // Vector2 dir = transform.right * (viewAngle + 90f);
         Vector3 left = Quaternion.AngleAxis(-viewAngle / 2, Vector3.forward) * (transform.localScale.x > 0 ? Vector3.right : Vector3.left);
         Vector3 right = Quaternion.AngleAxis(viewAngle / 2, Vector3.forward) * (transform.localScale.x > 0 ? Vector3.right : Vector3.left);
         Gizmos.DrawLine(transform.position, transform.position + left * viewRange);
         Gizmos.DrawLine(transform.position, transform.position + right * viewRange);
-        //Gizmos.DrawLine(transform.position, Mathf.Atan2(dir.y , dir.x)    );
-        //Gizmos.DrawLine(transform.position, new Vector2(Mathf.Sin((viewAngle + 90f) * Mathf.Deg2Rad), Mathf.Cos((viewAngle+ 90f) * Mathf.Deg2Rad) * viewRange));
 
-        // Gizmos.DrawLine(transform.position, new Vector2(Mathf.Sin((viewAngle + 90f) * Mathf.Deg2Rad), Mathf.Cos((viewAngle+ 90f) * Mathf.Deg2Rad) * viewRange));
-        // Gizmos.DrawLine(transform.position, new Vector2(Mathf.Sin((viewAngle + 90f) * Mathf.Deg2Rad), Mathf.Cos((viewAngle+ 90f) * Mathf.Deg2Rad))* viewRange * -1f);
 
-        //Gizmos.DrawLine(transform.position, new Vector2(Mathf.Cos(-viewAngle+90) ,Mathf.Sin(-viewAngle+90)*viewRange ));
+        ///문제가 있음
+        // Gizmos.color = Color.blue;
+
+
+        // Gizmos.DrawLine(transform.position, new Vector2(Mathf.Cos(  (viewAngle* Mathf.Deg2Rad)), Mathf.Sin((viewAngle* Mathf.Deg2Rad)) * viewRange));
+        // Gizmos.DrawLine(transform.position, new Vector2(Mathf.Cos((-viewAngle* Mathf.Deg2Rad)), Mathf.Sin((-viewAngle* Mathf.Deg2Rad)) * viewRange));
+        // Gizmos.color = Color.red;
+
+        // Gizmos.DrawLine(transform.position, new Vector2(Mathf.Cos((viewAngle+ 180f) * Mathf.Deg2Rad), Mathf.Sin((viewAngle+ 180f) * Mathf.Deg2Rad) * viewRange));
+        // Gizmos.DrawLine(transform.position, new Vector2(Mathf.Cos((-viewAngle+ 180f) * Mathf.Deg2Rad), Mathf.Sin((-viewAngle+ 180f) * Mathf.Deg2Rad) * viewRange));
     }
 
 }

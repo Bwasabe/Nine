@@ -14,9 +14,9 @@ public class CharacterDamaged : MonoBehaviour, IDamageable
     private Animator animator;
 
     [SerializeField]
-    private string damageAnimationName;
+    private AnimationClip damageAnimation;
     [SerializeField]
-    private string deadAnimationName;
+    private AnimationClip deadAnimation;
 
 
 
@@ -29,20 +29,26 @@ public class CharacterDamaged : MonoBehaviour, IDamageable
         if (hp >= 1)
         {
             hp -= damage;
-            animator.Play(damageAnimationName);
+            if (damageAnimation != null)
+            {
+                animator.Play(damageAnimation.name);
+            }
         }
-        else
+        if (hp <= 0)
         {
             Dead();
             isDead = true;
-            animator.Play(deadAnimationName);
-
+            if (deadAnimation != null)
+            {
+                animator.Play(deadAnimation.name);
+            }
         }
     }
 
     public virtual void Dead()
     {
         Debug.Log("죽음");
+        Debug.Log("ㅁㄴ읾ㄶㅇ");
 
     }
 

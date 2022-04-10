@@ -1,9 +1,11 @@
+using static Yields;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(EnemyAI))]
-[RequireComponent(typeof(EnemyMove))]
 public class EnemyDamaged : CharacterDamaged
 {
     private EnemyAI enemyAI;
@@ -12,30 +14,41 @@ public class EnemyDamaged : CharacterDamaged
 
     private Rigidbody2D rb;
 
+    private Coroutine _hitCoroutine = null;
+
 
     private void Start()
     {
         enemyAI = GetComponent<EnemyAI>();
         rb = GetComponent<Rigidbody2D>();
-        enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Invincible, StartInvincible);
+        //enemyAI.AddFSMAction(FSMStates.Enter, EnemyAI.States.Invincible, StartInvincible);
     }
     public override void Damage(int damage)
     {
-        if (enemyAI.FSM.State == EnemyAI.States.Invincible) return;
+        if (enemyAI.FSM.State == EnemyAI.States.Dead) return;
         states = enemyAI.FSM.State;
+
+        if(_hitCoroutine != null){
+            StopCoroutine(_hitCoroutine);
+        }
+        _hitCoroutine = StartCoroutine(DamagedMotion());
+
         base.Damage(damage);
+
         if (hp >= 1)
         {
-            Debug.Log("'왜 안바뀌지'");
             enemyAI.FSM.ChangeState(EnemyAI.States.Invincible);
-            CheckPlayer();
+            enemyAI.FSM.ChangeState(states);
+            if(enemyAI.FSM.State == EnemyAI.States.Patrol){
+                CheckPlayer();
+            }
         }
-        else{
+        if (hp <= 0){
             enemyAI.FSM.ChangeState(EnemyAI.States.Dead);
         }
     }
 
-    private void CheckPlayer(){
+    public void CheckPlayer(){
         Transform pTransform = GameManager.Instance.Player.transform;
         float facingDir = 1f;
         if(transform.position.x > pTransform.position.x){
@@ -52,14 +65,19 @@ public class EnemyDamaged : CharacterDamaged
         for (int i = 0; i < 2; i++)
         {
             spriteRenderer.color = Color.red;
-            yield return Yields.WaitForSeconds(0.1f);
+            yield return WaitForSeconds(0.1f);
             spriteRenderer.color = Color.white;
-            yield return Yields.WaitForSeconds(0.1f);
+            yield return WaitForSeconds(0.1f);
         }
-        enemyAI.FSM.ChangeState(states);
     }
-    private void StartInvincible()
-    {
-        StartCoroutine(DamagedMotion());
+
+    public override void Dead(){
+        GetComponent<BoxCollider2D>().enabled = false;
+        rb.gravityScale = 0f;
+        enemyAI.enabled = false;
+        spriteRenderer.DOFade(0f, 1f).OnComplete(() =>{
+            gameObject.SetActive(false);
+        });
     }
+
 }
