@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class Define
 {
@@ -25,4 +27,27 @@ public static class Define
         }
     }
     private static Transform _mainCamTransform;
+
+    public static Image FadeObject{
+        get{
+            if(_fadeObject == null){
+                _fadeObject = ObjectManager.Instance.FadeObject;
+            }
+            return _fadeObject;
+        }
+    }
+
+    private static Image _fadeObject = null;
+
+    public static CinemachineVirtualCamera VirtualCamera{
+        get{
+            if(_vcam == null){
+                _vcam = ObjectManager.Instance.VirtualCamera;
+            }
+            return _vcam;
+        }
+    }
+
+    private static CinemachineVirtualCamera _vcam;
+
 }

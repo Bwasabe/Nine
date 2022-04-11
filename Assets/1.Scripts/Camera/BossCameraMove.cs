@@ -9,39 +9,43 @@ using UnityEngine.Events;
 
 public class BossCameraMove : MonoBehaviour
 {
-    [SerializeField]
-    private float _moveDuration;
-    [SerializeField]
-    private float _cameraSize;
-
-    [SerializeField]
-    private Vector3 _movePos = Vector3.zero;
-
-    [SerializeField]
-    CinemachineVirtualCamera _cam = null;
 
     private CinemachineTransposer _camTransposer = null;
 
     [SerializeField]
-    private UnityAction _bossAnimationAction = null;
+    private UnityEvent _bossEnterAnimationEvent = null;
+
+
+    private bool isFirstEnter = false;
+
     private void Start() {
-        _camTransposer = _cam.GetCinemachineComponent<CinemachineTransposer>();
+        _camTransposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+
     }
 
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-        _cam.AddCinemachineComponent<CinemachineTransposer>();
-        _cam.DestroyCinemachineComponent<CinemachineTransposer>();
-        gameObject.SetActive(false);
-        MaincamTransform.DOMove(_movePos, _moveDuration);
-        _cam.transform.DOMove(_movePos, _moveDuration);
+        if(isFirstEnter)return;
+        isFirstEnter = true;
+        //Cinemachine Do nothing
+        VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
+        VirtualCamera.DestroyCinemachineComponent<CinemachineTransposer>();
 
-        DOTween.To(
-            () => _cam.m_Lens.OrthographicSize,
-            value => _cam.m_Lens.OrthographicSize = value,
-            _cameraSize, _moveDuration
-        );
+        FadeObject.color = Vector4.zero;
+        FadeObject.DOFade(1f, 1f).OnComplete(() =>{
+            _bossEnterAnimationEvent.Invoke();
+            GameManager.Instance.PlayerMove.IsFreeze();
+        });
+
+    }
+
+    public void DebugEnter(){
+        Debug.Log("엔터");
+    }
+
+    public void DebugExit(){
+        Debug.Log("나감");
 
     }
 }

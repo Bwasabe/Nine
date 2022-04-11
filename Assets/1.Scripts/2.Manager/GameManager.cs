@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     ////TODOLIST 
-    //// TODO : 적 충돌 아예 없애버리기 => 플레이어의 충돌을 없애는 쪽을 선택하는게 좋을듯
+    //// TODO : 보스 카메라 무빙
+    ////            ㄴ
     //// TODO: 보스 만들기
     ////            ㄴ TODO: 주사위 떨구기
     ////            ㄴ TODO: 장판 만들기

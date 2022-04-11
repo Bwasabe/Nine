@@ -451,16 +451,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313965227}
-  m_LocalRotation: {x: -0, y: -0, z: -0.07203258, w: 0.9974023}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.44951916}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 583569688}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -8.261}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.662094, y: 0.040908813}
+  m_AnchoredPosition: {x: -4.08, y: 0.22}
   m_SizeDelta: {x: 11.2433, y: 3.8075}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &313965229
@@ -510,8 +510,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1551,16 +1551,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887875068}
-  m_LocalRotation: {x: -0, y: -0, z: 0.10639865, w: 0.9943236}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.14951897}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 583569688}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12.216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.0117035, y: -2.5634346}
+  m_AnchoredPosition: {x: 2.89, y: -2.6}
   m_SizeDelta: {x: 22.9547, y: 6.4181}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &887875070
@@ -1583,7 +1583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: POKER FACE
+  m_text: SIX
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 812dcafb6a4215b488f1d8d4eff63f5b, type: 2}
   m_sharedMaterial: {fileID: -6633395359535344468, guid: 812dcafb6a4215b488f1d8d4eff63f5b, type: 2}
@@ -1610,8 +1610,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23
-  m_fontSizeBase: 23
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2634,13 +2634,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216822904}
-  m_LocalRotation: {x: -0, y: -0, z: -0.19707382, w: 0.98038864}
-  m_LocalPosition: {x: -11.731987, y: -0.67954063, z: -6.8631544}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.16790485, y: -2.460909, z: -6.8631544}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 583569688}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -22.732}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1216822906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2678,10 +2678,10 @@ MonoBehaviour:
   m_ShapeLightFalloffSize: 3
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: 3.4086475, y: 2.8996181, z: 0}
-  - {x: 7.0106487, y: 3.86907, z: 0}
-  - {x: 6.6944084, y: 5.149149, z: 0}
-  - {x: 2.7984447, y: 4.185568, z: 0}
+  - {x: -6.492633, y: 2.5984364, z: 0}
+  - {x: -1.0835533, y: 2.626707, z: 0}
+  - {x: -1.0609665, y: 4.3961964, z: 0}
+  - {x: -6.651067, y: 4.2985096, z: 0}
 --- !u!1 &1239206280
 GameObject:
   m_ObjectHideFlags: 0
@@ -3452,7 +3452,6 @@ MonoBehaviour:
   - {fileID: 1397902647}
   - {fileID: 1057699696}
   - {fileID: 1982738005}
-  _uiCanvas: {fileID: 0}
 --- !u!1 &1606175851
 GameObject:
   m_ObjectHideFlags: 0
@@ -4486,13 +4485,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911204150}
-  m_LocalRotation: {x: -0, y: -0, z: 0.10639865, w: 0.9943236}
-  m_LocalPosition: {x: 1, y: 1.7, z: -6.8631544}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.15, y: 1.29, z: -6.8631544}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 583569688}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12.216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1911204152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4530,10 +4529,10 @@ MonoBehaviour:
   m_ShapeLightFalloffSize: 5
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -6.5183353, y: -3.5496235, z: 0}
-  - {x: 6.683008, y: -3.538042, z: 0}
-  - {x: 6.7751904, y: -1.5148144, z: 0}
-  - {x: -6.619442, y: -1.5880737, z: 0}
+  - {x: 0.21418762, y: -4.111553, z: 0}
+  - {x: 6.03376, y: -4.3357735, z: 0}
+  - {x: 6.4100227, y: -1.3775558, z: 0}
+  - {x: 0.33874702, y: -1.3845062, z: 0}
 --- !u!1 &1980971075
 GameObject:
   m_ObjectHideFlags: 0

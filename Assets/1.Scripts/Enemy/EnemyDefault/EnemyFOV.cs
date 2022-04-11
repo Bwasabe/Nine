@@ -45,7 +45,7 @@ public class EnemyFOV : MonoBehaviour
         }
     }
 
-    public readonly float tolerance = 1.192586f;
+    public readonly float tolerance = 0.9934999f;
 
 
 
