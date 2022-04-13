@@ -28,7 +28,8 @@ public class EnemyDamaged : CharacterDamaged
         if (enemyAI.FSM.State == EnemyAI.States.Dead) return;
         states = enemyAI.FSM.State;
 
-        if(_hitCoroutine != null){
+        if (_hitCoroutine != null)
+        {
             StopCoroutine(_hitCoroutine);
         }
         _hitCoroutine = StartCoroutine(DamagedMotion());
@@ -39,22 +40,27 @@ public class EnemyDamaged : CharacterDamaged
         {
             enemyAI.FSM.ChangeState(EnemyAI.States.Invincible);
             enemyAI.FSM.ChangeState(states);
-            if(enemyAI.FSM.State == EnemyAI.States.Patrol){
+            if (enemyAI.FSM.State == EnemyAI.States.Patrol)
+            {
                 CheckPlayer();
             }
         }
-        if (hp <= 0){
+        if (hp <= 0)
+        {
             enemyAI.FSM.ChangeState(EnemyAI.States.Dead);
         }
     }
 
-    public void CheckPlayer(){
+    public void CheckPlayer()
+    {
         Transform pTransform = GameManager.Instance.Player.transform;
         float facingDir = 1f;
-        if(transform.position.x > pTransform.position.x){
+        if (transform.position.x > pTransform.position.x)
+        {
             facingDir = -1f;
         }
-        else{
+        else
+        {
             facingDir = 1f;
         }
         rb.velocity = Vector2.right * 0.2f * facingDir;
@@ -62,20 +68,19 @@ public class EnemyDamaged : CharacterDamaged
 
     private IEnumerator DamagedMotion()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            spriteRenderer.color = Color.red;
-            yield return WaitForSeconds(0.1f);
-            spriteRenderer.color = Color.white;
-            yield return WaitForSeconds(0.1f);
-        }
+        spriteRenderer.color = Color.red;
+        yield return WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
+        yield return WaitForSeconds(0.1f);
     }
 
-    public override void Dead(){
+    public override void Dead()
+    {
         GetComponent<BoxCollider2D>().enabled = false;
         rb.gravityScale = 0f;
         enemyAI.enabled = false;
-        spriteRenderer.DOFade(0f, 1f).OnComplete(() =>{
+        spriteRenderer.DOFade(0f, 2f).OnComplete(() =>
+        {
             gameObject.SetActive(false);
         });
     }

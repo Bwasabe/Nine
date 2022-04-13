@@ -15,7 +15,6 @@ public class CameraStart : MonoBehaviour
         MainCam.transform.rotation = Quaternion.Euler(-60f, 0f, 0f);
         DOTween.To(() => MainCam.orthographicSize, x => {
             MainCam.orthographicSize = x;
-            Debug.Log(MainCam.orthographicSize);
         }, 8, 2f);
         transform.DORotate(Vector3.zero, 3f).OnComplete(() => backgrounds.ForEach(x => x.enabled = true));
         transform.DOMoveY(-10f, 3f);

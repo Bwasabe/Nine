@@ -10,7 +10,8 @@ using UnityEngine.Events;
 public class BossCameraMove : MonoBehaviour
 {
 
-    private CinemachineTransposer _camTransposer = null;
+    [SerializeField]
+    private Transform _playerMoveTransform = null;
 
     [SerializeField]
     private UnityEvent _bossEnterAnimationEvent = null;
@@ -18,24 +19,26 @@ public class BossCameraMove : MonoBehaviour
 
     private bool isFirstEnter = false;
 
+    private CinemachineVirtualCamera _vcam = null;
+
     private void Start() {
-        _camTransposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-
+        _vcam = ObjectManager.Instance.VirtualCamera;
     }
-
+    
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
         if(isFirstEnter)return;
         isFirstEnter = true;
         //Cinemachine Do nothing
-        VirtualCamera.AddCinemachineComponent<CinemachineTransposer>();
-        VirtualCamera.DestroyCinemachineComponent<CinemachineTransposer>();
+        _vcam.AddCinemachineComponent<CinemachineTransposer>();
+        _vcam.DestroyCinemachineComponent<CinemachineTransposer>();
 
-        FadeObject.color = Vector4.zero;
-        FadeObject.DOFade(1f, 1f).OnComplete(() =>{
+        ObjectManager.Instance.FadeObject.color = Vector4.zero;
+        ObjectManager.Instance.FadeObject.DOFade(1f, 1f).OnComplete(() =>{
             _bossEnterAnimationEvent.Invoke();
             GameManager.Instance.PlayerMove.IsFreeze();
+            GameManager.Instance.Player.transform.position = _playerMoveTransform.position;
         });
 
     }

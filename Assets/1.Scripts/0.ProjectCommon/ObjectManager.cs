@@ -30,6 +30,7 @@ public class ObjectManager : MonoSingleton<ObjectManager>
         }
     }
 
+
     [Header("위아래 바")]
     [SerializeField]
     private RectTransform _underBar = null;
@@ -54,4 +55,6 @@ public class ObjectManager : MonoSingleton<ObjectManager>
         _underBar.DOAnchorPosY(-_barPos, _barMoveDuration);
         _topBar.DOAnchorPosY(_barPos, _barMoveDuration);
     }
+
+
 }
