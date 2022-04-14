@@ -46,3 +46,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Wall
+    uniqueID: 3025675033
+    locked: 0
+  - name: Window
+    uniqueID: 1871362407
+    locked: 0
+  - name: Deco
+    uniqueID: 917730013
+    locked: 0
+  - name: Floor
+    uniqueID: 2744089601
+    locked: 0
