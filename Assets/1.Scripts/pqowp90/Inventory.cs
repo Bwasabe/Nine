@@ -18,6 +18,8 @@ public class Inventory : MonoSingleton<Inventory>
     public List<ItemInfo> accessories = new List<ItemInfo>();
     [SerializeField]
     public List<ItemInfo> hilItems = new List<ItemInfo>();
+    [SerializeField]
+    private SpriteRenderer hand;
 
     public void Test(int count){
         foreach(ItemInfo item in itemList.itemInfos){
@@ -35,6 +37,8 @@ public class Inventory : MonoSingleton<Inventory>
         CreateMyPanel(hilItems);
     }
     public void ChangeWhatItem(ItemInfo item, ItemInfo item2){
+        SandMessge.MessegeBoxOn("교체했습니다", new Vector2(0f, -300f));
+        hand.sprite = item2.itemSprite;
         getArr(item.itemType).Find(x => x.itemId == item.itemId).SetInfo(item2);
         UIManager.TriggerUI(item);
     }
@@ -111,6 +115,8 @@ public class Inventory : MonoSingleton<Inventory>
                 setBtnText("장착");
                 return ()=>{
                     mouding[i].SetInfo(item);
+                    //여기서 손으로 장착
+                    hand.sprite = item.itemSprite;
                     SandMessge.MessegeBoxOn("아이템을 장착했습니다", new Vector2(0f, -300f));
                     UIManager.Instance.GoButtonChange();
                     UIManager.TriggerUI(mouding[i]);
@@ -118,14 +124,14 @@ public class Inventory : MonoSingleton<Inventory>
             }
         }
         setBtnText("교체");
-        SandMessge.MessegeBoxOn("교체할 아이템을 선택하세요", new Vector2(0f, -300f));
+        //SandMessge.MessegeBoxOn("교체할 아이템을 선택하세요", new Vector2(0f, -300f));
         return ()=>{
             
             UIManager.Instance.GoButtonChange();
             UIManager.Instance.ChangeItem = true;
             UIManager.Instance.willChangeItem = item;
-
-            SandMessge.MessegeBoxOn("교체했습니다", new Vector2(0f, -300f));
+            SandMessge.MessegeBoxOn("교체할 아이템을 선택하세요", new Vector2(0f, -300f));
+            
             
         };
     }

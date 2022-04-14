@@ -117,7 +117,7 @@ public class PlayerMove : MonoBehaviour
     {
         //testText.text = string.Format("{0}", (int)rb.velocity.y);
         Debug.DrawRay(bottomChk.position, Vector2.right * bottomDistance, Color.red);
-        Debug.DrawRay(wallChk.position, Vector2.right * wallDistance, Color.red);
+        Debug.DrawRay(wallChk.position, Vector2.right  * (isBack?-1:1)* wallDistance, Color.red);
         Move();
         Jump();
         Ground();
@@ -135,7 +135,7 @@ public class PlayerMove : MonoBehaviour
     private void InitValue()
     {
         bottomChk.position = new Vector2(col.bounds.min.x, col.bounds.min.y - 0.1f);
-        wallChk.position = new Vector2(col.bounds.min.x-0.2f, (col.bounds.min.y+col.bounds.max.y)/2f);
+        wallChk.position = new Vector2((col.bounds.min.x+col.bounds.max.x)/2f, (col.bounds.min.y+col.bounds.max.y)/2f);
 
         bottomDistance = col.bounds.size.x;
         wallDistance = col.bounds.size.x+0.4f;
@@ -235,7 +235,7 @@ public class PlayerMove : MonoBehaviour
     }
     public bool IsWall()
     {
-        return Physics2D.Raycast(wallChk.position, Vector2.right, wallDistance, bottomLayer);
+        return Physics2D.Raycast(wallChk.position, Vector2.right * (isBack?-1:1), wallDistance, bottomLayer);
     }
     private bool IsDownBlock()
     {

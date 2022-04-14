@@ -19,7 +19,7 @@ MonoBehaviour:
     count: 0
     itemSprite: {fileID: 21300000, guid: b47b4e18ddac8a24ca69b4afc7682849, type: 3}
     itemType: 0
-    isModeing: 0
+    isModeing: 1
   - itemName: "\uC2A4\uD2B8\uB808\uC774\uD2B8 \uAE30\uC6D0 \uBAA9\uAC78\uC774"
     explan: "\uC22B\uC790\uC758 \uC5F0\uC18D\uC131\uC5D0\uB300\uD55C \uAE4A\uC740
       \uACE0\uCC30\uC744 \uC77D\uACE0 \uC5B4\uB5A4 \uC7A5\uC778\uC774 \uB9CC\uB4E0
@@ -42,7 +42,7 @@ MonoBehaviour:
       \uC4F0\uB358 \uCE7C."
     itemId: 3
     count: 0
-    itemSprite: {fileID: 21300000, guid: ac55689b87641da408665ef0bfefdada, type: 3}
+    itemSprite: {fileID: 21300000, guid: 91adc5bca2d6c504a9cd93013ac085ac, type: 3}
     itemType: 0
     isModeing: 0
   - itemName: "\uBC14\uB2C8\uAC78 \uC0AC\uC9C4"
@@ -79,6 +79,13 @@ MonoBehaviour:
     count: 0
     itemSprite: {fileID: 21300000, guid: a471d14d97d2f6947931ebeca039cfc6, type: 3}
     itemType: 3
+    isModeing: 0
+  - itemName: "\uC57D\uD0C8\uC790 \uAC80"
+    explan: "\uBA4B\uC788\uB2E4"
+    itemId: 9
+    count: 0
+    itemSprite: {fileID: 21300000, guid: ac55689b87641da408665ef0bfefdada, type: 3}
+    itemType: 0
     isModeing: 0
   cardInfos:
   - {fileID: 11400000, guid: 7b7a6d81009c70c4399cc0b4bb5c31b4, type: 2}
