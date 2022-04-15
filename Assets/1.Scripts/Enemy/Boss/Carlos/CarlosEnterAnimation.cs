@@ -62,18 +62,27 @@ public class CarlosEnterAnimation : MonoBehaviour
     private int _shakeCamVibrato = 10;
     [SerializeField]
     private float _shakeCamRandomness = 45f;
+    [Header("보스 주사위")]
+    [SerializeField]
+    private MeshRenderer _bossDice = null;
 
+
+    [SerializeField]
+    private GameObject _wall = null;
 
     private Animator _animator = null;
     private EnemyAI _enemyAI = null;
 
-
     private CinemachineVirtualCamera _vcam = null;
+
+    private CarlosAttack _carlosAttack = null;
+
     private void Start()
     {
         _vcam = ObjectManager.Instance.VirtualCamera;
         _animator = GetComponent<Animator>();
         _enemyAI = GetComponent<EnemyAI>();
+        _carlosAttack = GetComponent<CarlosAttack>();
     }
 
     public void EnterAnimation()
@@ -84,6 +93,7 @@ public class CarlosEnterAnimation : MonoBehaviour
         _vcam.transform.position = _camStartPos.position;
         _vcam.transform.DOMove(_camTowardPos.position, _animationStopTime).SetEase(Ease.Linear);
         _animator.Play(_enterAnimationClip.name);
+        _wall.SetActive(true);
     }
 
     public void ExitAnimation()
@@ -108,16 +118,16 @@ public class CarlosEnterAnimation : MonoBehaviour
         _vcam.transform.DOMove(_camEndPos.position, 1f).OnComplete(() =>
         {
             GameManager.Instance.PlayerMove.IsMove();
-            _bossExplainText.DOFade(0f, 1f);
-            _bossNameText.DOFade(0f, 1f);
+            _bossDice.gameObject.SetActive(true);
+            _bossDice.material.DOFade(1f, 1f);
+            _carlosAttack.enabled = true;
         });
+        _bossExplainText.DOFade(0f, 1f);
+        _bossNameText.DOFade(0f, 1f);
     }
 
     public void ShowText()
     {
-        //_bossNameText.rectTransform.DOAnchorPosX(_bossNameTextAnchorPosX, _bossTextShowDuration * 0.5f).SetEase(Ease.OutQuart);
-
-        //_bossNameText.DOFade(1f, _bossTextShowDuration);//.SetDelay(_bossTextShowDuration * 0.2f);
         _bossExplainText.DOFade(1f, _bossTextShowDuration);
         _bossExplainText.rectTransform.DOAnchorPosX(_bossNameTextAnchorPosX, _bossTextShowDuration).SetEase(Ease.OutQuart).OnComplete(()=>{
             StartCoroutine(ShowBossName());

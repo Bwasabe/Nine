@@ -79,10 +79,15 @@ public class EnemyDamaged : CharacterDamaged
         GetComponent<BoxCollider2D>().enabled = false;
         rb.gravityScale = 0f;
         enemyAI.enabled = false;
-        spriteRenderer.DOFade(0f, 2f).OnComplete(() =>
+        spriteRenderer.DOFade(0f, 2f).SetEase(Ease.InQuad).OnComplete(() =>
         {
             gameObject.SetActive(false);
         });
+        OverrideDead();
+    }
+
+    protected virtual void OverrideDead(){
+        Debug.Log("오버라데드");
     }
 
 }

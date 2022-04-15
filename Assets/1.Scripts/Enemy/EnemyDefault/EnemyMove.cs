@@ -8,14 +8,18 @@ using UnityEngine;
 public class EnemyMove : CharacterMove
 {
     [SerializeField]
-    private LayerMask layerMask;
+    protected LayerMask layerMask;
+
 
     protected override void Start()
     {
         base.Start();
     }
 
-
+    protected override void Update()
+    {
+        base.Update();
+    }
 
     protected void CheckPlatform()
     {
@@ -35,6 +39,17 @@ public class EnemyMove : CharacterMove
         return Physics2D.OverlapCircle(new Vector2(isFacingRight ? col.bounds.max.x + 1f : col.bounds.min.x - 1f, col.bounds.min.y), 0.1f, layerMask);
     }
 
+    
 
+    // private void ChangeRotatableObj(){
+    //     int dir = 0;
+    //     if(transform.localScale.x > 0){
+    //         dir = 1;
+    //     }
+    //     else{
+    //         dir = -1;
+    //     }
+    //     _rotatableObj.transform.localPosition = new Vector2(Mathf.Abs(_rotatableObj.transform.localPosition.x)*dir , _rotatableObj.localPosition.y);
+    // }
 
 }

@@ -1,3 +1,5 @@
+using static Yields;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +35,7 @@ public class EnemyPatrol : EnemyMove
 
     }
 
-private void IsCanChasePlayer()
+    private void IsCanChasePlayer()
     {
         if (enemyFOV.IsViewPlayer() && enemyFOV.IsTracePlayer() && enemyFOV.IsDistancePossible(enemyFOV.ViewRange))
         {
@@ -45,5 +47,18 @@ private void IsCanChasePlayer()
         rb.velocity = new Vector2(speed * (isFacingRight ? 1f : -1f), rb.velocity.y);
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        StartCoroutine(IsObstacle(other));
+    }
+
+    private IEnumerator IsObstacle(Collider2D other)
+    {
+        yield return WaitUntil(() => enemyAI.FSM.State == EnemyAI.States.Patrol);
+        if ((1 << other.gameObject.layer & layerMask) > 0)
+        {
+            isFacingRight = !isFacingRight;
+        }
+    }
 
 }

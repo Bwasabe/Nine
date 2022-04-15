@@ -73,15 +73,15 @@ GameObject:
   - component: {fileID: 7471586049937068096}
   - component: {fileID: 7120127419286425784}
   - component: {fileID: 4589048170984677521}
-  - component: {fileID: 7562922017853796308}
+  - component: {fileID: -2963327213338511540}
   - component: {fileID: 336190209215346005}
   m_Layer: 10
-  m_Name: LowerGuard
+  m_Name: CarlosLowerGuard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7471586049937068097
 Transform:
   m_ObjectHideFlags: 0
@@ -213,10 +213,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 320
-  _rotatableObj: {fileID: 1186823253}
+    m_Bits: 1344
   speed: 3
---- !u!114 &7562922017853796308
+--- !u!114 &-2963327213338511540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,7 +224,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7471586049937068099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 495e0d534b0ef2b4682889f62227b091, type: 3}
+  m_Script: {fileID: 11500000, guid: 19df6f3e180a142439661e38cdf86144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
@@ -233,6 +232,12 @@ MonoBehaviour:
   animator: {fileID: 7471586051141520718}
   damageAnimation: {fileID: 7400000, guid: 9f8a34e933653bb4ca8754be03eff791, type: 2}
   deadAnimation: {fileID: 7400000, guid: 00ebac33ea6d4cc42905513a6ea4e97f, type: 2}
+  _deadDices: {fileID: 0}
+  _diceSpawnPos: {fileID: 0}
+  _cubeScale:
+  - {x: 3, y: 3, z: 3}
+  - {x: 2, y: 2, z: 2}
+  - {x: 1, y: 1, z: 1}
 --- !u!61 &336190209215346005
 BoxCollider2D:
   m_ObjectHideFlags: 0
