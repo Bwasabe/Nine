@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19df6f3e180a142439661e38cdf86144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  hp: 50
   spriteRenderer: {fileID: 7471586051141520705}
   animator: {fileID: 7471586051141520718}
   damageAnimation: {fileID: 7400000, guid: 9f8a34e933653bb4ca8754be03eff791, type: 2}

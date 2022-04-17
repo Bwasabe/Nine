@@ -19,7 +19,7 @@ public class CarlosDiceMove : CharacterAttack
     [SerializeField]
     private GameObject _blinkObj = null;
     [SerializeField]
-    private Vector2 _moveDir = Vector2.up;
+    private Vector2 _moveDir = Vector2.right;
 
 
     private bool isActive = false;
@@ -28,13 +28,14 @@ public class CarlosDiceMove : CharacterAttack
 
     private void OnEnable()
     {
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, _destroyDelay);
         _currentTime = Time.time;
         StartCoroutine(Init());
     }
     private IEnumerator Init()
     {
         yield return WaitForSeconds(_firstBlinkDelay);
+
         for (int i = 0; i < _warringCount * 2; i++)
         {
             _blinkObj.SetActive(isActive);
@@ -47,10 +48,8 @@ public class CarlosDiceMove : CharacterAttack
 
     private IEnumerator TenDelayDestroy()
     {
-        Debug.Log("다이스함수가 실행됨");
         while (Time.time < _currentTime + 10f)
         {
-            Debug.Log("다이스 움직이는 중");
             transform.Translate(_moveDir * _speed * Time.deltaTime);
             yield return null;
         }

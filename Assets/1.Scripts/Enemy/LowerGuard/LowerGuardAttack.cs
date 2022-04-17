@@ -49,7 +49,6 @@ public class LowerGuardAttack : EnemyAttack
         }
         g.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
         //g.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);// -enemyFOV.ViewAngle * 0.5f, enemyFOV.ViewAngle * 0.5f * Mathf.Rad2Deg);
-        Debug.Log(g.transform.eulerAngles);
 
 
         base.Attack();

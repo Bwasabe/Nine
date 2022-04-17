@@ -11,7 +11,7 @@ public class CarlosEnemyDamaged : EnemyDamaged
     [SerializeField]
     private Transform _diceSpawnPos = null;
     [SerializeField]
-    private Vector3[] _cubeScale = { Vector3.one * 3f, Vector3.one * 2f, Vector3.one * 1f };
+    private Vector3[] _cubeScale = { Vector3.one * 4f, Vector3.one * 2f, Vector3.one * 1f };
 
     private const string _friendClassName = "Carlos";
 
@@ -32,15 +32,42 @@ public class CarlosEnemyDamaged : EnemyDamaged
     protected override void OverrideDead()
     {
         SpawnDice();
-    }   
+    }
 
     private void SpawnDice()
     {
-        GameObject g = Instantiate(_deadDices, _diceSpawnPos);
-        g.SetActive(true);
-        g.transform.SetParent(null);
-        g.transform.localScale = _cubeScale[1];
-        Debug.Log(g.transform.localScale);
-        g.transform.position = new Vector2(g.transform.position.x, GameManager.Instance.Player.transform.position.y);
+        GameObject parent = Instantiate(_deadDices, _diceSpawnPos.position, Quaternion.identity);
+
+        parent.transform.SetParent(null);
+        Transform g = parent.transform.GetChild(0);
+        g.localScale = _cubeScale[_diceNumber - 1];
+
+        Vector3 diceScale = g.localScale;
+
+        Transform blinkObj = parent.transform.GetChild(1);
+
+        blinkObj.localScale = new Vector3(blinkObj.localScale.x * diceScale.x,
+        blinkObj.localScale.y * diceScale.y, blinkObj.localScale.z * diceScale.z);
+        Debug.Log(g.localScale);
+        Vector3 diceDir = Vector3.zero;
+        switch (_diceNumber)
+        {
+            case 1: // 6 , 1
+                diceDir = Vector3.up * 180f;
+                break;
+            case 2: //5 , 2
+                diceDir = Vector3.right * 270f;
+                break;
+            case 3: // 4 , 3
+                diceDir = Vector3.up * 270f;
+                break;
+            default:
+                Debug.LogError("먼가 이상함");
+                break;
+        }
+        g.rotation = Quaternion.Euler(diceDir.x, diceDir.y, diceDir.z);
+        Debug.Log(_diceNumber + "asf  " + diceDir);
+        parent.transform.position = new Vector2(parent.transform.position.x, GameManager.Instance.Player.transform.position.y);
+        parent.SetActive(true);
     }
 }

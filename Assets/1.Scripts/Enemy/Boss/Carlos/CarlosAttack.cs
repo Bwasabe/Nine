@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Reflection;
 using Random = UnityEngine.Random;
 
 
@@ -137,6 +138,7 @@ public class CarlosAttack : MonoBehaviour
                 default:
                     break;
             }
+            g.GetComponent<CarlosEnemyDamaged>().SetDiceNumber(MethodBase.GetCurrentMethod().DeclaringType.FullName, _dice);
         }
     }
 
