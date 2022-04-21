@@ -65,7 +65,9 @@ public class CarlosEnterAnimation : MonoBehaviour
     [Header("보스 주사위")]
     [SerializeField]
     private MeshRenderer _bossDice = null;
-
+    [Header("보스 UI")]
+    [SerializeField]
+    private GameObject _bossCanvas = null;
 
     [SerializeField]
     private GameObject _wall = null;
@@ -75,7 +77,10 @@ public class CarlosEnterAnimation : MonoBehaviour
 
     private CinemachineVirtualCamera _vcam = null;
 
+
     private CarlosAttack _carlosAttack = null;
+
+    private BossDamaged _bossHpAction = null;
 
     private void Start()
     {
@@ -83,6 +88,7 @@ public class CarlosEnterAnimation : MonoBehaviour
         _animator = GetComponent<Animator>();
         _enemyAI = GetComponent<EnemyAI>();
         _carlosAttack = GetComponent<CarlosAttack>();
+        _bossHpAction = GetComponent<BossDamaged>();
     }
 
     public void EnterAnimation()
@@ -117,6 +123,8 @@ public class CarlosEnterAnimation : MonoBehaviour
         );
         _vcam.transform.DOMove(_camEndPos.position, 1f).OnComplete(() =>
         {
+            _bossCanvas.SetActive(true);
+            StartCoroutine(_bossHpAction.BossHpBarFill());
             GameManager.Instance.PlayerMove.IsMove();
             _bossDice.gameObject.SetActive(true);
             _bossDice.material.DOFade(1f, 1f);

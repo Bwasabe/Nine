@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System.Reflection;
-using Random = UnityEngine.Random;
 
+
+[RequireComponent(typeof(CarlosMove))]
+[RequireComponent(typeof(EnemyAI))]
 
 public class CarlosAttack : MonoBehaviour
 {
-
     public enum Pattons
     {
-        Patton1 = 1,
         Patton2 = 0,
+        Patton1 = 1,
         Length = 2,
     }
 
@@ -36,21 +37,42 @@ public class CarlosAttack : MonoBehaviour
 
     [Header("패턴 1")]
     [SerializeField]
+    private AnimationClip _rollingDiceClip = null;
+    [SerializeField]
     private GameObject _spawnEnemy = null;
 
     [SerializeField]
     private List<Transform> _enemySpawnTransform = new List<Transform>();
 
+    [SerializeField]
+    private int _firstRand = 1;
+    [SerializeField]
+    private int _endRand = 4;
+
     [Header("패턴 2")]
+    [SerializeField]
+    private AnimationClip _carlosImpactTable = null;
+    [SerializeField]
+    private GameObject _groundPoundDice = null;
     [SerializeField]
     private float _diceGroundPoundDelay = 0.5f;
 
 
     private CarlosMove _carlosMove = null;
 
+    private Transform _playerTransform = null;
+
+    private Vector3 _tempDiceDir = Vector3.zero;
+
+    private EnemyAI _enemyAI = null;
+
+    private Animator _animator = null;
 
     private IEnumerator Start()
     {
+        _animator = GetComponent<Animator>();
+        _enemyAI = GetComponent<EnemyAI>();
+        _playerTransform = GameManager.Instance.Player.transform;
         _carlosMove = GetComponent<CarlosMove>();
         yield return WaitForSeconds(1f);
         StartCoroutine(AttackCoroutine());
@@ -61,6 +83,7 @@ public class CarlosAttack : MonoBehaviour
         while (true)
         {
             Spin();
+            yield return WaitUntil(() => _enemyAI.FSM.State == EnemyAI.States.Idle);
             yield return WaitForSeconds(_attackDelay);
         }
     }
@@ -69,17 +92,24 @@ public class CarlosAttack : MonoBehaviour
     [ContextMenu("스핀")]
     private void Spin()
     {
+        _enemyAI.FSM.ChangeState(EnemyAI.States.Attack);
         Vector3 diceDir = Vector3.zero;
-        _patton = 1;//Random.Range((int)Pattons.Patton1, (int)Pattons.Length);
+        _patton = 0;//1;//Random.Range((int)Pattons.Patton1, (int)Pattons.Length);
 
-        _dice = Random.Range(1, 4);
+        _animator.SetFloat("Patton", _patton);
+
+        _dice = Random.Range(_firstRand, _endRand);
+
+        //TODO: 무언가 이상함
         switch (_dice)
         {
             case 1: // 6 , 1
                 diceDir = Vector3.up * (_patton * 180f);
+                //diceDir.z = 360f;
                 break;
             case 2: //5 , 2
-                diceDir = Vector3.right * (90 + _patton * 180f);
+                diceDir = Vector3.right * (90f + _patton * 180f);//Vector3.one * -90f + (Vector3.up * _patton * 180f); //Vector3.right * (90 + _patton * 180f);
+                //diceDir.z = 270f;
                 break;
             case 3: // 4 , 3
                 diceDir = Vector3.up * (90 + _patton * 180f);
@@ -88,15 +118,17 @@ public class CarlosAttack : MonoBehaviour
                 Debug.LogError("먼가 이상함");
                 break;
         }
-
-        diceDir.y -= 3600f;
+        _tempDiceDir = diceDir;
         diceDir.z = 360f;
+        diceDir.y -= 3600f;
 
-        _rollingDice.DOLocalRotate(diceDir, _rollingDuration, RotateMode.FastBeyond360).OnComplete(() =>
+
+        //Quaternion dirQuaternion = Quaternion.Euler(diceDir.x, diceDir.y , diceDir.z);
+
+
+        _rollingDice.DOLocalRotate(diceDir, _rollingDuration,RotateMode.FastBeyond360).OnComplete(() =>
         {
-            _rollingDice.rotation = Quaternion.Euler(diceDir.x, diceDir.y, 0f);
             Attack();
-            Debug.Log("1단계 완료   ");
         });
     }
 
@@ -122,7 +154,7 @@ public class CarlosAttack : MonoBehaviour
         for (int i = 0; i < _dice; i++)
         {
             int randomSpawnPos = Random.Range(0, _enemySpawnTransform.Count);
-            GameObject g = Instantiate(_spawnEnemy, _enemySpawnTransform[randomSpawnPos].position , Quaternion.identity);
+            GameObject g = Instantiate(_spawnEnemy, _enemySpawnTransform[randomSpawnPos].position, Quaternion.identity);
             g.SetActive(true);
             Rigidbody2D rb = g.GetComponent<Rigidbody2D>();
 
@@ -140,15 +172,22 @@ public class CarlosAttack : MonoBehaviour
             }
             g.GetComponent<CarlosEnemyDamaged>().SetDiceNumber(MethodBase.GetCurrentMethod().DeclaringType.FullName, _dice);
         }
+        _enemyAI.FSM.ChangeState(EnemyAI.States.Idle);
     }
 
     private IEnumerator Patton2()
     {
+        yield return WaitForSeconds(_carlosImpactTable.length);
         for (int i = 0; i < 7 - _dice; i++)
         {
-            //Instantiate()
+            GameObject g = Instantiate(_groundPoundDice , _playerTransform);
+            g.transform.SetParent(null);
+            g.transform.rotation = Quaternion.Euler(_tempDiceDir.x, _tempDiceDir.y, _tempDiceDir.z);
+            g.SetActive(true);
+
             yield return WaitForSeconds(_diceGroundPoundDelay);
         }
+        _enemyAI.FSM.ChangeState(EnemyAI.States.Idle);
     }
 
 }

@@ -49,6 +49,9 @@ public class EnemyDamaged : CharacterDamaged
         {
             enemyAI.FSM.ChangeState(EnemyAI.States.Dead);
         }
+
+        Debug.Log("잡몹");
+
     }
 
     public void CheckPlayer()
@@ -83,11 +86,7 @@ public class EnemyDamaged : CharacterDamaged
         {
             gameObject.SetActive(false);
         });
-        OverrideDead();
     }
 
-    protected virtual void OverrideDead(){
-        Debug.Log("오버라데드");
-    }
 
 }

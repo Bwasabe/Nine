@@ -29,8 +29,9 @@ public class CarlosEnemyDamaged : EnemyDamaged
         _diceNumber = setNumber;
     }
 
-    protected override void OverrideDead()
+    public override void Dead()
     {
+        base.Dead();
         SpawnDice();
     }
 
@@ -39,16 +40,10 @@ public class CarlosEnemyDamaged : EnemyDamaged
         GameObject parent = Instantiate(_deadDices, _diceSpawnPos.position, Quaternion.identity);
 
         parent.transform.SetParent(null);
+        parent.transform.localScale = _cubeScale[_diceNumber - 1];
         Transform g = parent.transform.GetChild(0);
-        g.localScale = _cubeScale[_diceNumber - 1];
 
-        Vector3 diceScale = g.localScale;
 
-        Transform blinkObj = parent.transform.GetChild(1);
-
-        blinkObj.localScale = new Vector3(blinkObj.localScale.x * diceScale.x,
-        blinkObj.localScale.y * diceScale.y, blinkObj.localScale.z * diceScale.z);
-        Debug.Log(g.localScale);
         Vector3 diceDir = Vector3.zero;
         switch (_diceNumber)
         {
