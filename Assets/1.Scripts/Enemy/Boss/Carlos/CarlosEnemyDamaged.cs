@@ -37,7 +37,7 @@ public class CarlosEnemyDamaged : EnemyDamaged
 
     private void SpawnDice()
     {
-        GameObject parent = Instantiate(_deadDices, _diceSpawnPos.position, Quaternion.identity);
+        GameObject parent = Instantiate(_deadDices, _diceSpawnPos.position + Vector3.left * 5f, Quaternion.identity);
 
         parent.transform.SetParent(null);
         parent.transform.localScale = _cubeScale[_diceNumber - 1];

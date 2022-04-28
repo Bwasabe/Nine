@@ -21,22 +21,27 @@ public class CarlosGroundPoundDice : MonoBehaviour
 
     private Transform _diceMesh = null;
 
+
     private void OnEnable() {
+        transform.position = GameManager.Instance.Player.transform.position;
         if(!_boxCol){
             _boxCol = GetComponent<BoxCollider2D>();
         }
         if(!_playerTransform) {
             _playerTransform = GameManager.Instance.Player.transform;
         }
+            _diceMesh ??= transform.GetChild(0);
         MoveToUp();
     }
 
     [ContextMenu("위로 올라가며 회전")]
     private void MoveToUp(){
-        _diceMesh = transform.GetChild(0);
         Material material = _diceMesh.GetComponent<MeshRenderer>().material;
 
-        transform.DOMove(new Vector2(_playerTransform.position.x , _gapPlayer + _playerTransform.position.y), _moveDuration).SetEase(ease : Ease.OutCirc);
+        Vector3 playerPos = _playerTransform.position;
+        playerPos.y += _gapPlayer;
+
+        transform.DOMove(playerPos, _moveDuration).SetEase(ease : Ease.OutCirc);
 
         material.DOFade(1f, _moveDuration);
 
@@ -47,6 +52,7 @@ public class CarlosGroundPoundDice : MonoBehaviour
         _diceMesh.DOLocalRotate(rotation, _moveDuration, RotateMode.FastBeyond360).OnComplete(() =>{
             _boxCol.enabled = true;
             StartCoroutine(GroundCoroutine());
+            Debug.Log("ㅁㄴㅇㄹㄴㅁ");
         });
         //TODO: Raycast로 자신의 위치에서 위아래로 하나 선을 그어 닿은 지점이 땅일경우 멈추도록 해야함
     }

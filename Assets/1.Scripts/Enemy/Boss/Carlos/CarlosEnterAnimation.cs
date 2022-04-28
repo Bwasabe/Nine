@@ -8,6 +8,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using TMPro;
 using Cinemachine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 [RequireComponent(typeof(EnemyAI))]
 public class CarlosEnterAnimation : MonoBehaviour
@@ -44,9 +45,9 @@ public class CarlosEnterAnimation : MonoBehaviour
     [SerializeField]
     private SpriteRenderer _bossEye = null;
     [SerializeField]
-    private Transform _bossEyeEffectTransform = null;
+    private Light2D _bossEyeEffectParent = null;
     [SerializeField]
-    private float _bossEyeScaleX = 2f;
+    private Vector2 _bossEyeScaleX = Vector2.one;
     [SerializeField]
     private float _bossEyeDuration = 1.5f;
 
@@ -112,7 +113,15 @@ public class CarlosEnterAnimation : MonoBehaviour
 
         yield return WaitForSeconds(0.2f);
         _bossEye.gameObject.SetActive(true);
-        _bossEyeEffectTransform.DOScaleX(_bossEyeScaleX, _bossEyeDuration * 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InCirc).SetDelay(0.1f);
+        _bossEyeEffectParent.gameObject.SetActive(true);
+        DOTween.To(
+            () => _bossEyeEffectParent.pointLightOuterRadius,
+            value => _bossEyeEffectParent.pointLightOuterRadius = value,
+            0.3f,_bossEyeDuration * 0.2f
+        ).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InCirc).SetDelay(0.05f);
+        _bossEyeEffectParent.transform.DOScale(_bossEyeScaleX, _bossEyeDuration * 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InCirc).SetDelay(0.1f).OnComplete(() =>{
+            _bossEyeEffectParent.gameObject.SetActive(false);
+        });
         _bossEye.DOFade(0f, _bossEyeDuration);
         yield return WaitForSeconds(2f);
         ObjectManager.Instance.DisappearBarImage();
@@ -126,7 +135,7 @@ public class CarlosEnterAnimation : MonoBehaviour
             _bossCanvas.SetActive(true);
             StartCoroutine(_bossHpAction.BossHpBarFill());
             GameManager.Instance.PlayerMove.IsMove();
-            _bossDice.gameObject.SetActive(true);
+            _bossDice.transform.parent.gameObject.SetActive(true);
             _bossDice.material.DOFade(1f, 1f);
             _carlosAttack.enabled = true;
         });

@@ -94,13 +94,12 @@ public class CarlosAttack : MonoBehaviour
     {
         _enemyAI.FSM.ChangeState(EnemyAI.States.Attack);
         Vector3 diceDir = Vector3.zero;
-        _patton = 0;//1;//Random.Range((int)Pattons.Patton1, (int)Pattons.Length);
+        _patton = 1;//Random.Range(0, (int)Pattons.Length);
 
-        _animator.SetFloat("Patton", _patton);
+        //_animator.SetFloat("Patton", _patton);
 
         _dice = Random.Range(_firstRand, _endRand);
 
-        //TODO: 무언가 이상함
         switch (_dice)
         {
             case 1: // 6 , 1
@@ -122,12 +121,11 @@ public class CarlosAttack : MonoBehaviour
         diceDir.z = 360f;
         diceDir.y -= 3600f;
 
-
-        //Quaternion dirQuaternion = Quaternion.Euler(diceDir.x, diceDir.y , diceDir.z);
-
-
+        _rollingDice.parent.localRotation = Quaternion.identity;
         _rollingDice.DOLocalRotate(diceDir, _rollingDuration,RotateMode.FastBeyond360).OnComplete(() =>
         {
+            _rollingDice.parent.localRotation = _rollingDice.localRotation;
+            _rollingDice.localRotation = Quaternion.identity;
             Attack();
         });
     }
