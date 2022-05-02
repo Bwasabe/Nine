@@ -11,7 +11,7 @@ public class CarlosEnemyDamaged : EnemyDamaged
     [SerializeField]
     private Transform _diceSpawnPos = null;
     [SerializeField]
-    private Vector3[] _cubeScale = { Vector3.one * 4f, Vector3.one * 2f, Vector3.one * 1f };
+    private Vector3[] _cubeScale = { Vector3.one * 4f, Vector3.one * 2f, Vector3.one * 1.5f };
 
     private const string _friendClassName = "Carlos";
 

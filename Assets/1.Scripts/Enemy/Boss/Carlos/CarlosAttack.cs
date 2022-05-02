@@ -57,6 +57,16 @@ public class CarlosAttack : MonoBehaviour
     [SerializeField]
     private float _diceGroundPoundDelay = 0.5f;
 
+    [Header("카메라 흔들기 속성")]
+    [SerializeField]
+    private float _shakeCamDuration = 0.2f;
+    [SerializeField]
+    private float _shakeCamStrength = 3f;
+    [SerializeField]
+    private int _shakeCamVibrato = 10;
+    [SerializeField]
+    private float _shakeCamRandomness = 45f;
+
 
     private CarlosMove _carlosMove = null;
 
@@ -68,13 +78,19 @@ public class CarlosAttack : MonoBehaviour
 
     private Animator _animator = null;
 
-    private IEnumerator Start()
+    private void Start()
     {
+        Debug.Log(MethodBase.GetCurrentMethod().DeclaringType.FullName);
+        Debug.Log(MethodBase.GetCurrentMethod().DeclaringType);
+        Debug.Log(Assembly.GetExecutingAssembly().ManifestModule.Name);
+        Debug.Log(Assembly.GetExecutingAssembly().ManifestModule.ScopeName);
+        Debug.Log(Assembly.GetExecutingAssembly().ManifestModule.FullyQualifiedName);
+        
         _animator = GetComponent<Animator>();
         _enemyAI = GetComponent<EnemyAI>();
         _playerTransform = GameManager.Instance.Player.transform;
         _carlosMove = GetComponent<CarlosMove>();
-        yield return WaitForSeconds(1f);
+        //yield return WaitForSeconds(1f);
         StartCoroutine(AttackCoroutine());
     }
 
@@ -89,12 +105,11 @@ public class CarlosAttack : MonoBehaviour
     }
 
 
-    [ContextMenu("스핀")]
     private void Spin()
     {
         _enemyAI.FSM.ChangeState(EnemyAI.States.Attack);
         Vector3 diceDir = Vector3.zero;
-        _patton = 1;//Random.Range(0, (int)Pattons.Length);
+        _patton = Random.Range(0, (int)Pattons.Length);
 
         //_animator.SetFloat("Patton", _patton);
 
@@ -130,6 +145,10 @@ public class CarlosAttack : MonoBehaviour
         });
     }
 
+    protected void EndToRollingDice(){
+        _enemyAI.FSM.ChangeState(EnemyAI.States.Idle);
+    }
+
     private void Attack()
     {
         switch (_patton)
@@ -148,7 +167,6 @@ public class CarlosAttack : MonoBehaviour
 
     private void Patton1()
     {
-        Debug.Log("왜");
         for (int i = 0; i < _dice; i++)
         {
             int randomSpawnPos = Random.Range(0, _enemySpawnTransform.Count);
@@ -175,17 +193,22 @@ public class CarlosAttack : MonoBehaviour
 
     private IEnumerator Patton2()
     {
+        _animator.Play(_carlosImpactTable.name);
         yield return WaitForSeconds(_carlosImpactTable.length);
         for (int i = 0; i < 7 - _dice; i++)
         {
-            GameObject g = Instantiate(_groundPoundDice , _playerTransform);
+            GameObject g = Instantiate(_groundPoundDice , _playerTransform.position, Quaternion.identity);
             g.transform.SetParent(null);
-            g.transform.rotation = Quaternion.Euler(_tempDiceDir.x, _tempDiceDir.y, _tempDiceDir.z);
+            g.transform.GetChild(0).rotation = Quaternion.Euler(_tempDiceDir.x, _tempDiceDir.y, _tempDiceDir.z);
             g.SetActive(true);
 
             yield return WaitForSeconds(_diceGroundPoundDelay);
         }
         _enemyAI.FSM.ChangeState(EnemyAI.States.Idle);
+    }
+
+    protected void ShakeCamPatton2(){
+        ObjectManager.Instance.VirtualCamera.transform.DOShakePosition(_shakeCamDuration, _shakeCamStrength, _shakeCamVibrato, _shakeCamRandomness);
     }
 
 }
