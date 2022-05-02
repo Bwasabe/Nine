@@ -7790,7 +7790,7 @@ MonoBehaviour:
   damage: 10
   targetLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 9216
   attackCol: {fileID: 1343823695}
   upAttackCol: {fileID: 1943819427}
   _shakeCamDuration: 0.1
@@ -11445,6 +11445,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7471586051141520705, guid: d86cf1b4f175fe9458769f2ba6f0f672, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7471586051141520705, guid: d86cf1b4f175fe9458769f2ba6f0f672, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -11534,7 +11538,7 @@ GameObject:
   - component: {fileID: 1168929097}
   - component: {fileID: 1168929099}
   - component: {fileID: 1168929100}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: Carlos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11578,7 +11582,6 @@ Transform:
   - {fileID: 1604600024}
   - {fileID: 84913068}
   - {fileID: 386590950}
-  - {fileID: 1418001567}
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13498,36 +13501,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393010860}
   m_CullTransparentMesh: 1
---- !u!1 &1418001566
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1418001567}
-  m_Layer: 0
-  m_Name: HitBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1418001567
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418001566}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1168929091}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1457448471 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5149466319739286398, guid: 4d58ac5d441da3543a4aa02c047329ce, type: 3}

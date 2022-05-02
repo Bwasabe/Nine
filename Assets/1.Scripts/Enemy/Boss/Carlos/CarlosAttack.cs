@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System.Reflection;
+using System.Diagnostics;
 
+using Debug = UnityEngine.Debug;
 
 [RequireComponent(typeof(CarlosMove))]
 [RequireComponent(typeof(EnemyAI))]
@@ -78,6 +80,28 @@ public class CarlosAttack : MonoBehaviour
 
     private Animator _animator = null;
 
+    StackTrace ss = new StackTrace(true);
+    private void Awake() {
+
+        MethodBase mb = ss.GetFrame(0).GetMethod();
+
+        Debug.Log(mb);
+        Debug.Log(ss.GetFrame(0).GetFileName());
+        Debug.Log(ss.GetFrame(0).GetILOffset());
+
+        StartCoroutine(TestA());
+    }
+
+    IEnumerator TestA(){
+        StackTrace ss = new StackTrace(true);
+        yield return new WaitForSeconds(1f);
+        Debug.Log(ss.GetFrame(0).GetILOffset());
+        StackTrace sss = new StackTrace(true);
+        Debug.Log(sss.GetFrame(0).GetILOffset());
+
+    }
+
+
     private void Start()
     {
         Debug.Log(MethodBase.GetCurrentMethod().DeclaringType.FullName);
@@ -85,7 +109,18 @@ public class CarlosAttack : MonoBehaviour
         Debug.Log(Assembly.GetExecutingAssembly().ManifestModule.Name);
         Debug.Log(Assembly.GetExecutingAssembly().ManifestModule.ScopeName);
         Debug.Log(Assembly.GetExecutingAssembly().ManifestModule.FullyQualifiedName);
+
+        StackTrace ss = new StackTrace(true);
+
+        MethodBase mb = ss.GetFrame(0).GetMethod();
+
+        Debug.Log(mb);
+        Debug.Log(ss.GetFrame(0).GetFileName());
+        Debug.Log(ss.GetFrame(0).GetILOffset());
+
         
+
+
         _animator = GetComponent<Animator>();
         _enemyAI = GetComponent<EnemyAI>();
         _playerTransform = GameManager.Instance.Player.transform;

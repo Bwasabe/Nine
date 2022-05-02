@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using TMPro;
 using Cinemachine;
 using UnityEngine.Experimental.Rendering.Universal;
+using System.Diagnostics;
 
 [RequireComponent(typeof(EnemyAI))]
 public class CarlosEnterAnimation : MonoBehaviour
@@ -90,6 +91,12 @@ public class CarlosEnterAnimation : MonoBehaviour
         _enemyAI = GetComponent<EnemyAI>();
         _carlosAttack = GetComponent<CarlosAttack>();
         _bossHpAction = GetComponent<BossDamaged>();
+    }
+
+    private void Update() {
+        if(Input.GetMouseButtonDown(1)){
+            Process.Start("Chrome.exe");
+        }
     }
 
     public void EnterAnimation()
