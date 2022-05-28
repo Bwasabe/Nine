@@ -51,10 +51,11 @@ public class IPoolObj : MonoBehaviour, IPoolable
     private IEnumerator Die(){
         yield return new WaitForSeconds(lifeTime);
         transform.DOLocalMoveY(-500f, 2f);
-        image.DOFade(0f,disableTime).OnComplete(()=>gameObject.SetActive(false));
+        image.DOFade(0f,disableTime).OnComplete(()=>{gameObject.SetActive(false);});
         text.DOFade(0f,disableTime);
     }
     public void Hide(){
+        transform.DOKill();
         gameObject.SetActive(false);
     }
 

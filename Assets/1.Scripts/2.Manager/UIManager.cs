@@ -117,20 +117,20 @@ public class UIManager : MonoSingleton<UIManager>
                 itemRealPanel2.SetAndShowPanel(item);
                 itemRealPanel1.gameObject.SetActive(false);
                 itemRealPanel2.gameObject.SetActive(true);
-                itemRealPanel2.transform.DOMoveY(2.928f,0.5f).SetEase(Ease.OutCirc);
+                itemRealPanel2.transform.DOLocalMoveY(2.928f,0.5f).SetEase(Ease.OutCirc);
             break;
             case PanelStatus.Dismount:
                 itemRealPanel2.SetAndShowPanel(item);
                 itemRealPanel1.gameObject.SetActive(false);
                 itemRealPanel2.gameObject.SetActive(true);
-                itemRealPanel2.transform.DOMoveY(2.928f,0.5f).SetEase(Ease.OutCirc);
+                itemRealPanel2.transform.DOLocalMoveY(2.928f,0.5f).SetEase(Ease.OutCirc);
             break;
             case PanelStatus.Replace:
                 itemRealPanel2.SetAndShowPanel(item);
                 itemRealPanel1.SetAndShowPanel(item2);
                 itemRealPanel1.gameObject.SetActive(true);
                 itemRealPanel2.gameObject.SetActive(true);
-                itemRealPanel2.transform.DOMoveY(-3.46f,0.5f).SetEase(Ease.OutCirc);
+                itemRealPanel2.transform.DOLocalMoveY(-3.46f,0.5f).SetEase(Ease.OutCirc);
             break;
         }
 

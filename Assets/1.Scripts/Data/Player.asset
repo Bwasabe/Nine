@@ -15,9 +15,9 @@ MonoBehaviour:
   name: NINE
   hp: 3
   speed: 12
-  jumpPower: 21
+  jumpPower: 23
   slidingSpeed: 50
   slidingDuration: 0.3
   jumpCount: 0
   jumpMaxCount: 2
-  gravity: 4
+  gravity: 5
