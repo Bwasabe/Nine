@@ -49,6 +49,9 @@ public class EnemyDamaged : CharacterDamaged
         {
             enemyAI.FSM.ChangeState(EnemyAI.States.Dead);
         }
+
+        Debug.Log("잡몹");
+
     }
 
     public void CheckPlayer()
@@ -79,10 +82,11 @@ public class EnemyDamaged : CharacterDamaged
         GetComponent<BoxCollider2D>().enabled = false;
         rb.gravityScale = 0f;
         enemyAI.enabled = false;
-        spriteRenderer.DOFade(0f, 2f).OnComplete(() =>
+        spriteRenderer.DOFade(0f, 2f).SetEase(Ease.InQuad).OnComplete(() =>
         {
             gameObject.SetActive(false);
         });
     }
+
 
 }

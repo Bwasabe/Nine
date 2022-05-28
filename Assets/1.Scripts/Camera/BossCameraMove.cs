@@ -30,7 +30,6 @@ public class BossCameraMove : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         if(isFirstEnter)return;
         isFirstEnter = true;
-        //Cinemachine Do nothing
         _vcam.AddCinemachineComponent<CinemachineTransposer>();
         _vcam.DestroyCinemachineComponent<CinemachineTransposer>();
 

@@ -75,7 +75,6 @@ public class EnemyFOV : MonoBehaviour
             {
 
                 isTrace = true;
-                Debug.Log("와 쫒아");
             }
         }
 

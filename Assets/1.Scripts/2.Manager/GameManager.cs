@@ -12,6 +12,8 @@ public class GameManager : MonoSingleton<GameManager>
     ////            ㄴ TODO: 장판 만들기
     ////            ㄴ TODO: 불기둥을 만들기
     ////            ㄴ TODO: 플레이어 머리 위로 떨어지는 주사위 만들기
+    ////TODO: 눈 이펙트가 있을때 빛 넣어주기
+    ////TODO: 
 
     #region PublicValues
     public PlayerMove PlayerMove

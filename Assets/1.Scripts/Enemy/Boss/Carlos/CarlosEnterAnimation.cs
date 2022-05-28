@@ -8,6 +8,8 @@ using DG.Tweening;
 using UnityEngine.UI;
 using TMPro;
 using Cinemachine;
+using UnityEngine.Experimental.Rendering.Universal;
+using System.Diagnostics;
 
 [RequireComponent(typeof(EnemyAI))]
 public class CarlosEnterAnimation : MonoBehaviour
@@ -44,9 +46,9 @@ public class CarlosEnterAnimation : MonoBehaviour
     [SerializeField]
     private SpriteRenderer _bossEye = null;
     [SerializeField]
-    private Transform _bossEyeEffectTransform = null;
+    private Light2D _bossEyeEffectParent = null;
     [SerializeField]
-    private float _bossEyeScaleX = 2f;
+    private Vector2 _bossEyeScaleX = Vector2.one;
     [SerializeField]
     private float _bossEyeDuration = 1.5f;
 
@@ -62,18 +64,39 @@ public class CarlosEnterAnimation : MonoBehaviour
     private int _shakeCamVibrato = 10;
     [SerializeField]
     private float _shakeCamRandomness = 45f;
+    [Header("보스 주사위")]
+    [SerializeField]
+    private MeshRenderer _bossDice = null;
+    [Header("보스 UI")]
+    [SerializeField]
+    private GameObject _bossCanvas = null;
 
+    [SerializeField]
+    private GameObject _wall = null;
 
     private Animator _animator = null;
     private EnemyAI _enemyAI = null;
 
-
     private CinemachineVirtualCamera _vcam = null;
+
+
+    private CarlosAttack _carlosAttack = null;
+
+    private BossDamaged _bossHpAction = null;
+
     private void Start()
     {
         _vcam = ObjectManager.Instance.VirtualCamera;
         _animator = GetComponent<Animator>();
         _enemyAI = GetComponent<EnemyAI>();
+        _carlosAttack = GetComponent<CarlosAttack>();
+        _bossHpAction = GetComponent<BossDamaged>();
+    }
+
+    private void Update() {
+        if(Input.GetMouseButtonDown(1)){
+            Process.Start("Chrome.exe");
+        }
     }
 
     public void EnterAnimation()
@@ -84,6 +107,7 @@ public class CarlosEnterAnimation : MonoBehaviour
         _vcam.transform.position = _camStartPos.position;
         _vcam.transform.DOMove(_camTowardPos.position, _animationStopTime).SetEase(Ease.Linear);
         _animator.Play(_enterAnimationClip.name);
+        _wall.SetActive(true);
     }
 
     public void ExitAnimation()
@@ -96,7 +120,15 @@ public class CarlosEnterAnimation : MonoBehaviour
 
         yield return WaitForSeconds(0.2f);
         _bossEye.gameObject.SetActive(true);
-        _bossEyeEffectTransform.DOScaleX(_bossEyeScaleX, _bossEyeDuration * 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InCirc).SetDelay(0.1f);
+        _bossEyeEffectParent.gameObject.SetActive(true);
+        DOTween.To(
+            () => _bossEyeEffectParent.pointLightOuterRadius,
+            value => _bossEyeEffectParent.pointLightOuterRadius = value,
+            0.3f,_bossEyeDuration * 0.2f
+        ).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InCirc).SetDelay(0.05f);
+        _bossEyeEffectParent.transform.DOScale(_bossEyeScaleX, _bossEyeDuration * 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InCirc).SetDelay(0.1f).OnComplete(() =>{
+            _bossEyeEffectParent.gameObject.SetActive(false);
+        });
         _bossEye.DOFade(0f, _bossEyeDuration);
         yield return WaitForSeconds(2f);
         ObjectManager.Instance.DisappearBarImage();
@@ -107,17 +139,19 @@ public class CarlosEnterAnimation : MonoBehaviour
         );
         _vcam.transform.DOMove(_camEndPos.position, 1f).OnComplete(() =>
         {
+            _bossCanvas.SetActive(true);
+            StartCoroutine(_bossHpAction.BossHpBarFill());
             GameManager.Instance.PlayerMove.IsMove();
-            _bossExplainText.DOFade(0f, 1f);
-            _bossNameText.DOFade(0f, 1f);
+            _bossDice.transform.parent.gameObject.SetActive(true);
+            _bossDice.material.DOFade(1f, 1f);
+            _carlosAttack.enabled = true;
         });
+        _bossExplainText.DOFade(0f, 1f);
+        _bossNameText.DOFade(0f, 1f);
     }
 
     public void ShowText()
     {
-        //_bossNameText.rectTransform.DOAnchorPosX(_bossNameTextAnchorPosX, _bossTextShowDuration * 0.5f).SetEase(Ease.OutQuart);
-
-        //_bossNameText.DOFade(1f, _bossTextShowDuration);//.SetDelay(_bossTextShowDuration * 0.2f);
         _bossExplainText.DOFade(1f, _bossTextShowDuration);
         _bossExplainText.rectTransform.DOAnchorPosX(_bossNameTextAnchorPosX, _bossTextShowDuration).SetEase(Ease.OutQuart).OnComplete(()=>{
             StartCoroutine(ShowBossName());
