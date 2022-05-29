@@ -45,7 +45,7 @@ public class CharacterDamaged : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void Dead()
+    protected virtual void Dead()
     {
         Debug.Log("죽음");
         Debug.Log("ㅁㄴ읾ㄶㅇ");

@@ -6,11 +6,9 @@ using UnityEngine;
 using DG.Tweening;
 using System.Reflection;
 
-using System.Diagnostics;
-
 using Debug = UnityEngine.Debug;
 
-[RequireComponent(typeof(CarlosMove))]
+//[RequireComponent(typeof(CarlosMove))]
 [RequireComponent(typeof(EnemyAI))]
 
 public class CarlosAttack : MonoBehaviour
@@ -71,7 +69,7 @@ public class CarlosAttack : MonoBehaviour
     private float _shakeCamRandomness = 45f;
 
 
-    private CarlosMove _carlosMove = null;
+    //private CarlosMove _carlosMove = null;
 
     private Transform _playerTransform = null;
 
@@ -87,7 +85,7 @@ public class CarlosAttack : MonoBehaviour
         _animator = GetComponent<Animator>();
         _enemyAI = GetComponent<EnemyAI>();
         _playerTransform = GameManager.Instance.Player.transform;
-        _carlosMove = GetComponent<CarlosMove>();
+        //_carlosMove = GetComponent<CarlosMove>();
         //yield return WaitForSeconds(1f);
         StartCoroutine(AttackCoroutine());
     }
