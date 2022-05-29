@@ -29,7 +29,7 @@ public class CarlosEnemyDamaged : EnemyDamaged
         _diceNumber = setNumber;
     }
 
-    public override void Dead()
+    protected override void Dead()
     {
         base.Dead();
         SpawnDice();

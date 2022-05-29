@@ -24,7 +24,7 @@ public class PlayerDamaged : CharacterDamaged
         isDamaged = false;
     }
 
-    public override void Dead()
+    protected override void Dead()
     {
         base.Dead();
         Debug.Break();

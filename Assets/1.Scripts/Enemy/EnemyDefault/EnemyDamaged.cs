@@ -77,7 +77,7 @@ public class EnemyDamaged : CharacterDamaged
         yield return WaitForSeconds(0.1f);
     }
 
-    public override void Dead()
+    protected override void Dead()
     {
         GetComponent<BoxCollider2D>().enabled = false;
         rb.gravityScale = 0f;
