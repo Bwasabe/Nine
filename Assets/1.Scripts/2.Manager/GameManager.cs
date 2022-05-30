@@ -5,15 +5,10 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     ////TODOLIST 
-    //// TODO : 보스 카메라 무빙
-    ////            ㄴ
     //// TODO: 보스 만들기
-    ////            ㄴ TODO: 주사위 떨구기
-    ////            ㄴ TODO: 장판 만들기
-    ////            ㄴ TODO: 불기둥을 만들기
-    ////            ㄴ TODO: 플레이어 머리 위로 떨어지는 주사위 만들기
-    ////TODO: 눈 이펙트가 있을때 빛 넣어주기
-    ////TODO: 
+    ////            ㄴ TODO: 페이지 넘어갈 때 적 다 없애주기
+    ////            ㄴ TODO: 
+    ////            
 
     #region PublicValues
     public PlayerMove PlayerMove

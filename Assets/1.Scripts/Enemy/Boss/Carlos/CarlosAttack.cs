@@ -79,6 +79,8 @@ public class CarlosAttack : MonoBehaviour
 
     private Animator _animator = null;
 
+    private Coroutine _attackCoroutine;
+
     private void Start()
     {
 
@@ -87,7 +89,11 @@ public class CarlosAttack : MonoBehaviour
         _playerTransform = GameManager.Instance.Player.transform;
         //_carlosMove = GetComponent<CarlosMove>();
         //yield return WaitForSeconds(1f);
-        StartCoroutine(AttackCoroutine());
+        _attackCoroutine = StartCoroutine(AttackCoroutine());
+    }
+
+    public void StopAttack(){
+        StopCoroutine(_attackCoroutine);
     }
 
     private IEnumerator AttackCoroutine()

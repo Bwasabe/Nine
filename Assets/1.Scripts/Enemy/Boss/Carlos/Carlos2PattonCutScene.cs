@@ -17,6 +17,10 @@ public class Carlos2PattonCutScene : MonoBehaviour
     [SerializeField]
     private List<GameObject> _objects = new List<GameObject>();
 
+
+    [SerializeField]
+    private Camera _effectCam = null;
+
     [Space]
 
     [SerializeField]
@@ -31,6 +35,8 @@ public class Carlos2PattonCutScene : MonoBehaviour
     [SerializeField]
     private SoftMask _secSoftMask;
 
+    [SerializeField]
+    private Transform _diceTransform;
 
     [Space]
     [SerializeField]
@@ -46,23 +52,53 @@ public class Carlos2PattonCutScene : MonoBehaviour
 
     private RectTransform _secMaskRect = null;
 
+
     private Sequence _page2CutScene;
+
+
+    private Animator _animator;
+    private int Page2EnterAnimation = Animator.StringToHash("Carlos_Page2Animation");
+
+
+    private CarlosAttack _carlosAttack = null;
+
+    private void OnEnable() {
+        if(!_carlosAttack)_carlosAttack = transform.parent.GetComponent<CarlosAttack>();
+        
+    }
+
     private void Start()
     {
+        _animator = transform.parent.GetComponent<Animator>();
         _page2CutScene = DOTween.Sequence();
         _volume.sharedProfile.TryGet<LensDistortion>(out _lensDistortion);
         _maskRect = _softMask.GetComponent<RectTransform>();
         _secMaskRect = _secSoftMask.GetComponent<RectTransform>();
 
-        SetSequence();
+        //SetSequence();
 
-        Page2();
+    }
+
+    public void EventDark()
+    {
+        Vector3 angle = new Vector3(0f, 7200f, 360f);
+        _diceTransform.DORotate(angle, 5f, RotateMode.FastBeyond360).SetEase(Ease.InQuad);
+        _maskRect.DOSizeDelta(_darkSizeDelta, _darkDuration).SetEase(Ease.Linear).OnComplete(() =>
+            {
+
+                _maskRect.sizeDelta = new Vector2(MainCam.pixelWidth, MainCam.pixelHeight);
+                _maskRect.gameObject.SetActive(false);
+                _secMaskRect.gameObject.SetActive(true);
+            }
+        );
+
     }
 
     private void SetSequence()
     {
         _page2CutScene.Append(
-            _maskRect.DOSizeDelta(_darkSizeDelta, _darkDuration).SetEase(Ease.Linear).OnComplete(() =>{
+            _maskRect.DOSizeDelta(_darkSizeDelta, _darkDuration).SetEase(Ease.Linear).OnComplete(() =>
+            {
 
                 _maskRect.sizeDelta = new Vector2(MainCam.pixelWidth, MainCam.pixelHeight);
                 _maskRect.gameObject.SetActive(false);
@@ -82,7 +118,7 @@ public class Carlos2PattonCutScene : MonoBehaviour
         );
 
         _page2CutScene.AppendInterval(0.3f);
-        
+
 
         _page2CutScene.Append(
             DOTween.To(
@@ -133,7 +169,25 @@ public class Carlos2PattonCutScene : MonoBehaviour
     public void Page2()
     {
         _enableObjects.ForEach(x => x.SetActive(true));
-        _page2CutScene.Play();
+
+        Debug.Log(_carlosAttack);
+        _carlosAttack.StopAllCoroutines();
+        _carlosAttack.enabled = false;
+
+        ObjectManager.Instance.FadeObject.DOFade(1f, 2f).OnComplete(() =>
+        {
+            ObjectManager.Instance.FadeObject.DOFade(0f, 0f);
+            ObjectManager.Instance.VirtualCamera.m_Lens.OrthographicSize = 5f;
+            ObjectManager.Instance.VirtualCamera.transform.position = new Vector3(-20f, 0f, -10f);
+
+            _effectCam.orthographicSize = 5f;
+
+
+            _animator.Play(Page2EnterAnimation);
+            EventDark();
+
+        });
+
     }
 
 
