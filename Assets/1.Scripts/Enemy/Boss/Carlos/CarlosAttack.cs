@@ -124,7 +124,7 @@ public class CarlosAttack : MonoBehaviour
                 //diceDir.z = 360f;
                 break;
             case 2: //5 , 2
-                diceDir = Vector3.right * (90f + _patton * 180f);//Vector3.one * -90f + (Vector3.up * _patton * 180f); //Vector3.right * (90 + _patton * 180f);
+                diceDir = Vector3.right * (270f -(_patton * 180f));//Vector3.one * -90f + (Vector3.up * _patton * 180f); //Vector3.right * (90 + _patton * 180f);
                 //diceDir.z = 270f;
                 break;
             case 3: // 4 , 3

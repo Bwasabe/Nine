@@ -36,7 +36,10 @@ public class Carlos2PattonCutScene : MonoBehaviour
     private SoftMask _secSoftMask;
 
     [SerializeField]
-    private Transform _diceTransform;
+    private MeshRenderer _dice;
+
+    [SerializeField]
+    private Material _darkDiceMaterial;
 
     [Space]
     [SerializeField]
@@ -81,11 +84,12 @@ public class Carlos2PattonCutScene : MonoBehaviour
 
     public void EventDark()
     {
+        _dice.transform.rotation = Quaternion.identity;
         Vector3 angle = new Vector3(0f, 7200f, 360f);
-        _diceTransform.DORotate(angle, 5f, RotateMode.FastBeyond360).SetEase(Ease.InQuad);
+        _dice.transform.DORotate(angle, 5f, RotateMode.FastBeyond360).SetEase(Ease.InQuad).OnComplete(() => _dice.material = _darkDiceMaterial);
         _maskRect.DOSizeDelta(_darkSizeDelta, _darkDuration).SetEase(Ease.Linear).OnComplete(() =>
             {
-
+                
                 _maskRect.sizeDelta = new Vector2(MainCam.pixelWidth, MainCam.pixelHeight);
                 _maskRect.gameObject.SetActive(false);
                 _secMaskRect.gameObject.SetActive(true);
