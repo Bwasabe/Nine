@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Box
   - Bullet
+  - 1
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Background
   - post
   - Boss
-  - 
+  - 1
   - 
   - 
   - 
@@ -51,4 +52,7 @@ TagManager:
     locked: 0
   - name: Direct
     uniqueID: 1062589031
+    locked: 0
+  - name: 1
+    uniqueID: 618378595
     locked: 0

@@ -14,6 +14,7 @@ public class IPoolObj : MonoBehaviour, IPoolable
     private Text text;
     public bool isTextBox;
     private SpriteRenderer spriteRenderer;
+    private Tween tween1, tween2, tween3;
     private void Awake(){
         if(!isTextBox){
             image = GetComponent<Image>();
@@ -50,15 +51,15 @@ public class IPoolObj : MonoBehaviour, IPoolable
     }
     private IEnumerator Die(){
         yield return new WaitForSeconds(lifeTime);
-        transform.DOLocalMoveY(-500f, 2f);
-        image.DOFade(0f,disableTime).OnComplete(()=>{gameObject.SetActive(false);});
-        text.DOFade(0f,disableTime);
+        tween1 = transform.DOLocalMoveY(-500f, 2f);
+        tween2 = image.DOFade(0f,disableTime).OnComplete(()=>{transform.DOKill(); gameObject.SetActive(false);});
+        tween3 = text.DOFade(0f,disableTime);
     }
     public void Hide(){
         transform.DOKill();
         gameObject.SetActive(false);
     }
-
+    
 
 
 

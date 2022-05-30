@@ -28,6 +28,7 @@ public class ItemInfo{
     public int itemId;
     public int count;
     public Sprite itemSprite;
+    public Sprite realSprite;
     public ItemType itemType;
     public bool isModeing;
     
@@ -43,6 +44,7 @@ public class ItemInfo{
         newCopy.count = this.count;
         newCopy.itemType = this.itemType;
         newCopy.itemSprite = this.itemSprite;
+        newCopy.realSprite = this.realSprite;
         return newCopy;
     }
     public void SetInfo(ItemInfo item)
@@ -56,5 +58,6 @@ public class ItemInfo{
         this.count = item.count;
         this.itemType = item.itemType;
         this.itemSprite = item.itemSprite;
+        this.realSprite = item.realSprite;
     }
 }

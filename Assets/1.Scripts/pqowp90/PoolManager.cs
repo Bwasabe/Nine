@@ -26,6 +26,7 @@ public class PoolManager
         {
             pool.Add(name, q);
             prefabDictionary.Add(name, prefab.gameObject);
+            //Debug.Log(prefab.gameObject.name+"추가");
         }
         catch// (ArgumentException e)
         {

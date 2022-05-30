@@ -14,6 +14,7 @@ public class PlayerEffectManager : MonoBehaviour
         PoolManager.CreatePool<IPoolObj>("JumpDust",GameManager.Instance.gameObject);
         PoolManager.CreatePool<IPoolObj>("LandingDust",GameManager.Instance.gameObject);
         PoolManager.CreatePool<IPoolObj>("RunStopDust",GameManager.Instance.gameObject);
+        
     }
     public void GOGhost(float time, float time2){
         this.time = time;
@@ -36,7 +37,7 @@ public class PlayerEffectManager : MonoBehaviour
     private IEnumerator Ghost(){
         float time3 = 0f;
         bool loop = true;
-        yield return Yields.WaitForSeconds(0.03f);
+        yield return Yields.WaitForSeconds(0.07f);
         while(loop){
             IPoolObj iPoolObj = PoolManager.GetItem<IPoolObj>("Ghost");
             if(iPoolObj){
@@ -44,8 +45,7 @@ public class PlayerEffectManager : MonoBehaviour
                 iPoolObj.SetSprite(playerMove.spriteRenderer.sprite ,playerMove.isBack);
                 iPoolObj.transform.position = transform.position;
             }
-            
-            
+
             time3 += time2;
             if(time3>time){
                 loop = false;

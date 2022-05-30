@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour
         attack(); 
         if(state.HasFlag(PlayerState.SLIDE)){
             if(playerMove.IsWall()){
-                Debug.Log("벽 끼임 방지됨");
                 rb.velocity = new Vector2((!playerMove.isBack ? 1 : -1)*4f,rb.velocity.y);
             }
         }

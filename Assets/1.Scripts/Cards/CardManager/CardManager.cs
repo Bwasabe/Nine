@@ -12,6 +12,9 @@ public class CardManager : MonoBehaviour
     private Transform leftTr;
     [SerializeField]
     private Transform rightTr;
+    private Transform animationGo;
+    [SerializeField]
+    private Animator cardAnimation;
 
 
     private Action action;
@@ -20,18 +23,28 @@ public class CardManager : MonoBehaviour
     }
     private void Start(){
         action += ()=>{RoundAlignment();};
-        PoolManager.CreatePool<CardOBJ>("CardPrefab", transform.gameObject);
+        PoolManager.CreatePool<CardOBJ>("CardPrefab", GameManager.Instance.gameObject);
+        animationGo = cardAnimation.transform;
     }
 
     [SerializeField]
     private List<Transform> cardTs = new List<Transform>();
     [SerializeField]
     private List<Transform> usedCardTs = new List<Transform>();
-
-    public IEnumerator UseCard(int num){
-        cardTs[num].gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
-        cardTs.RemoveAt(num);
+    public void UseCard(){
+        StartCoroutine(UseCardCorutin());
+    }
+    private IEnumerator UseCardCorutin(){
+        yield return new WaitForSeconds(0f);
+        CardOBJ CardPrefab = PoolManager.GetItem<CardOBJ>("CardPrefab");
+        cardAnimation.Play("New State");
+        cardAnimation.SetTrigger("GoCard");
+        CardPrefab.transform.parent = animationGo;
+        CardPrefab.transform.localPosition = Vector3.zero;
+        CardPrefab.gameObject.SetActive(true);
+    }
+    private void Create(){
+        
     }
 
     private void RoundAlignment()

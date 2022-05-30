@@ -38,7 +38,8 @@ public class Inventory : MonoSingleton<Inventory>
     }
     public void ChangeWhatItem(ItemInfo item, ItemInfo item2){
         SandMessge.MessegeBoxOn("교체했습니다", new Vector2(0f, -300f));
-        hand.sprite = item2.itemSprite;
+        if(item.itemType == ItemType.weapon)
+            hand.sprite = item2.realSprite;
         getArr(item.itemType).Find(x => x.itemId == item.itemId).SetInfo(item2);
         UIManager.TriggerUI(item);
     }
@@ -101,6 +102,9 @@ public class Inventory : MonoSingleton<Inventory>
             if(mouding[i].itemId == item.itemId){
                 setBtnText("해제");
                 return ()=>{
+                    if(item.itemType == ItemType.weapon)
+                        hand.sprite = null;
+
                     ItemInfo go = itemList.itemInfos.Find(x => x.itemId == 0);
                     go.itemType = item.itemType;
                     mouding[i].SetInfo(go);
@@ -114,9 +118,10 @@ public class Inventory : MonoSingleton<Inventory>
             if(mouding[i].itemId == 0){
                 setBtnText("장착");
                 return ()=>{
+                    if(item.itemType == ItemType.weapon)
+                        hand.sprite = item.realSprite;
                     mouding[i].SetInfo(item);
                     //여기서 손으로 장착
-                    hand.sprite = item.itemSprite;
                     SandMessge.MessegeBoxOn("아이템을 장착했습니다", new Vector2(0f, -300f));
                     UIManager.Instance.GoButtonChange();
                     UIManager.TriggerUI(mouding[i]);
