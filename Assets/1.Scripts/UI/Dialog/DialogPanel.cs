@@ -116,10 +116,10 @@ public class DialogPanel : MonoBehaviour
                 TypeIt(list[currentIndex]);
                 isOpen = true;
             });
-        // panel.DOScale(Vector3.one, 0.8f).OnComplete(() =>
-        // {
-        //     Debug.Log("왜 안될까");
-        // });
+        panel.DOScale(Vector3.one, 0.8f).OnComplete(() =>
+        {
+            Debug.Log("왜 안될까");
+        });
     }
 
     private void TypeIt(TextVO vo)

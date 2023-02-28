@@ -7,7 +7,6 @@ public class BackgroundMove : MonoBehaviour
     [SerializeField]
     private float speed;
 
-
     private MeshRenderer meshRenderer = null;
 
     private Vector2 offset = Vector2.zero;

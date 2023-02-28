@@ -49,6 +49,10 @@ public class Carlos2PattonCutScene : MonoBehaviour
     [SerializeField]
     private Vector2[] _lensSizeDelta;
 
+    [Header("애니메이션")]
+    [SerializeField]
+    private AnimationClip _impact;
+
     private LensDistortion _lensDistortion;
 
     private RectTransform _maskRect = null;
@@ -60,14 +64,18 @@ public class Carlos2PattonCutScene : MonoBehaviour
 
 
     private Animator _animator;
-    private int Page2EnterAnimation = Animator.StringToHash("Carlos_Page2Animation");
+    private int Page2Animation = Animator.StringToHash("Carlos_Page2Animation");
+
+    private int Impact = Animator.StringToHash("Carlos_Impact");
+
 
 
     private CarlosAttack _carlosAttack = null;
 
-    private void OnEnable() {
-        if(!_carlosAttack)_carlosAttack = transform.parent.GetComponent<CarlosAttack>();
-        
+    private void OnEnable()
+    {
+        if (!_carlosAttack) _carlosAttack = transform.parent.GetComponent<CarlosAttack>();
+
     }
 
     private void Start()
@@ -84,17 +92,58 @@ public class Carlos2PattonCutScene : MonoBehaviour
 
     public void EventDark()
     {
-        _dice.transform.rotation = Quaternion.identity;
+
         Vector3 angle = new Vector3(0f, 7200f, 360f);
-        _dice.transform.DORotate(angle, 5f, RotateMode.FastBeyond360).SetEase(Ease.InQuad).OnComplete(() => _dice.material = _darkDiceMaterial);
+        _dice.transform.DORotate(angle, 5f, RotateMode.FastBeyond360).SetEase(Ease.InQuad).OnComplete
+        (
+            () =>
+            {
+
+
+                StartCoroutine(SetMaterial());
+
+                // _dice.transform.parent.localRotation = Quaternion.identity;'\n'
+                // _dice.transform.parent.localRotation = _dice.transform.localRotation;
+                // _dice.transform.parent.localRotation = Quaternion.identity;
+                // _dice.transform.localRotation = Quaternion.identity;'\n'
+                // _dice.transform.DORotate(new Vector3(0f, 360f, 0f), 1f).OnComplete(() =>
+                // {
+                // });
+
+            }
+        );
         _maskRect.DOSizeDelta(_darkSizeDelta, _darkDuration).SetEase(Ease.Linear).OnComplete(() =>
             {
-                
+
                 _maskRect.sizeDelta = new Vector2(MainCam.pixelWidth, MainCam.pixelHeight);
                 _maskRect.gameObject.SetActive(false);
                 _secMaskRect.gameObject.SetActive(true);
             }
         );
+
+    }
+
+    private IEnumerator SetMaterial()
+    {
+        yield return WaitForSeconds(1f);
+        _dice.material = _darkDiceMaterial;
+        yield return WaitForSeconds(0.5f);
+
+        for (int i = 0; i < 2; i++)
+        {
+            _animator.Play(Impact);
+
+            DOTween.To(
+                () => _lensDistortion.intensity.value,
+                x => _lensDistortion.intensity.value = x,
+                0.3f, 0.75f
+            ).SetEase(Ease.InSine).SetDelay(0.5f);
+            _secMaskRect.DOSizeDelta(_lensSizeDelta[i], 0.75f).SetEase(Ease.Linear).SetDelay(0.5f);
+
+            yield return WaitForSeconds(_impact.length);
+            
+        }
+
 
     }
 
@@ -174,9 +223,11 @@ public class Carlos2PattonCutScene : MonoBehaviour
     {
         _enableObjects.ForEach(x => x.SetActive(true));
 
-        Debug.Log(_carlosAttack);
         _carlosAttack.StopAllCoroutines();
         _carlosAttack.enabled = false;
+
+        _dice.transform.rotation = Quaternion.identity;
+        _dice.transform.parent.rotation = Quaternion.identity;
 
         ObjectManager.Instance.FadeObject.DOFade(1f, 2f).OnComplete(() =>
         {
@@ -187,7 +238,7 @@ public class Carlos2PattonCutScene : MonoBehaviour
             _effectCam.orthographicSize = 5f;
 
 
-            _animator.Play(Page2EnterAnimation);
+            _animator.Play(Page2Animation);
             EventDark();
 
         });

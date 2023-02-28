@@ -35,6 +35,8 @@ public class Scene3 : MonoBehaviour, IChangeable
     private Light2D _globalLight = null;
     [SerializeField]
     private GameObject _lights = null;
+    [SerializeField]
+    private TouchToStart _touchToStart;
     // [SerializeField]
     // private GameObject _touchToStart = null;
 
@@ -97,7 +99,6 @@ public class Scene3 : MonoBehaviour, IChangeable
             ManagerStart.Instance.SetCurrentScene(MethodBase.GetCurrentMethod().DeclaringType.FullName, 4);
             MaincamTransform.position = new Vector3(MaincamTransform.position.x, 1.5f, MaincamTransform.position.z);
             MaincamTransform.rotation = Quaternion.Euler(Vector3.right * -120f);
-
         });
     }
 

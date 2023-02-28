@@ -13,8 +13,8 @@ public class BossDamaged : EnemyDamaged
     [SerializeField]
     private float _duration = 5f;
 
-    [SerializeField]
-    private List<UnityEvent> _deadEvents = new List<UnityEvent>();
+    // [SerializeField]
+    // private List<UnityEvent> _deadEvents = new List<UnityEvent>();
 
     [SerializeField]    //TODO: private
     private int _currentPatton = 1;
@@ -34,7 +34,8 @@ public class BossDamaged : EnemyDamaged
 
     protected override void Dead()
     {
-        _deadEvents[_currentPatton-1]?.Invoke();
+        base.Dead();
+        //_deadEvents[_currentPatton-1]?.Invoke();
         //Debug.Break();
     }
 

@@ -63,7 +63,6 @@ public class DialogManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("왜 안보여줄까");
         dialogPanel.StartDialog(dialogTextDictionary[index], callback);
     }
 }

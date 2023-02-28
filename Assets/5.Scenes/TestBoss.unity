@@ -8069,7 +8069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f24e7ba9390344bbd6bb08c98a2da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 200
+  hp: 50
   spriteRenderer: {fileID: 1987888829}
   animator: {fileID: 1987888831}
   damageAnimation: {fileID: 7400000, guid: 00cea83de9412d1498c4717532a1e501, type: 2}
@@ -8412,6 +8412,7 @@ MonoBehaviour:
   _lensSizeDelta:
   - {x: 950, y: 950}
   - {x: 750, y: 750}
+  _impact: {fileID: 7400000, guid: 01c24d58c45611a4f857a5a64ef11ec9, type: 2}
 --- !u!1 &335837985
 GameObject:
   m_ObjectHideFlags: 0
@@ -8765,7 +8766,7 @@ Transform:
   m_GameObject: {fileID: 411014501}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
   m_Father: {fileID: 476990591}
   m_RootOrder: 0
@@ -12556,28 +12557,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31300a00b16c2bf4da2aadb5b48c342a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
+  hp: 300
   spriteRenderer: {fileID: 1935249444}
   animator: {fileID: 1168929090}
   damageAnimation: {fileID: 0}
   deadAnimation: {fileID: 0}
   _hpBar: {fileID: 897558794}
   _duration: 3
-  _deadEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 329671477}
-        m_TargetAssemblyTypeName: Carlos2PattonCutScene, Assembly-CSharp
-        m_MethodName: Page2
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _currentPatton: 1
 --- !u!50 &1168929096
 Rigidbody2D:
@@ -13096,6 +13082,7 @@ GameObject:
   - component: {fileID: 1249159300}
   - component: {fileID: 1249159299}
   - component: {fileID: 1249159298}
+  - component: {fileID: 1249159303}
   m_Layer: 8
   m_Name: Bottom (2)
   m_TagString: Untagged
@@ -13128,7 +13115,7 @@ CompositeCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_GeometryType: 1
@@ -13877,6 +13864,25 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!251 &1249159303
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249159296}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &1263722210
 GameObject:
   m_ObjectHideFlags: 0
